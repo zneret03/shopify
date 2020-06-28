@@ -1,18 +1,18 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
-import Home from '../../page/Home'
+import Front from '../public/Front'
 
 interface Props {
     component : React.FC,
-    path : String
+    path? : String,
 }
 
 const HomeLayout:React.FC<Props> = ({component: Component, ...path}) => {
     return(
-        <Route {...path} render={(props : any) => (
-            <Home>
+        <Route exact {...path} render={(props : any) => (
+            <Front>
                 <Component {...props}/>   
-            </Home>                                                                 
+            </Front>                                                                 
         )}/>
     )
 }

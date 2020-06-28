@@ -30,7 +30,7 @@ const Footer:React.FC = () => {
     ]
 
     return(
-        <div className="container mx-auto sm:px-10 px-5 py-3">
+        <div className="container mx-auto sm:px-6 px-5 py-1">
            <div className="sm:flex sm:items-center sm:justify-between">
                <div className="sm:flex sm:items-center text-center">
                     <svg width="74" className="w-16 h-16 cursor-pointer mx-auto" height="61" viewBox="0 0 74 61" fill="none" xmlns="http://www.w3.org/2000/svg">

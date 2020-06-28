@@ -1,11 +1,27 @@
 import React, {useState, useEffect} from 'react';
 import {Search, ShoppingCart, User, Menu} from 'react-feather'
+import {Link} from 'react-router-dom';
 import {Badge} from 'antd'
 
+import SearchItem from './SearchItem';
+import Login from '../Login';
 const Navbar: React.FC = () => {
 
+    //** open login modal
+    const [login, setLogin] = useState(false);
+
+    const openLogin = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
+        event.preventDefault();
+        if(login !== true) return setLogin(true);
+    }
+
+    const closeLogin = (event: React.MouseEvent<SVGAElement, MouseEvent>) => {
+        event.preventDefault();
+        if(login === true) return setLogin(false);
+    }
+
+    // ** show hamburger icon when resizing window
     const [Hamburger, setHamburger] = useState(false);
-    const [toggle, setToggle] = useState(false);
 
     const hamburger = () => {
         if(window.innerWidth < 650) {
@@ -15,20 +31,41 @@ const Navbar: React.FC = () => {
         }
     }
 
+    // ** Toggle Menu in small size window
+    const [toggle, setToggle] = useState(false);
+
     const openToggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if(toggle !== true) return setToggle(true)
         if(toggle === true) return setToggle(false);
     }
-    
+
+    //** open search menu
+    const [showSearch, setShowSearch] = useState(false);
+
+    const openSearch = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
+        event.preventDefault();
+        if(showSearch !== true) return setShowSearch(true)
+    }
+
+    //** close search menu
+    const closeSearch = (event:  React.MouseEvent<SVGElement, MouseEvent>) =>{
+        event.preventDefault();
+        if(showSearch === true) return setShowSearch(false);
+    }
+
+    //** event listener when resizing the window
     useEffect(() => {
         hamburger();
         window.addEventListener('resize', hamburger);
         return () => window.removeEventListener('resize', hamburger);
     }, [])
-
+    
+    const theme = '#000'
     return(
-        <div className="shadow py-1 sticky top-0 bg-white z-20">
+        <div className="shadow sticky top-0 bg-white z-20">
+        {showSearch && <SearchItem close={(event) => closeSearch(event)}/>}
+        {login && <Login close={(event) => closeLogin(event)} />}
          <div className="text-black">
            <div className="container mx-auto px-5">
                <div className="flex items-center justify-between">
@@ -50,27 +87,48 @@ const Navbar: React.FC = () => {
                             <path d="M58.5833 23.8894C62.5062 6.94446 55.4866 9.62743 53.0847 10.9597V0.0010376L38.3297 11.224V29.3087L53.0847 18.3098V11.1047C58.2909 9.28395 58.4201 18.2472 58.0517 23.6553L56.4987 22.9731L39.2216 30.6534L56.4987 38.3391L74 30.6534L58.5833 23.8894Z" fill="black"/>
                         </svg>
                         <div className={`font-mono sm:font-bold cursor-pointer py-1 text-lg sm:flex tracking-widest`}>
-                            <span className="sm:mr-10 mr-5">HOME</span>
-                            <span className="sm:mr-10 mr-5">MEN</span>
-                            <span className="sm:mr-10 mr-5">WOMEN</span>
-                            <span className="sm:mr-10 mr-5">KIDS</span>
+                            <Link to="/" 
+                            style={{color: theme}} 
+                            className="sm:mr-10 mr-5 border-b border-black">
+                                HOME
+                            </Link>
+                            <Link to="/mens" 
+                            style={{color: theme}} 
+                            className="sm:mr-10 mr-5 border-b border-white hover:border-black">
+                                MENS
+                            </Link>
+                            <Link to="womens" 
+                            style={{color: theme}} 
+                            className="sm:mr-10 mr-5 border-b border-white hover:border-black">
+                                WOMEN
+                            </Link>
+                            <Link to="/kids" 
+                            style={{color: theme}} 
+                            className="sm:mr-10 mr-5 border-b border-white hover:border-black">
+                                KIDS
+                            </Link>
                         </div>
                     </>
                    )}
                     <div className="flex cursor-pointer block">
-                        <span className="mr-5 md:block hidden"><Search /></span>
-                        <span className="mr-5 md:block hidden"><User /></span>
+                        <span className="mr-5 md:block hidden">
+                            <Search className="hover:text-gray-600"  
+                            onClick={(event) => openSearch(event)}/>
+                        </span>
+                            <span className="mr-5 md:block hidden">
+                            <User className="hover:text-gray-600" 
+                            onClick={(event) => openLogin(event)}/></span>
                         <Badge count={5}>
-                            <span><ShoppingCart /></span>
+                            <span><ShoppingCart  className="hover:text-gray-600" /></span>
                         </Badge>
                     </div>
                 </div>
            </div>
            <div className={`${toggle ? 'block' : 'hidden'} font-mono text-lg sm:font-bold sm:hidden block cursor-pointer px-2 py-1 tracking-wider`}>
-                <span className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 rounded-xs">HOME</span>
-                <span className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200">MEN</span>
-                <span className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200">WOMEN</span>
-                <span className="block px-3 mt-1 hover:bg-gray-200">KIDS</span>
+                <Link to="/" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 rounded-xs">HOME</Link>
+                <Link to="/mens" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200">MEN</Link>
+                <Link to="/womens" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200">WOMEN</Link>
+                <Link to="/kids" className="block px-3 mt-1 hover:bg-gray-200">KIDS</Link>
             </div>
             </div>
         </div>  

@@ -6,7 +6,7 @@ const NewArival:React.FC = () => {
         <div>
             <div className="py-5 flex lg:flex-row flex-col">
                 {shoesInformation.map((info) => (
-                <div className="sm:px-24 sm:py-10 px-10 py-6 bg-gray-200 mr-5 mt-5">
+                <div className="sm:px-24 sm:py-10 px-10 py-6 bg-gray-200 mr-5 mt-5" key={info.id}>
                     <img className="sm:w-11/12 sm:h-11/12 w-9/12 h-9/12 mx-auto" src={require(`../../image/${info.image}`)} alt=""/>
                     <div className="text-center mt-5">
                         <span className="block sm:text-xl text-sm text-black font-bold mb-1">{info.title}</span>
