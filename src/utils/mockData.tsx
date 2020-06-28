@@ -5,14 +5,16 @@
             title : 'THE NEW UNIFORIA',
             slogan : 'KICK START',
             image : 'nike1.png',
-            buttonName : 'SHOP NOW'
+            buttonName : 'SHOP NOW',
+            redirect : '/shop'
         },
         {
             id : 2,
             title : '4KD RUN',                                                                                                      
             slogan : 'FEEL THE FUTURE',
             image : 'nike2.png',
-            buttonName : 'SHOP 4KD'
+            buttonName : 'SHOP 4KD',
+            redirect : '/shop'
         }
     ]
 
@@ -20,22 +22,26 @@
         {
             id : 1,
             image : 'Shoes1.png',
-            name: 'superstart'
+            name: 'superstart',
+            redirect : '/shop'
         },
         {
             id : 2,
             image : 'Shoes2.png',
-            name : 'rookie'
+            name : 'rookie',
+            redirect : '/shop'
         },
         {
             id : 3,
             image : '4kd.png',
-            name : 'ultraboost'
+            name : 'ultraboost',
+            redirect : '/shop'
         },
         {
             id : 4,
             image : 'Clothing.png',
-            name : 'clothing'
+            name : 'clothing',
+            redirect : '/shop'
         }
     ]
 
@@ -43,17 +49,20 @@
         {
             id : 1,
             image : 'Mens.jpg',
-            buttonName : 'mens'
+            buttonName : 'mens',
+            redirect : '/shop'
         },
         {
             id : 2,
             image : 'Women.jpg',
-            buttonName : 'women'
+            buttonName : 'women',
+            redirect : '/shop'
         },
         {
             id : 3,
             image : 'Kids.jpg',
-            buttonName : 'Kids'
+            buttonName : 'Kids',
+            redirect : '/shop'
         }
     ]
 

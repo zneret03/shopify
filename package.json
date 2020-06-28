@@ -1,5 +1,5 @@
 {
-  "name": "e-commerce",
+  "name": "shopify",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,7 +27,7 @@
     "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app"      
   },
   "browserslist": {
     "production": [

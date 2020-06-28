@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom'
 const LandingPage:React.FC = () => {
     return(
         <>
@@ -20,11 +20,15 @@ const LandingPage:React.FC = () => {
                                 <span className="font-bold sm:text-5xl text-3xl block">Items</span>
                                 <span className="font-segoe-UI text-gray-600 block">We Created This Just For You.</span>
                                 <div className="mt-8">
-                                    <button className="bg-black text-white font-bold py-2 sm:px-8 px-10 sm:text-xl hover:bg-gray-700">SHOP NOW</button>
+                                    <Link style={{color : '#FFF'}} 
+                                    to="/shop" 
+                                    className="bg-black text-white font-bold py-3 sm:px-8 px-10 sm:text-xl hover:bg-gray-900">
+                                        SHOP NOW
+                                    </Link>
                                 </div>
                             </div>
                             <div className="pt-12">
-                                <img className="lg:w-11/12 lg:block" src={require('../image/ShoesLandingPage.png')} alt=""/>
+                                <img className="lg:w-11/12 lg:block" src={require('../../image/ShoesLandingPage.png')} alt=""/>
                             </div>
                         </div>
                     </div>
