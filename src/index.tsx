@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './assets/main.css';
 import 'antd/dist/antd.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 ReactDOM.render(
   <React.StrictMode>
     <App />
