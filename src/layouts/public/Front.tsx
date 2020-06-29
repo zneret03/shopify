@@ -4,7 +4,7 @@ import Footer from '../../components/Frontend/Footer';
 interface Props {
     children : React.ReactNode
 }
-const Front:React.FC<Props> = ({children}) => {
+const Front:React.SFC<Props> = ({children}) => {
     return(
         <React.Fragment>
             <Navbar />

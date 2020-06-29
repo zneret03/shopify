@@ -2,7 +2,7 @@ import React from 'react';
 import {GitHub} from 'react-feather';
 import {Link} from 'react-router-dom';
 
-const NoRouteMatch:React.FC = () => {
+const NoRouteMatch:React.SFC = () => {
 
     return(
         <>

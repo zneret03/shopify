@@ -5,7 +5,7 @@ interface Props {
     close : (event : React.MouseEvent<SVGElement, MouseEvent>) => void
 }
 
-const SearchItem:React.FC<Props> = ({close}) => {
+const SearchItem:React.SFC<Props> = ({close}) => {
     return(
         <div className="font-mono">
             <div className="absolute w-full h-screen flex items-start justify-center bg-gray-900 bg-opacity-50 py-10">

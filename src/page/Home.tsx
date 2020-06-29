@@ -5,7 +5,7 @@ import Items from '../components/Frontend/Items';
 import Category from '../components/Frontend/Category';
 import CallToAction from '../components/Frontend/CallToAction';
 
-const Home: React.FC = () => {
+const Home: React.SFC = () => {
     return(
         <div>
             <div className="font-mono">

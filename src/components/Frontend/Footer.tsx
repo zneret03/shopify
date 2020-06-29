@@ -1,6 +1,6 @@
 import React from 'react';
 import {Facebook, Twitter, Instagram, GitHub} from 'react-feather';
-const Footer:React.FC = () => {
+const Footer:React.SFC = () => {
 
     const socialIcons = [
         {
