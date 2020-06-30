@@ -1,18 +1,16 @@
 import React, {lazy, Suspense} from 'react';
-import {BrowserRouter as Router, Switch} from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {Spin} from 'antd';
 //components
 const Home = lazy(() => import('./page/Home'));
-const HomeLayout = lazy(() => import('./layouts/public/HomeLayout'))
-// const pageNotFound = lazy(() => import('./components/404'))
+const Shop = lazy(() => import('./page/Shop'));
+const RouteWithLayout = lazy(() => import('./layouts/public/RouteWithLayout'));
 const App:React.SFC = () => {
   return (
     <Suspense fallback={<div className="h-screen w-screen flex items-center justify-center"><Spin size="large"/></div>}>
       <Router>
-        <Switch>
-          <HomeLayout path="/" component={Home}/>
-          {/* <Route exact component={pageNotFound}/> */}
-          </Switch>
+          <RouteWithLayout path="/" component={Home}/>
+          <RouteWithLayout path="/shop" component={Shop}/>
       </Router>
     </Suspense>
   );

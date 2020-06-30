@@ -6,7 +6,7 @@ import SignUp from './SingUp';
 import PasswordReset from './PasswordRest';
 
 interface Props {
-    close : (event : React.MouseEvent<SVGAElement, MouseEvent>) => void
+    close? : (event : any) => void
 }
 
 const Login:React.SFC<Props> = ({close}) => {

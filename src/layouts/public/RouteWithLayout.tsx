@@ -1,13 +1,13 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
-import Front from '../public/Front'
+import Front from './Front'
 
 interface Props {
     component : React.FC,
     path? : String,
 }
 
-const HomeLayout:React.SFC<Props> = ({component: Component, ...path}) => {
+const RouteWithLayout:React.SFC<Props> = ({component: Component, ...path}) => {
     return(
         <Route exact {...path} render={(props : any) => (
             <Front>
@@ -17,4 +17,4 @@ const HomeLayout:React.SFC<Props> = ({component: Component, ...path}) => {
     )
 }
 
-export default HomeLayout;
+export default RouteWithLayout;
