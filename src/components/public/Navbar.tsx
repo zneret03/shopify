@@ -66,7 +66,7 @@ const Navbar: React.SFC = () => {
     return(
         <div className="shadow sticky top-0 bg-white z-20">
         {showSearch && <SearchItem close={(event) => closeSearch(event)}/>}
-        {login && <Login close={(event) => closeLogin(event)} />}
+        {login && <Login close={(event : any) => closeLogin(event)} />}
          <div className="text-black">
            <div className="container mx-auto px-5">
                <div className="flex items-center justify-between">

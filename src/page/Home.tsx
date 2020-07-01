@@ -1,9 +1,9 @@
 import React from 'react';
-import LandingPage from '../components/Frontend/LandingPage';
-import NewArival from '../components/Frontend/NewArival'
-import Items from '../components/Frontend/Items';
-import Category from '../components/Frontend/Category';
-import CallToAction from '../components/Frontend/CallToAction';
+import LandingPage from '../components/public/LandingPage';
+import NewArival from '../components/public/NewArival'
+import Items from '../components/public/Items';
+import Category from '../components/public/Category';
+import CallToAction from '../components/public/CallToAction';
 
 const Home: React.SFC = () => {
     return(

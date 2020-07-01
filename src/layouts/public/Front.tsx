@@ -1,7 +1,7 @@
 import React from 'react';
-import Navbar from '../../components/Frontend/Navbar'
-import CalltoAction from '../../components/Frontend/CallToAction';
-import Footer from '../../components/Frontend/Footer';
+import Navbar from '../../components/public/Navbar'
+import CalltoAction from '../../components/public/CallToAction';
+import Footer from '../../components/public/Footer';
 interface Props {
     children : React.ReactNode
 }

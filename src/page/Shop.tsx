@@ -1,13 +1,8 @@
 import React from 'react';
 import {ArrowLeft, ChevronDown} from 'react-feather';
-import {useSelector} from 'react-redux';
 
 const Shop:React.SFC = () => {
     
-    //export data from reducers
-    const shopItems = useSelector((state: any) => state.ShopItems);
-
-    console.log(shopItems);
     return(
         <div className="font-mono text-black">
             <div className="container mx-auto px-6 py-8">
@@ -17,7 +12,7 @@ const Shop:React.SFC = () => {
                 </div>
                 <div className="my-8">
                     <span className="uppercase text-3xl font-bold">all products</span>
-                    <span className="ml-3 text-gray-500">[{shopItems}]</span>
+                    <span className="ml-3 text-gray-500">[20]</span>
                 </div>
                 <div className="border border-black">
                     <div className="py-4 w-full">
