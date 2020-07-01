@@ -13,7 +13,6 @@ const PrivateRoute:React.SFC<Props> = ({component : Component, ...path}) => {
 
     return(
         <Route 
-        exact
         {...path}
         render={(routeProps : any) => 
         !!currentUser ? (
