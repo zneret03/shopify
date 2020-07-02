@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 import {Route} from 'react-router-dom';
 import Front from './Front'
 
 interface Props {
-    component : React.FC,
+    component : ComponentType<any>,
     path? : String,
+    exact: boolean
 }
 
 const RouteWithLayout:React.SFC<Props> = ({component: Component, ...path}) => {
     return(
-        <Route exact {...path} render={(props : any) => (
+        <Route {...path} render={(props : any) => (
             <Front>
                 <Component {...props}/>   
             </Front>                                                                 

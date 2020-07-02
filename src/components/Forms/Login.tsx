@@ -6,26 +6,33 @@ import SignUp from './SingUp';
 import PasswordReset from './PasswordRest';
 import {AuthContext} from '../../auth/AuthProvider'
 import { auth } from '../../config/firebase';
-import {Redirect} from 'react-router-dom';
+import {withRouter, Redirect} from 'react-router-dom';
 
-interface Props {
-    close? : (event : React.MouseEvent<SVGAElement, MouseEvent>) => void
+interface Props  {
+    close? : (event : React.MouseEvent<SVGAElement, MouseEvent>) => void,
+    history : any
 }
 
-const Login:React.SFC<Props> = ({close}) => {
+const Login:React.SFC<Props> = ({close, history}) => {
 
-    const context = useContext(AuthContext);
+    const {authenticated} : any = useContext(AuthContext);
 
     //user input 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<{error : string}>({error : ''})
+    const [error, setError] = useState('')
     
     //submit form
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) =>{
         event.preventDefault();
-        auth.signInWithEmailAndPassword(email, password).catch(err => setError({error : err.message}));
+        auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+            if(authenticated){
+                history.push('/dashboard')
+            }
+        }).catch(err => setError(err.message));
    }
+   
 
     //* Open Modal event
     const [signUp, setSignUp] = useState(false);
@@ -50,13 +57,9 @@ const Login:React.SFC<Props> = ({close}) => {
         if(passwordReset !== true) return setPasswordReset(true);
     }
 
-    React.useEffect(() => {
-        console.log(context);
-    },[])
-
-    //if user logged in redirect to dashboard
-    if(context){
-       return <Redirect to="/dashboard"/>
+    //Signed In
+    if(authenticated.isAuthenticated){
+        return <Redirect to="/dashboard"/>
     }
 
     //*Reset Password
@@ -80,6 +83,7 @@ const Login:React.SFC<Props> = ({close}) => {
     return(
         <div className="font-mono">
             <Modal close={close}>
+                <>
                     <div className="text-center">
                         <span className="font-bold text-gray-500 text-sm font-sans">Sign in with</span>
                         <ul className="flex justify-center mt-3">
@@ -94,19 +98,27 @@ const Login:React.SFC<Props> = ({close}) => {
                         </div>
                         <form action="" onSubmit={(event) => onSubmit(event)}>
                             <div className="mb-4">
-                                <input type="email"
+                                <input type="email" required
                                 className="border block py-2 w-full px-4 rounded hover:border-red-500 focus:border-red-500" 
                                 id="email" 
                                 placeholder="example@yahoo.com" value={email}
                                 onChange={(event) => setEmail(event.target.value)}/>
                             </div>
                             <div>
-                                <input className="border block py-2 w-full px-4 rounded hover:border-red-500 focus:border-red-500" 
+                                <input  required
                                 type="password" 
+                                className="border block py-2 w-full px-4 rounded hover:border-red-500 focus:border-red-500" 
                                 placeholder="Password" value={password} 
                                 onChange={(event) => setPassword(event.target.value)}/>
                             </div>
                             <div className="text-center mt-5">
+                                {error && (
+                                    <div className="text-left bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mb-2 font-sans">
+                                        <span className="font-bold">Warning!!!</span>
+                                        <span className="block text-sm">{error}</span>
+                                    </div>
+                                )}
+                               
                                 <button className="py-2 w-full bg-black text-white hover:bg-gray-500">Sign In</button>
                                 <div className="mt-3">
                                     <button onClick={(event) => openSignUp(event)} className="cursor-pointer hover:text-blue-500 hover:underline">Create account</button>
@@ -117,9 +129,10 @@ const Login:React.SFC<Props> = ({close}) => {
                                 </div>
                             </div>
                         </form> 
+                        </>
                 </Modal>
             </div>  
     )
 }
 
-export default Login;
+export default withRouter(Login);

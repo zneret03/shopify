@@ -9,22 +9,30 @@ const AuthContext = createContext({});
 
 const AuthProvider:React.SFC<Props> = ({children}) => {
 
-    const [authenticated, setAuthenticated] = useState<{user : string | null}>({user: ''});
+    const [authenticated, setAuthenticated] = useState<{user : string | null, isAuthenticated : boolean}>({user : null, isAuthenticated : false});
     
-    useEffect(() => {
-      auth.onAuthStateChanged((user) => {
-            if(user !== null){
-              setAuthenticated({
-                  user : user.email,
-              })
+    const authlistener = () => {
+        auth.onAuthStateChanged((user) => {
+            if(user){
+                setAuthenticated({user : user.email, isAuthenticated : true});
+            }else{
+                setAuthenticated({user : null, isAuthenticated : false});
             }
-        })
+        });
+    }
+
+    useEffect(() => {
+        authlistener();
     }, [])
 
     return(
-        <AuthContext.Provider value={{authenticated}}>
+        <>
+        {authenticated && (
+            <AuthContext.Provider value={{authenticated}}>
             {children}
         </AuthContext.Provider>
+        )}  
+       </>                                                                                     
     )
 }
 

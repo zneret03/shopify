@@ -1,6 +1,6 @@
 import React from 'react';
 import {ArrowLeft, ChevronDown} from 'react-feather';
-
+import {Link} from 'react-router-dom';
 const Shop:React.SFC = () => {
     
     return(
@@ -8,7 +8,9 @@ const Shop:React.SFC = () => {
             <div className="container mx-auto px-6 py-8">
                 <div className="flex">
                     <i className="mr-2"><ArrowLeft size="20"/></i>
-                    <span className="uppercase tracking-widest underline font-bold">Back</span>
+                    <Link to="/">
+                        <span className="uppercase tracking-widest underline font-bold text-black">Back</span>
+                    </Link>
                 </div>
                 <div className="my-8">
                     <span className="uppercase text-3xl font-bold">all products</span>

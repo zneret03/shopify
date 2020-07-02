@@ -1,24 +1,25 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import {AuthContext} from '../../auth/AuthProvider';
 
 interface Props {
-    component: React.SFC,
-    path : string
+    component: React.FC,
+    path : string,
+    exact : boolean
 }
 
-const PrivateRoute:React.SFC<Props> = ({component : Component, ...path}) => {
+const PrivateRoute:React.FC<Props> = ({component : RouteComponent, ...path}) => {
 
-    const currentUser = React.useContext(AuthContext)
-
+    const {authenticated} : any = useContext(AuthContext)
+    console.log(authenticated);
     return(
         <Route 
         {...path}
         render={(routeProps : any) => 
-        !!currentUser ? (
-            <Component {...routeProps}/>
+        authenticated.isAuthenticated ? (
+            <RouteComponent {...routeProps}/>
         ) : (
-            <Redirect to="/"/>
+            <Redirect to={"/"}/>
         )}
         />
     )
