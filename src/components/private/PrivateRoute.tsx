@@ -5,13 +5,13 @@ import {AuthContext} from '../../auth/AuthProvider';
 interface Props {
     component: React.FC,
     path : string,
-    exact : boolean
+    exact? : boolean
 }
 
 const PrivateRoute:React.FC<Props> = ({component : RouteComponent, ...path}) => {
 
     const {authenticated} : any = useContext(AuthContext)
-    console.log(authenticated);
+    console.log(!!authenticated.isAuthenticated);
     return(
         <Route 
         {...path}
