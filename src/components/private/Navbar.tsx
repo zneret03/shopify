@@ -3,7 +3,7 @@ import {auth} from '../../config/firebase';
 
 const Navbar:React.SFC = () =>{
 
-    const signOut = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const signOut = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         event.preventDefault();
         auth.signOut();
     }
@@ -12,7 +12,10 @@ const Navbar:React.SFC = () =>{
         <>
             <div className="w-full">
                 <div className="shadow p-5">
-                    <button onClick={(event) => signOut(event)}>Logout</button>
+                    <div className="flex justify-end items-center">
+                        <button className="mr-3 cursor-pointer" onClick={(event) => signOut(event)}>Logout</button>
+                        <span className="bg-gray-300 py-1 px-3 rounded">DrilonIan@yahoo.com</span>
+                    </div>
                 </div>
             </div>
         </>
