@@ -8,7 +8,7 @@ interface Props {
     exact: boolean
 }
 
-const RouteWithLayout:React.SFC<Props> = ({component: Component, ...path}) => {
+const PublicRoute:React.SFC<Props> = ({component: Component, ...path}) => {
     return(
         <Route {...path} render={(props : any) => (
             <Front>
@@ -18,4 +18,4 @@ const RouteWithLayout:React.SFC<Props> = ({component: Component, ...path}) => {
     )
 }
 
-export default RouteWithLayout;
+export default PublicRoute;

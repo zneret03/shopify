@@ -10,7 +10,7 @@ const Navbar: React.SFC = () => {
     //** open login modal
     const [login, setLogin] = useState(false);
 
-    const openLogin = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
+    const openLogin = (event: React.MouseEvent<SVGElement, MouseEvent> | React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         event.preventDefault();
         if(login !== true) return setLogin(true);
     }
@@ -43,7 +43,7 @@ const Navbar: React.SFC = () => {
     //** open search menu
     const [showSearch, setShowSearch] = useState(false);
 
-    const openSearch = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
+    const openSearch = (event: React.MouseEvent<SVGElement, MouseEvent> | React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         event.preventDefault();
         if(showSearch !== true) return setShowSearch(true)
     }
@@ -126,10 +126,12 @@ const Navbar: React.SFC = () => {
                 </div>
            </div>
            <div className={`${toggle ? 'block' : 'hidden'} font-mono text-lg sm:font-bold sm:hidden block cursor-pointer px-2 py-1 tracking-wider`}>
-                <Link to="/" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 rounded-xs">HOME</Link>
-                <Link to="/mens" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200">MEN</Link>
-                <Link to="/womens" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200">WOMEN</Link>
-                <Link to="/kids" className="block px-3 mt-1 hover:bg-gray-200">KIDS</Link>
+                <Link to="/" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 rounded-xs hover:text-black text-black">HOME</Link>
+                <Link to="/mens" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 hover:text-black text-black">MEN</Link>
+                <Link to="/womens" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 hover:text-black text-black">WOMEN</Link>
+                <Link to="/kids" className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black">KIDS</Link>
+                <span onClick={(event) => openLogin(event)} className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black">LOGIN</span>
+                <span onClick={(event) => openSearch(event)} className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black">SEARCH</span>
             </div>
             </div>
         </div>  

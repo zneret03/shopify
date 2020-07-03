@@ -3,7 +3,6 @@ import LandingPage from '../components/public/LandingPage';
 import NewArival from '../components/public/NewArival'
 import Items from '../components/public/Items';
 import Category from '../components/public/Category';
-import CallToAction from '../components/public/CallToAction';
 
 const Home: React.SFC = () => {
     return(
@@ -15,7 +14,6 @@ const Home: React.SFC = () => {
                 <Items /> 
                 <Category /> 
             </div>
-            <CallToAction />
             </div>
         </div>
     )

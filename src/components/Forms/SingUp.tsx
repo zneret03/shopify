@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {ArrowLeftCircle} from 'react-feather';
 import {Divider} from 'antd';
 import {Link} from 'react-router-dom';
-import {auth, db} from '../../config/firebase';
+import {auth} from '../../config/firebase';
 import {Info} from 'react-feather';
+import axios from 'axios';
 
 interface Props {
     back : (event : React.MouseEvent<SVGAElement, MouseEvent>) => void
@@ -11,6 +12,7 @@ interface Props {
 
 const SignUp:React.SFC<Props> = ({back}) => {
 
+    //initial state
     const initialState = {
         firstname : '',
         lastname : '',
@@ -36,20 +38,19 @@ const SignUp:React.SFC<Props> = ({back}) => {
 
     const onSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        //const SignInInfo = {firstname, lastname, email, password}
 
         auth.createUserWithEmailAndPassword(email, password).then((cred) => {
             if(cred.user){
-                return db.collection('user').doc(cred.user.uid).set({
-                    Id : cred.user.uid,
+                axios.post('https://us-central1-shopify-c74df.cloudfunctions.net/app/signIn', {
+                    id : cred.user.uid,
                     email : email,
-                    firstname : firstname, 
-                    lastname : lastname,
-                    password : password
+                    firstname : firstname,
+                    lastname : lastname
                 }).then(() => {
-                    setMessage('Successfully Created')
+                    console.log('successfully inserted')
                     clearState();
-               });
+                })
+                .catch((error) => console.log(error.message));
             }
         })
         .catch((err) => {

@@ -7,7 +7,6 @@ import PasswordReset from './PasswordRest';
 import {AuthContext} from '../../auth/AuthProvider'
 import { auth } from '../../config/firebase';
 import {withRouter, Redirect} from 'react-router-dom';
-
 interface Props  {
     close? : (event : React.MouseEvent<SVGAElement, MouseEvent>) => void,
     history : any
@@ -15,7 +14,7 @@ interface Props  {
 
 const Login:React.SFC<Props> = ({close, history}) => {
 
-    const {authenticated} : any = useContext(AuthContext);
+    const context : any = useContext(AuthContext);
 
     //user input 
     const [email, setEmail] = useState('');
@@ -27,7 +26,7 @@ const Login:React.SFC<Props> = ({close, history}) => {
         event.preventDefault();
         auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-            if(authenticated){
+            if(context){
                 history.push('/dashboard')
             }
         }).catch(err => setError(err.message));
@@ -58,7 +57,7 @@ const Login:React.SFC<Props> = ({close, history}) => {
     }
 
     //Signed In
-    if(authenticated.isAuthenticated){
+    if(context){
         return <Redirect to="/dashboard"/>
     }
 
