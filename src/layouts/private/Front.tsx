@@ -1,10 +1,16 @@
 import React from 'react';
 import Navbar from '../../components/private/Navbar'
-const Front:React.SFC = () => {
+
+interface Props {
+    children : React.ReactNode
+}
+
+const Front:React.SFC<Props> = ({children}) => {
     return(
-        <>
+        <div className="font-mono ">
             <Navbar />
-        </>
+            {children}
+        </div>
     );
 }
 

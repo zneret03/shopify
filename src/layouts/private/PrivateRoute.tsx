@@ -21,9 +21,9 @@ interface Props {
 const PrivateRoute:React.FC<Props> = ({component : RouteComponent, path}) => {
 
     const isAuthenticated : any = useContext(AuthContext)
-
+    
     const routeComponent = (props : any) => {
-        return !!isAuthenticated ? 
+        return isAuthenticated ? 
         <Front>
             {React.createElement(RouteComponent, props)} 
         </Front> 

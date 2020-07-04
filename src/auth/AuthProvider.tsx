@@ -5,26 +5,25 @@ interface Props {
     children : React.ReactNode
 }
 
-interface State {
-    user : any, 
-    authenticated : boolean
+interface IContext {
+    authenticted : any
 }
 
-const AuthContext = createContext({});
+const AuthContext  = createContext({});
 
-class AuthProvider extends React.Component<Props, State> {
+class AuthProvider extends React.Component<Props, IContext> {
 
     // const [authenticated, setAuthenticated] = useState<{user : string | null, isAuthenticated : boolean}>({user : null, isAuthenticated : false});
     
     // const authlistener = () => {
     //     auth.onAuthStateChanged((user) => {
     //         if(user){
-    //             setAuthenticated({user : user.email, isAuthenticated : true});
+    //             setAuthenticated({user : user.email, isAuthenticated :   true});
     //         }else{
     //             setAuthenticated({user : null, isAuthenticated : false});
     //         }
     //     });
-    // }
+    // }                                
 
     // useEffect(() => {
     //     authlistener();
@@ -33,8 +32,7 @@ class AuthProvider extends React.Component<Props, State> {
     constructor(props : any){
         super(props);
         this.state = {
-            user: {},
-            authenticated : false
+            authenticted: {}
         }
     }
 
@@ -45,17 +43,19 @@ class AuthProvider extends React.Component<Props, State> {
      isAuthenticated = () =>{
         auth.onAuthStateChanged((user) => {
             if(user){
-                this.setState({user : user, authenticated : true});
+                this.setState({authenticted : user});
             }else{
-                this.setState({user : null, authenticated : false});
+                this.setState({authenticted : null});
             }
         })
     }
-    
+
     render(){
+        const {authenticted} = this.state;
+
         return( 
             <div>
-                <AuthContext.Provider value={this.state.user}>
+                <AuthContext.Provider value={authenticted}>
                      {this.props.children}
                 </AuthContext.Provider>       
             </div>                                                                             

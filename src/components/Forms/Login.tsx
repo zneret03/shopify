@@ -7,6 +7,7 @@ import PasswordReset from './PasswordRest';
 import {AuthContext} from '../../auth/AuthProvider'
 import { auth } from '../../config/firebase';
 import {withRouter, Redirect} from 'react-router-dom';
+
 interface Props  {
     close? : (event : React.MouseEvent<SVGAElement, MouseEvent>) => void,
     history : any
