@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, ComponentType} from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import {AuthContext} from '../../auth/AuthProvider';
 import Front from './Front';
@@ -13,12 +13,12 @@ render={(routeProps : any) =>
 /> */
 
 interface Props {
-    component: React.FC,
+    component: ComponentType<any>,
     path : string,
     exact? : boolean
 }
 
-const PrivateRoute:React.FC<Props> = ({component : RouteComponent, path}) => {
+const PrivateRoute:React.SFC<Props> = ({component : RouteComponent, path}) => {
 
     const isAuthenticated : any = useContext(AuthContext)
     

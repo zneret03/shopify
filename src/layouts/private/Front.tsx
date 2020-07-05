@@ -1,16 +1,17 @@
 import React from 'react';
-import Navbar from '../../components/private/Navbar'
-
+import Sidebar from '../../components/private/Sidebar'
 interface Props {
     children : React.ReactNode
 }
 
 const Front:React.SFC<Props> = ({children}) => {
     return(
-        <div className="font-mono ">
-            <Navbar />
+        <React.Fragment>
+        <div className="font-sans flex">
+            <Sidebar />
             {children}
         </div>
+        </React.Fragment>
     );
 }
 
