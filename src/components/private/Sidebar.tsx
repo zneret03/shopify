@@ -72,7 +72,7 @@ const Navbar:React.SFC = () =>{
                         <img className="w-32 h-32 object-cover rounded-full" src={require('../../image/exampleProfile.jpg')} alt=""/>
                     </div>
                     {data.map((currentUser : any) => (
-                        <div className="text-center mt-2">
+                        <div className="text-center mt-2" key="currentUser">
                                 <span className="font-bold text-lg">Anika Zuckerberg</span>
                                 <span className="text-sm text-gray-600 block">{currentUser.email}</span>
                         </div>

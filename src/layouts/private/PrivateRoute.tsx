@@ -24,7 +24,7 @@ const PrivateRoute:React.SFC<Props> = ({component : RouteComponent, path}) => {
     
     const routeComponent = (props : any) => {
         return isAuthenticated ? 
-        <Front>
+        <Front key='isAuthenticated'>
             {React.createElement(RouteComponent, props)} 
         </Front> 
         : <Redirect to="/"/>  

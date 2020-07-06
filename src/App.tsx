@@ -9,7 +9,7 @@ const Shop = lazy(() => import('./page/Shop'));
 const Dashboard = lazy(() => import('./page/Dashboard'));
 const PublicRoute = lazy(() => import('./layouts/public/PublicRoute'));
 const PrivateRoute = lazy(() => import('./layouts/private/PrivateRoute'));
-const Products = lazy(() => import('./components/private/Products'));
+const Products = lazy(() => import('./page/Products'));
 const App:React.SFC = () => {
 
   return (
