@@ -47,7 +47,7 @@ const SignUp:React.SFC<Props> = ({back}) => {
                     firstname : firstname,
                     lastname : lastname
                 }).then(() => {
-                    console.log('successfully inserted')
+                    setMessage('successfully created');
                     clearState();
                 })
                 .catch((error) => console.log(error.message));

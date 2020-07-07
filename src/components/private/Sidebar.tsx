@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import {auth, db} from '../../config/firebase';
 import { AuthContext } from '../../auth/AuthProvider'
 import {
@@ -21,21 +21,6 @@ const Navbar:React.SFC = () =>{
     const currentUser : any = useContext(AuthContext);
     const data : object[] = []
     data.push(currentUser)
-
-    // const [name, setName] = useState<object | undefined>({});
-
-    // useEffect(() => {
-    //     const userCredential = ()=> {
-    //         data.map(async(currentUser : any) => {
-    //              const document = db.collection('user').doc(currentUser.uid);
-    //              const uid = await document.get();
-    //              const result = uid.data();
-
-    //              console.log(result);
-    //         });
-    //     }
-    //     userCredential();
-    // }, [])
 
 
     const signOut = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
@@ -64,6 +49,25 @@ const Navbar:React.SFC = () =>{
             return setSearch(false);
         }
     }
+
+    const [name, setName] = useState([]);
+    
+    if(currentUser !== null){
+        data.map(async(currentUser : any) => {
+            const document = db.collection('user').doc(currentUser.uid);
+            const uid = await document.get();
+            const result = uid.data();
+            const data: any = [];
+    
+            data.push(result);
+    
+            setName(data);
+        });
+    }
+    else{
+        return <div className="flex items-center justify-center">Loading...</div>
+    }
+
     return(
             <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 bg-white h-screen overflow-auto">
                 <div className="px-6">
@@ -71,9 +75,23 @@ const Navbar:React.SFC = () =>{
                     <div className="pt-6 flex justify-center">
                         <img className="w-32 h-32 object-cover rounded-full" src={require('../../image/exampleProfile.jpg')} alt=""/>
                     </div>
+                    {name.map((data: any) => (
+                        data ? (
+                            <div  className="text-center mt-2">
+                                <span className="font-bold text-lg">{`${data.firstname} ${data.lastname}`}</span>
+                            </div>
+                            ):(
+                                <span className="hidden">
+                                {
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2000)
+                                }
+                                </span>
+                            )
+                    ))}
                     {data.map((currentUser : any) => (
-                        <div className="text-center mt-2" key="currentUser">
-                                <span className="font-bold text-lg">Anika Zuckerberg</span>
+                        <div className="text-center" key="currentUser">
                                 <span className="text-sm text-gray-600 block">{currentUser.email}</span>
                         </div>
                         ))}

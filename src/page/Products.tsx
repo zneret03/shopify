@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import Header from '../components/private/Header'
-import {Table, Tag, Space, Pagination, Drawer, Divider} from 'antd';
+import {Table, Tag, Space, Pagination} from 'antd';
+import ProductForm from '../components/private/ProductForm';
+
 const Products = () => {
 
     const columns = [
@@ -8,7 +10,7 @@ const Products = () => {
           title: 'Image',
           dataIndex: 'image',
           key: 'image',
-          render: (text : string) => <a>{text}</a>,
+          render: (text : string) => <span>{text}</span>,
         },
         {
           title: 'Title',
@@ -50,8 +52,8 @@ const Products = () => {
           key: 'action',
           render: (record : any) => (
             <Space size="middle">
-              <a>Update {console.log(record.name)}</a>
-              <a>Delete</a>
+              <span>Update {console.log(record.name)}</span>
+              <span>Delete</span>
             </Space>
           ),
         },
@@ -111,75 +113,29 @@ const Products = () => {
             )
       }
 
-      const initialState = {
-        product : '',
-        title : '',
-        purpose : '',
-        price : 0
-    }
-
-    const errorState = {
-        errorProduct : '',
-        errorTitle : '',
-        errorPurpose : '',
-        errorPrice : ''
-    }
 
       
-      const [current, setCurrent] = useState<number>(1);
-      const [openDrawer, setOpenDrawer] = useState<boolean>(false);
+    const [current, setCurrent] = useState<number>(1);
+    const [openModal, setModal] = useState<boolean>(false);
 
-      const closeDrawer = (event : any) => {
-          event.preventDefault();
-          if(openDrawer === true) return setOpenDrawer(false);
-      }
+    const openProductModal = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.preventDefault();
 
-      const openDrawerr = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-          event.preventDefault();
-          if(openDrawer !== !openDrawer) return setOpenDrawer(true);
-      }
+      if(openModal !== true) return setModal(true);
+    }
 
-      const [{product, title, purpose, price}, setState] = useState(initialState);
+    const closeProductModal = (event : React.MouseEvent<SVGAElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.preventDefault();
 
-      const onChange = (event : React.ChangeEvent<HTMLInputElement>) => {
-        event.preventDefault();
-        const {name, value} = event.target;
-        setState(prevState => ({...prevState, [name] : value}));
-      }
-
-      const [{errorProduct, errorTitle, errorPurpose, errorPrice}, setErrorState] = useState(errorState);
-
-      const isValidate = () => {
-         let productError = '';
-         let titleError = '';
-         let purposeError = '';
-
-        if(!errorProduct){
-            productError = 'Please Dont leave the filed blank';
-        }
-
-        // if(productError){
-        //     setErrorState<>({ productError });
-        // }
-
-        return true
-      }
-
-      const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const isValid  = isValidate();
-
-        if(isValid){
-            console.log({product, title, purpose, price});
-        }
-        
-      }
+      if(openModal === true) return setModal(false);
+    }
 
     return(
         <>
+          {openModal && <ProductForm close={(event) => closeProductModal(event)}/>}
            <Header pageName={'Products'} welcome={'Welcome to Shopify, Ian'}>
                <div className="mb-2 flex justify-end items-center">
-                   <button className="mr-4 px-3 py-1 bg-red-500 hover:bg-red-400 rounded-sm text-white" onClick={(event) => openDrawerr(event)}>Add Product</button>
+                   <button className="mr-4 px-3 py-1 bg-red-500 hover:bg-red-400 rounded-sm text-white" onClick={(event) => openProductModal(event)}>Add Product</button>
                     <MyPagination 
                         total={data.length}
                         current={current}
@@ -192,60 +148,6 @@ const Products = () => {
                     dataSource={getData(current, pageSize)}
                     pagination={false}/>
                 </div>
-            <div>
-                <Drawer 
-                title={'Products Information'}
-                onClose={(event) => closeDrawer(event)}
-                visible={openDrawer}
-                bodyStyle = {{ paddingBottom : 80}}
-                width = { 300 }>
-                 <form action="" onSubmit={(event) => onSubmit(event)}>
-                     <div className="mb-4">
-                         <span>Product Name</span>
-                         <input value={product} 
-                         name="product" onChange={(event) => onChange(event)} 
-                         className="border w-full py-1 px-3 rounded" 
-                         type="text"/>
-                         <div className="text-red-500 mt-1 text-xs">{errorProduct}</div>
-                     </div>
-                     <div className="mb-4">
-                         <span>Title</span>
-                        <input value={title} 
-                        name="title" 
-                        onChange={(event) => onChange(event)} 
-                        className="border w-full py-1 px-3  rounded" 
-                        type="text"/>
-                        <div>{errorTitle}</div>
-                     </div>
-                     <div className="mb-4">
-                         <span>Purpose</span>
-                         <input value={purpose} 
-                         name="purpose" onChange={(event) => onChange(event)} 
-                         className="border w-full py-1 px-3  rounded" 
-                         type="text"/>
-                         <div>{errorPurpose}</div>
-                     </div>
-                     <div className="mb-4">
-                         <span>Price</span>
-                        <input value={price} 
-                        name="price" 
-                        onChange={(event) => onChange(event)} 
-                        className="border w-full py-1 px-3  rounded" 
-                        type="number"/>
-                        <div>{errorPrice}</div>
-                     </div>
-                    <div className="flex justify-end items-end">
-                        <button className="px-4 py-1 border rounded-sm hover:border-red-500 hover:text-red-500 mr-4" 
-                        onClick={(event) => closeDrawer(event)}>
-                        Cancel
-                        </button>
-                        <button className="px-4 py-1 rounded-sm bg-red-500 hover:bg-red-400 text-white">
-                        Submit
-                        </button>
-                    </div>  
-                 </form>   
-                </Drawer>
-            </div>
            </Header>    
         </>
     )

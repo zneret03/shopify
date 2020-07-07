@@ -57,7 +57,6 @@ const Login:React.SFC<Props> = ({close, history}) => {
         if(passwordReset !== true) return setPasswordReset(true);
     }
 
-    //Signed In
     if(context){
         return <Redirect to="/dashboard"/>
     }

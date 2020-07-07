@@ -46,6 +46,7 @@
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "firebase": "^7.15.5",
+    "react-dropzone": "^11.0.1",
     "react-feather": "^2.0.8",
     "react-router-dom": "^5.2.0",
     "react-slick": "^0.26.1",

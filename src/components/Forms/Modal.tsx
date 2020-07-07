@@ -7,7 +7,7 @@ interface Props {
 
 const Modal:React.FC<Props> = ({children, close}) => {
     return(
-        <div className="absolute w-full h-screen flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div className="absolute w-full h-screen flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
             <div className="shadow rounded md:max-w-sm max-w-xs w-full bg-white overflow-hidden">
                 <div className="p-2">
                     <span className="float-right cursor-pointer"><X onClick={close}/></span>
