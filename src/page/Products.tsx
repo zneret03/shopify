@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Header from '../components/private/Header'
 import {Table, Tag, Space, Pagination} from 'antd';
-import ProductForm from '../components/private/ProductForm';
 
 const Products = () => {
 
@@ -113,29 +112,12 @@ const Products = () => {
             )
       }
 
-
-      
     const [current, setCurrent] = useState<number>(1);
-    const [openModal, setModal] = useState<boolean>(false);
-
-    const openProductModal = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      event.preventDefault();
-
-      if(openModal !== true) return setModal(true);
-    }
-
-    const closeProductModal = (event : React.MouseEvent<SVGAElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      event.preventDefault();
-
-      if(openModal === true) return setModal(false);
-    }
 
     return(
         <>
-          {openModal && <ProductForm close={(event) => closeProductModal(event)}/>}
            <Header pageName={'Products'} welcome={'Welcome to Shopify, Ian'}>
                <div className="mb-2 flex justify-end items-center">
-                   <button className="mr-4 px-3 py-1 bg-red-500 hover:bg-red-400 rounded-sm text-white" onClick={(event) => openProductModal(event)}>Add Product</button>
                     <MyPagination 
                         total={data.length}
                         current={current}

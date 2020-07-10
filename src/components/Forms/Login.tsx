@@ -5,7 +5,7 @@ import Modal from './Modal';
 import SignUp from './SingUp';
 import PasswordReset from './PasswordRest';
 import {AuthContext} from '../../auth/AuthProvider'
-import { auth } from '../../config/firebase';
+import {app} from '../../config/firebase';
 import {withRouter, Redirect} from 'react-router-dom';
 
 interface Props  {
@@ -25,7 +25,7 @@ const Login:React.SFC<Props> = ({close, history}) => {
     //submit form
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) =>{
         event.preventDefault();
-        auth.signInWithEmailAndPassword(email, password)
+        app.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
             if(context){
                 history.push('/dashboard')

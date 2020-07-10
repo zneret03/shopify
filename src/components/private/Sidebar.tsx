@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {auth, db} from '../../config/firebase';
+import {app} from '../../config/firebase';
 import { AuthContext } from '../../auth/AuthProvider'
 import {
     Settings, 
@@ -25,9 +25,10 @@ const Navbar:React.SFC = () =>{
 
     const signOut = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         event.preventDefault();
-        auth.signOut();
+        app.auth().signOut();
     }
 
+    //Main toggle
     const [menu, setMenu] = useState<boolean>(false);
 
     const Menu = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
@@ -39,34 +40,61 @@ const Navbar:React.SFC = () =>{
         }
     }
 
-    const [search, setSearch] = useState<boolean>(false);
+    //Sale Channel toggle
+    const [sale, setSale] = useState<boolean>(false);
 
-    const searchChannel = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const saleChannel = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         event.preventDefault();
-        if(search !== true){
-             return setSearch(true);
+        if(sale !== true){
+             return setSale(true);
         }else{
-            return setSearch(false);
+            return setSale(false);
         }
     }
 
-    const [name, setName] = useState([]);
-    
-    if(currentUser !== null){
-        data.map(async(currentUser : any) => {
-            const document = db.collection('user').doc(currentUser.uid);
-            const uid = await document.get();
-            const result = uid.data();
-            const data: any = [];
-    
-            data.push(result);
-    
+    //Products Toggle
+    const [products, setProducts] = useState(false);
+
+    const openProducts = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+        event.preventDefault();
+        if(products !== true){
+             return setProducts(true);
+        }else{
+            return setProducts(false);
+        }
+    }
+
+
+    const [name, setName] = useState(null);
+
+    const getuserUid = () => {
+        return new Promise((resolve, reject) => {
+            if(data.length > 0){
+                data.forEach(async(user : any) => {
+                    const document = app.firestore().collection('user').doc(user.uid);
+                    const uid = await document.get();
+                    const result = uid.data();
+                    const data: any = [];
+            
+                    data.push(result);
+            
+                    data.map((userInformation : any) => {
+                      return resolve(`${userInformation.firstname} ${userInformation.lastname}`);
+                    })
+                })
+            }else{
+                reject('array is empty');
+            }
+        })
+    }
+
+    getuserUid().then((data : any) => {
+        if(data){
             setName(data);
-        });
-    }
-    else{
-        return <div className="flex items-center justify-center">Loading...</div>
-    }
+        }
+    }).catch((error) => {
+        console.log(error.message);
+    })
 
     return(
             <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 bg-white h-screen overflow-auto">
@@ -75,21 +103,15 @@ const Navbar:React.SFC = () =>{
                     <div className="pt-6 flex justify-center">
                         <img className="w-32 h-32 object-cover rounded-full" src={require('../../image/exampleProfile.jpg')} alt=""/>
                     </div>
-                    {name.map((data: any) => (
-                        data ? (
-                            <div  className="text-center mt-2">
-                                <span className="font-bold text-lg">{`${data.firstname} ${data.lastname}`}</span>
-                            </div>
-                            ):(
-                                <span className="hidden">
-                                {
-                                    setTimeout(() => {
-                                        window.location.reload();
-                                    }, 2000)
-                                }
-                                </span>
-                            )
-                    ))}
+                    {name ? (
+                        <div  className="text-center mt-2">
+                            <span className="font-bold text-lg">{`${name}`}</span>
+                        </div>
+                     ) : (
+                        <div  className="text-center mt-2">
+                            <span className="text-sm">Loading...</span>
+                        </div>
+                     )}
                     {data.map((currentUser : any) => (
                         <div className="text-center" key="currentUser">
                                 <span className="text-sm text-gray-600 block">{currentUser.email}</span>
@@ -118,23 +140,36 @@ const Navbar:React.SFC = () =>{
                                     <span className="mr-2"><ShoppingCart size="18"/></span>
                                    <span>Orders</span>
                                 </li>
-                                <li className="mb-5 cursor-pointer">
-                                   <Link to="/dashboard/products" 
-                                   className="hover:bg-gray-200 focus:bg-gray-200 flex items-center px-2 rounded py-1 text-gray-700">
-                                   <span className="mr-2"><Package size="18"/></span>
-                                   <span>Products</span>
-                                   </Link>
+                                <li className="mb-5 cursor-pointer ml-2" onClick={(event) => openProducts(event)}>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center">
+                                            <span className="mr-2"><Package size="18"/></span>
+                                            <span>Products</span>
+                                        </div>
+                                        <span >{products ? <ChevronDown size="18"/> : <ChevronRight size="18"/>}</span>
+                                    </div>
+                                   <div className={`${products ? 'block' : 'hidden'} ml-2 mt-2 font-normal`}>
+                                       <ul>
+                                           <Link to="/dashboard/products/addProducts" 
+                                           className="flex items-center justify-between hover:bg-gray-200 px-2 rounded py-1 text-gray-700">
+                                           <li className="hover:bg-gray-200 focus:bg-gray-200 ">Add Products</li>
+                                           </Link>
+                                           <Link to="/dashboard/products/viewProducts" className="flex items-center justify-between hover:bg-gray-200  px-2 rounded py-1 text-gray-700">
+                                           <li >View Products</li>
+                                           </Link>
+                                       </ul>
+                                   </div>
                                 </li>
                             </ul>
                         </div>
                         <Divider />
-                        <div className={`${search ? 'text-gray-600' : ''} mt-5 flex items-center justify-between px-1 cursor-pointer`} 
-                        onClick={(event) => searchChannel(event)}>
+                        <div className={`${sale ? 'text-gray-600' : ''} mt-5 flex items-center justify-between px-1 cursor-pointer`} 
+                        onClick={(event) => saleChannel(event)}>
                                 <span className="uppercase font-bold">Sale Channel</span>
-                                <span>{search ? <ChevronDown size="18"/> : <ChevronRight size="18"/>}</span>
+                                <span>{sale ? <ChevronDown size="18"/> : <ChevronRight size="18"/>}</span>
                         </div>
                         <div className="mt-4 font-bold">
-                            <ul className={`${search ? 'block' : 'hidden'}`}>
+                            <ul className={`${sale ? 'block' : 'hidden'}`}>
                                 <li className="mb-5 hover:bg-gray-200 px-1 py-1 rounded flex items-center cursor-pointer">
                                     <span className="mr-2"><Facebook size="18"/></span>
                                     <span>Facebook</span>

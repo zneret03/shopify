@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {ArrowLeftCircle} from 'react-feather';
 import {Divider} from 'antd';
-import {auth} from '../../config/firebase';
+import {app} from '../../config/firebase';
 import {Info} from 'react-feather';
 interface Props {
      back : (event : React.MouseEvent<SVGAElement, MouseEvent>) => void
@@ -14,7 +14,7 @@ const PasswordReset:React.SFC<Props> = ({back}) => {
     const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    auth.sendPasswordResetEmail(email)
+    app.auth().sendPasswordResetEmail(email)
     .then(() => {
         setMessage('Check your email')
         setEmail('');

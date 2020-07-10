@@ -1,8 +1,39 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ArrowLeft, ChevronDown} from 'react-feather';
 import {Link} from 'react-router-dom';
+
 const Shop:React.SFC = () => {
     
+    const [error, setError] = useState<object>({type : 200, error : false});
+    const [items, setItems] = useState<object[]>([]);
+
+    useEffect(() => {
+        const getItems = async() =>{
+            await fetch('https://us-central1-shopify-c74df.cloudfunctions.net/getProduct/api/getProduct')
+            .then((response) => {
+                if(response.status === 404){
+                    setError({type : 404, error: true});
+                }
+
+                if(response.status === 403){
+                    setError({type : 403, error: true});
+                }
+
+                return response.json();
+            }).then((data) => {
+                data && setItems(data);
+            }).catch((error) => {
+                console.log(error.message);
+            })
+        }
+
+        getItems();
+    },[])
+
+    if(items.length <= 0){
+        return <div className="h-full w-full flex items-center justify-center">Loading...</div>
+    }
+
     return(
         <div className="font-mono text-black">
             <div className="container mx-auto px-6 py-8">
@@ -14,7 +45,7 @@ const Shop:React.SFC = () => {
                 </div>
                 <div className="my-8">
                     <span className="uppercase text-3xl font-bold">all products</span>
-                    <span className="ml-3 text-gray-500">[20]</span>
+                    <span className="ml-3 text-gray-500">[{items.length}]</span>
                 </div>
                 <div className="border border-black">
                     <div className="py-4 w-full">
@@ -34,46 +65,18 @@ const Shop:React.SFC = () => {
                     <button className="px-5 block bg-gray-300 rounded-sm text-sm cursor-default">Womens</button>
                 </div> */}
                 <div className="grid grid-rows md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-                    <div className="border mt-5 mr-2">
-                        <div className="py-6 px-12 bg-gray-200">
-                                <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={require('../image/Shoes1.png')} alt=""/>
-                        </div>
-                        <div className="px-4 py-2 font-segoe-UI">
-                            <span className="block text-xs text-gray-600 mb-4">Orignal</span>
-                            <span className="block text-xs uppercase tracking-wide mb-1">Superstar Shoes</span>
-                            <span className="text-black text-gray-800">₱1,400</span>
-                        </div>
-                    </div>
-                    <div className="border mt-5 mr-2">
-                        <div className="py-6 px-12 bg-gray-200">
-                                <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={require('../image/Shoes2.png')} alt=""/>
-                        </div>
-                        <div className="px-4 py-2 font-segoe-UI">
-                            <span className="block text-xs text-gray-600 mb-4">Running</span>
-                            <span className="block text-xs uppercase tracking-wide mb-1">Superstar Shoes</span>
-                            <span className="text-black text-gray-800">₱1,400</span>
-                        </div>
-                    </div>
-                    <div className="border mt-5 mr-2">
-                        <div className="py-6 px-12 bg-gray-200">
-                                <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={require('../image/Shoes3.png')} alt=""/>
-                        </div>
-                        <div className="px-4 py-2 font-segoe-UI">
-                            <span className="block text-xs text-gray-600 mb-4">Footbal</span>
-                            <span className="block text-xs uppercase tracking-wide mb-1">Superstar Shoes</span>
-                            <span className="text-black text-gray-800">₱1,400</span>
-                        </div>
-                    </div>
-                    <div className="border mt-5 mr-2">
-                        <div className="py-6 px-12 bg-gray-200">
-                                <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={require('../image/Clothing.png')} alt=""/>
-                        </div>
-                        <div className="px-4 py-2 font-segoe-UI">
-                            <span className="block text-xs text-gray-600 mb-4">Men's Sports Inspired</span>
-                            <span className="block text-xs uppercase tracking-wide mb-1">Superstar Shoes</span>
-                            <span className="text-black text-gray-800">₱1,400</span>
-                        </div>
-                    </div>
+                    {items.map((item : any) => (
+                    <div className="border mt-5 mr-2" key={item.uid}>
+                         <div className="py-6 px-12 bg-gray-200">
+                                 <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={item.imageUrl} alt=""/>
+                         </div>
+                         <div className="px-4 py-2 font-segoe-UI">
+                            <span className="block text-xs text-gray-600 mb-4">{item.purpose}</span>
+                            <span className="block text-xs uppercase tracking-wide mb-1">{item.product}</span>
+                             <span className="text-black text-gray-800">₱{item.price}</span>
+                         </div>
+                     </div>
+                    ))}
                 </div>
             </div>
         </div>

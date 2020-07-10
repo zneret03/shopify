@@ -2,10 +2,9 @@ import React, {useState} from 'react';
 import {ArrowLeftCircle} from 'react-feather';
 import {Divider} from 'antd';
 import {Link} from 'react-router-dom';
-import {auth} from '../../config/firebase';
+import {app} from '../../config/firebase';
 import {Info} from 'react-feather';
-import axios from 'axios';
-
+import axios from 'axios'
 interface Props {
     back : (event : React.MouseEvent<SVGAElement, MouseEvent>) => void
 }
@@ -39,22 +38,23 @@ const SignUp:React.SFC<Props> = ({back}) => {
     const onSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        auth.createUserWithEmailAndPassword(email, password).then((cred) => {
+        app.auth().createUserWithEmailAndPassword(email, password).then((cred) => {
             if(cred.user){
-                axios.post('https://us-central1-shopify-c74df.cloudfunctions.net/app/signIn', {
+                axios.post('https://us-central1-shopify-c74df.cloudfunctions.net/signIn/api/signIn', {
                     id : cred.user.uid,
                     email : email,
                     firstname : firstname,
                     lastname : lastname
                 }).then(() => {
-                    setMessage('successfully created');
+                    console.log('successful')
                     clearState();
+                }).catch((error) => {
+                    console.log(error.message);
                 })
-                .catch((error) => console.log(error.message));
             }
         })
-        .catch((err) => {
-            setMessage(err.message);
+        .catch((error) => {
+            setMessage(error.message);
         });
     }
 

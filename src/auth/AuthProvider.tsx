@@ -1,5 +1,5 @@
 import React, {createContext} from 'react';
-import {auth} from '../config/firebase';
+import {app} from '../config/firebase';
 
 interface Props {
     children : React.ReactNode
@@ -41,7 +41,7 @@ class AuthProvider extends React.Component<Props, IContext> {
     }
 
      isAuthenticated = () =>{
-        auth.onAuthStateChanged((user) => {
+        app.auth().onAuthStateChanged((user) => {
             if(user){
                 this.setState({authenticted : user});
             }else{

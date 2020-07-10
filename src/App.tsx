@@ -10,6 +10,7 @@ const Dashboard = lazy(() => import('./page/Dashboard'));
 const PublicRoute = lazy(() => import('./layouts/public/PublicRoute'));
 const PrivateRoute = lazy(() => import('./layouts/private/PrivateRoute'));
 const Products = lazy(() => import('./page/Products'));
+const addProducts = lazy(() => import('./components/private/ProductForm'))
 const App:React.SFC = () => {
 
   return (
@@ -20,7 +21,8 @@ const App:React.SFC = () => {
             <PublicRoute exact={true} path="/" component={Home}/>
             <PublicRoute exact={true} path="/shop" component={Shop}/>
             <PrivateRoute exact={true}  path="/dashboard" component={Dashboard}/>
-            <PrivateRoute exact={true} path="/dashboard/products" component={Products} />
+            <PrivateRoute exact={true} path="/dashboard/products/viewProducts" component={Products} />
+            <PrivateRoute exact={true} path="/dashboard/products/addProducts" component={addProducts} />
           </Switch>
         </Router>
       </AuthProvider>
