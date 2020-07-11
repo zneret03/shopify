@@ -105,7 +105,7 @@ const ProductForm: React.SFC = () => {
 
     return(
         <>
-           <Header pageName={'Add Products'} welcome={'Welcome to Shopify'}>
+           <Header pageName={'Add Products'}>
                 <div>
                 <form action=""  onSubmit={(event) => onSubmit(event)}>
                     <div className="grid grid-cols-3 gap-3">

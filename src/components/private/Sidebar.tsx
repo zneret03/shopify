@@ -64,7 +64,6 @@ const Navbar:React.SFC = () =>{
         }
     }
 
-
     const [name, setName] = useState(null);
 
     const getuserUid = () => {
@@ -96,8 +95,9 @@ const Navbar:React.SFC = () =>{
         console.log(error.message);
     })
 
+
     return(
-            <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 bg-white h-screen overflow-auto">
+            <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 md:block hidden bg-white h-screen overflow-auto">
                 <div className="px-6">
                     <div>
                     <div className="pt-6 flex justify-center">

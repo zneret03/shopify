@@ -116,7 +116,7 @@ const Products = () => {
 
     return(
         <>
-           <Header pageName={'Products'} welcome={'Welcome to Shopify, Ian'}>
+           <Header pageName={'Products'}>
                <div className="mb-2 flex justify-end items-center">
                     <MyPagination 
                         total={data.length}

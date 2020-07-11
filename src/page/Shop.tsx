@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {ArrowLeft, ChevronDown} from 'react-feather';
 import {Link} from 'react-router-dom';
+import NoRouteMatch from '../page/404';
 
 const Shop:React.SFC = () => {
     
-    const [error, setError] = useState<object>({type : 200, error : false});
+    const [error, setError] = useState({type : 200, active : false});
     const [items, setItems] = useState<object[]>([]);
 
     useEffect(() => {
@@ -12,11 +13,11 @@ const Shop:React.SFC = () => {
             await fetch('https://us-central1-shopify-c74df.cloudfunctions.net/getProduct/api/getProduct')
             .then((response) => {
                 if(response.status === 404){
-                    setError({type : 404, error: true});
+                    setError({type : 404, active: true});
                 }
 
                 if(response.status === 403){
-                    setError({type : 403, error: true});
+                    setError({type : 403, active: true});
                 }
 
                 return response.json();
@@ -32,6 +33,10 @@ const Shop:React.SFC = () => {
 
     if(items.length <= 0){
         return <div className="h-full w-full flex items-center justify-center">Loading...</div>
+    }
+
+    if(error.active){
+        return <NoRouteMatch />
     }
 
     return(

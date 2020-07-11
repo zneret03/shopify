@@ -3,16 +3,15 @@ import {Divider} from 'antd'
 
 interface Props {
     children : React.ReactNode,
-    pageName : string,
-    welcome : string
+    pageName : string
 }
 
-const Header:React.SFC<Props> = ({children, pageName, welcome}) => {
+const Header:React.SFC<Props> = ({children, pageName}) => {
     return(
         <div className="container mx-auto px-8 py-6">
         <div className="flex items-center justify-between">
             <span className="font-bold text-2xl ">{pageName}</span>
-            <span className="text-xl font-segoe-UI">{welcome}</span>
+            <span className="text-xl font-segoe-UI">Welcome to Shopify</span>
         </div>
         <Divider />
         <div>

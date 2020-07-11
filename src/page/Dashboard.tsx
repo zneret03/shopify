@@ -5,7 +5,7 @@ const Dashboard:React.FC = () => {
     
         return(
             <>
-                <Header pageName={'Dashboard'} welcome={'Welcome to Shopify, Ian'}>
+                <Header pageName={'Dashboard'}>
                     <span>Hi</span>
                 </Header>
             </>
