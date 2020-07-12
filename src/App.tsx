@@ -2,6 +2,7 @@ import React, {lazy, Suspense} from 'react';
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import {Spin} from 'antd';
 import {AuthProvider} from './auth/AuthProvider'
+import {ProductProvider} from './Context/ProductProvider';
 
 //components
 const Home = lazy(() => import('./page/Home'));
@@ -16,6 +17,7 @@ const App:React.SFC = () => {
   return (
     <Suspense fallback={<div className="h-screen w-screen flex items-center justify-center"><Spin size="large"/></div>}>
       <AuthProvider>
+        <ProductProvider>
         <Router>
           <Switch>
             <PublicRoute exact={true} path="/" component={Home}/>
@@ -25,6 +27,7 @@ const App:React.SFC = () => {
             <PrivateRoute exact={true} path="/dashboard/products/addProducts" component={addProducts} />
           </Switch>
         </Router>
+        </ProductProvider>
       </AuthProvider>
     </Suspense>
   );

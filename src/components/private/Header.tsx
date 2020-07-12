@@ -9,8 +9,8 @@ interface Props {
 const Header:React.SFC<Props> = ({children, pageName}) => {
     return(
         <div className="container mx-auto px-8 py-6">
-        <div className="flex items-center justify-between">
-            <span className="font-bold text-2xl ">{pageName}</span>
+        <div className="flex sm:items-center sm:justify-between sm:flex-row flex-col">
+            <span className="font-bold text-2xl">{pageName}</span>
             <span className="text-xl font-segoe-UI">Welcome to Shopify</span>
         </div>
         <Divider />

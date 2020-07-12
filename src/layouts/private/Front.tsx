@@ -25,12 +25,12 @@ const Front:React.SFC<Props> = ({children}) => {
     },[])
 
     return(
-        <React.Fragment>
-        <div className={`font-sans ${navbar ? 'flex' : null} `}>
-            {navbar ? <Sidebar /> : <Navbar />}
-            {children}
-        </div>
-        </React.Fragment>
+            <React.Fragment>
+            <div className={`font-sans ${navbar ? 'flex' : null} `}>
+                {navbar ? <Sidebar /> : <Navbar />}
+                {children}
+            </div>
+            </React.Fragment>
     );
 }
 

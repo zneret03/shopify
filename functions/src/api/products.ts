@@ -21,6 +21,7 @@ export const addProduct = app.post('/api/productSave', async(request : any, resp
     })
 });
 
+
 //get all products
 export const getProduct = app.get('/api/getProduct', async(request : any, response : any) => {
     const document = db.collection('product');
@@ -30,6 +31,7 @@ export const getProduct = app.get('/api/getProduct', async(request : any, respon
 
     data.docs.map((items : any) => {
         const item = {
+            id: items.id,
             product : items.data().product,
             title : items.data().title,
             purpose : items.data().purpose,

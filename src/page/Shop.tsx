@@ -1,43 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {ArrowLeft, ChevronDown} from 'react-feather';
 import {Link} from 'react-router-dom';
-import NoRouteMatch from '../page/404';
+import {ProductContext} from '../Context/ProductProvider';
 
 const Shop:React.SFC = () => {
-    
-    const [error, setError] = useState({type : 200, active : false});
-    const [items, setItems] = useState<object[]>([]);
 
-    useEffect(() => {
-        const getItems = async() =>{
-            await fetch('https://us-central1-shopify-c74df.cloudfunctions.net/getProduct/api/getProduct')
-            .then((response) => {
-                if(response.status === 404){
-                    setError({type : 404, active: true});
-                }
-
-                if(response.status === 403){
-                    setError({type : 403, active: true});
-                }
-
-                return response.json();
-            }).then((data) => {
-                data && setItems(data);
-            }).catch((error) => {
-                console.log(error.message);
-            })
-        }
-
-        getItems();
-    },[])
-
-    if(items.length <= 0){
-        return <div className="h-full w-full flex items-center justify-center">Loading...</div>
-    }
-
-    if(error.active){
-        return <NoRouteMatch />
-    }
+    const {items} = useContext(ProductContext);
 
     return(
         <div className="font-mono text-black">

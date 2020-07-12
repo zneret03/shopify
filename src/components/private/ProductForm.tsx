@@ -108,7 +108,7 @@ const ProductForm: React.SFC = () => {
            <Header pageName={'Add Products'}>
                 <div>
                 <form action=""  onSubmit={(event) => onSubmit(event)}>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid sm:grid-cols-3 sm:gap-3">
                         <div className="mb-3">
                             <span>Product Name</span>
                             <input value={product} 
@@ -162,8 +162,8 @@ const ProductForm: React.SFC = () => {
                         <div {...getRootProps({className: 'dropzone'})}>
                             <div className="flex items-center justify-center bg-gray-200 py-12 border-dashed border-4 cursor-pointer">
                                 <input {...getInputProps()}/>
-                                {!isDragActive && (<p>Drag 'n' drop some image here, or click to select files</p>)}
-                                {isDragReject && (<p>Unable Image</p>)}
+                                {!isDragActive && (<p className="text-center">Drag 'n' drop some image here, or click to select files</p>)}
+                                {isDragReject && (<p>Unable File</p>)}
                                 {isDragAccept && (<p>All image will be accepted</p>)} 
                             </div>
                             <div className="mt-3">

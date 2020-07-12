@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Header from '../components/private/Header'
-import {Table, Tag, Space, Pagination} from 'antd';
+import {Table, Space, Pagination} from 'antd';
+import {ProductContext} from '../Context/ProductProvider';
 
 const Products = () => {
 
+
+    const {items} = useContext(ProductContext);
+
+    console.log(items);
     const columns = [
         {
-          title: 'Image',
-          dataIndex: 'image',
-          key: 'image',
-          render: (text : string) => <span>{text}</span>,
+          title: 'Unique identification',
+          dataIndex: 'id',
+          key: 'id',
         },
         {
           title: 'Title',
@@ -18,8 +22,13 @@ const Products = () => {
         },
         {
           title: 'Product Name',
-          dataIndex: 'products',
-          key: 'products',
+          dataIndex: 'product',
+          key: 'product',
+        },
+        {
+          title: 'Purpose',
+          dataIndex: 'purpose',
+          key: 'purpose',
         },
         {
             title: 'Price',
@@ -27,77 +36,22 @@ const Products = () => {
             key: 'price',
           },
         {
-          title: 'Status',
-          key: 'status',
-          dataIndex: 'status',
-          render: (status : any) => (
-            <>
-              {status.map((status : any) => {
-                let color = status.length > 5 ? 'geekblue' : 'green';
-                if (status === 'unpaid') {
-                  color = 'volcano';
-                }
-                return (
-                  <Tag color={color} key={status}>
-                    {status.toUpperCase()}
-                  </Tag>
-                );
-              })}
-            </>
-          ),
-        },
-        {
           title: 'Action',
           key: 'action',
           render: (record : any) => (
             <Space size="middle">
-              <span>Update {console.log(record.name)}</span>
-              <span>Delete</span>
+              <span>Update {record.name}</span>
+              <span>Delete {record.name}</span>
             </Space>
           ),
         },
-      ];
-
-      const data = [
-        {
-          key: '1',
-          image: 'John Brown',
-          title: 32,
-          products: 'New York No. 1 Lake Park',
-          price : '₱1,400',
-          status: ['paid'],
-        },
-        {
-          key: '2',
-          image: 'Jim Green',
-          title: 42,
-          products: 'London No. 1 Lake Park',
-          price : '₱1,400',
-          status: ['unpaid'],
-        },
-        {
-          key: '3',
-          image: 'Joe Black',
-          title: 32,
-          products: 'Sidney No. 1 Lake Park',
-          price : '₱1,400',
-          status: ['paid'],
-        },
-        {
-            key: '3',
-            image: 'Joe Black',
-            title: 32,
-            products: 'Sidney No. 1 Lake Park',
-            price : '₱1,400',
-            status: ['paid'],
-          }
       ];
 
       const pageSize : number = 6;
 
       //getting data
       const getData = (current : number, pageSize : number) => {
-          return  data.slice(current - 1, pageSize);
+          return  items.slice(current - 1, pageSize);
       }
 
       //custom pagination
@@ -117,15 +71,16 @@ const Products = () => {
     return(
         <>
            <Header pageName={'Products'}>
-               <div className="mb-2 flex justify-end items-center">
+               <div className="mb-2 flex justify-end">
                     <MyPagination 
-                        total={data.length}
+                        total={items.length}
                         current={current}
                         onChange={setCurrent}
                     />
                </div>
                <div>
                     <Table 
+                    className="overflow-auto"
                     columns={columns} 
                     dataSource={getData(current, pageSize)}
                     pagination={false}/>
