@@ -1,6 +1,6 @@
 import React, {createContext, useEffect ,useState} from 'react';
 import NoRouteMatch from '../page/404';
-
+import {Spin} from 'antd';
 interface Props { 
     children : React.ReactNode
 }
@@ -40,7 +40,7 @@ const ProductProvider: React.SFC<Props> = ({children}) => {
     },[])
 
     if(items.length <= 0){
-        return <div className="h-full w-full flex items-center justify-center">Loading...</div>
+        return <div className="h-screen w-screen flex items-center justify-center"><Spin size="large"/></div>
     }
 
     if(error.active){

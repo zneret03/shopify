@@ -15,7 +15,7 @@ const initialState = {
 }
 
 
-const ProductForm: React.SFC = () => {
+const AddProduct: React.SFC = () => {
 
     const context = useContext(AuthContext);
     const data : object[] = [];
@@ -189,4 +189,4 @@ const ProductForm: React.SFC = () => {
     )
 }
 
-export default ProductForm;
+export default AddProduct;

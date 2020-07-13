@@ -2,13 +2,31 @@ import React, {useState, useContext} from 'react';
 import Header from '../components/private/Header'
 import {Table, Space, Pagination} from 'antd';
 import {ProductContext} from '../Context/ProductProvider';
+import {Edit3, Trash2} from 'react-feather';
+import {withRouter} from 'react-router-dom';
 
-const Products = () => {
+interface Props {
+  history : any
+}
 
+const Products : React.SFC<Props> = ({history}) => {
 
     const {items} = useContext(ProductContext);
 
-    console.log(items);
+    const getUdateId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string) => {
+      event.preventDefault();
+      if(id){
+        history.push(`/dashboard/products/EditProducts?id=${id}`); 
+      }
+    }
+
+    //const [remove, setRemove] = useState<string>('');
+
+    const getDeleteId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string) => {
+      event.preventDefault();
+      console.log(id);
+    }
+
     const columns = [
         {
           title: 'Unique identification',
@@ -38,10 +56,10 @@ const Products = () => {
         {
           title: 'Action',
           key: 'action',
-          render: (record : any) => (
-            <Space size="middle">
-              <span>Update {record.name}</span>
-              <span>Delete {record.name}</span>
+          render: (items : any) => (
+            <Space size="middle" key={items.id}>
+              <button onClick={(event) => getUdateId(event, items.id)}><Edit3 className="text-blue-700" size="20"/></button>
+              <button onClick={(event) => getDeleteId(event, items.id)}><Trash2 className="text-red-700" size="20"/></button>
             </Space>
           ),
         },
@@ -90,4 +108,4 @@ const Products = () => {
     )
 }
 
-export default Products;
+export default withRouter(Products);
