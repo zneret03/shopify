@@ -4,6 +4,7 @@ import Header from './Header';
 import {app} from '../../config/firebase';
 import {ArrowLeft} from 'react-feather';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 const initialState = {
     product : '',
@@ -17,15 +18,33 @@ const EditProduct: React.SFC = (props : any) => {
 
       //input onChange
       const [{product, title, purpose, price, quantity}, setState] = useState(initialState);
+      const params = new URLSearchParams(props.location.search);
+      const id = params.get('id');
 
       const onChange = (event : React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
-        const {name, value} = event.target;
-        setState(prevState => ({...prevState, [name] : value}));
+        const {name, defaultValue} = event.target;
+        setState(prevState => ({...prevState, [name] : defaultValue}));
       }
 
       const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        axios({
+           method : 'post',
+           url : `https://us-central1-shopify-c74df.cloudfunctions.net/updateProduct/api/update:${id}`,
+           data : {
+               product,
+               title,
+               purpose,
+               price,
+               quantity
+           }
+        }).then(() => {
+            console.log('successfully updated');
+        }).catch((error) => {
+            console.log(error.message); 
+        })
 
         console.log({product,title,purpose,price,quantity});
       } 
@@ -34,8 +53,6 @@ const EditProduct: React.SFC = (props : any) => {
 
       useEffect(() => {
         const getProductdata = async() => {
-            const params = new URLSearchParams(props.location.search);
-            const id = params.get('id');
             const items_array : object[] = [];
             if(id){
                 const document = app.firestore().collection('product').doc(id);
@@ -43,12 +60,24 @@ const EditProduct: React.SFC = (props : any) => {
                 const result = item.data();
                 result && items_array.push(result);
             }
-
             setItem(items_array);
         }
-
         getProductdata();
       }, [props.location.search])
+
+      if(item.length > 0){
+        item.map((productState : any) => {
+            initialState['product'] = productState.product;
+            initialState['title'] = productState.title;
+            initialState['purpose'] = productState.purpose
+            initialState['price'] = productState.price;
+            initialState['quantity'] = productState.quantity
+        });
+      }
+
+      if(item.length <= 0) {
+          return <div className="h-screen w-screen flex items-center justify-center">Loading</div>
+      }
 
     return(
         <>
@@ -62,13 +91,11 @@ const EditProduct: React.SFC = (props : any) => {
                         <span className="uppercase tracking-widest underline font-bold text-gray-700">Back</span>
                     </Link>
                 </div>
-
-                {item.map((product : any) => (
-                    <form action=""  onSubmit={(event) => onSubmit(event)}>
+                    <form onSubmit={(event) => onSubmit(event)}>
                         <div className="grid sm:grid-cols-2 sm:gap-3">
                             <div className="mb-3">
                                 <span>Product Name</span>
-                                <input defaultValue={product.product} 
+                                <input defaultValue={product} 
                                 required
                                 name="product" onChange={(event) => onChange(event)} 
                                 className="border w-full py-1 px-3 rounded" 
@@ -76,7 +103,7 @@ const EditProduct: React.SFC = (props : any) => {
                             </div>
                             <div className="mb-3">
                                 <span>Title</span>
-                                <input defaultValue={product.title} 
+                                <input defaultValue={title} 
                                 required
                                 name="title" 
                                 onChange={(event) => onChange(event)} 
@@ -86,7 +113,7 @@ const EditProduct: React.SFC = (props : any) => {
                         </div>
                         <div className="mb-3">
                             <span>Purpose</span>
-                            <input defaultValue={product.purpose} 
+                            <input defaultValue={purpose} 
                             required
                             name="purpose" onChange={(event) => onChange(event)} 
                             className="border w-full py-1 px-3  rounded" 
@@ -95,7 +122,7 @@ const EditProduct: React.SFC = (props : any) => {
                         <div className="grid grid-cols-2 gap-3">
                             <div className="mb-3">
                                 <span>Price</span>
-                                <input defaultValue={product.price} 
+                                <input defaultValue={price} 
                                 required
                                 pattern="[0-9]"
                                 name="price" 
@@ -105,7 +132,7 @@ const EditProduct: React.SFC = (props : any) => {
                             </div>
                             <div className="mb-3">
                                 <span>Quantity</span>
-                                <input defaultValue={product.quantity} 
+                                <input defaultValue={quantity} 
                                 required
                                 pattern="[0-9]"
                                 name="quantity" 
@@ -119,11 +146,10 @@ const EditProduct: React.SFC = (props : any) => {
                             <button className="px-4 py-1 rounded-sm bg-red-500 hover:bg-red-400 text-white">Update</button>
                         </div>  
                     </form>   
-                ))}
         </div>
         <div className="w-1/2 flex justify-center">
-            {item.map((product : any ) => (
-                <div className="border mt-5 mr-2">
+            {item.map((product : any, index) => (
+                <div className="border mt-5 mr-2" key={index}>
                       <div className="py-6 px-12 bg-gray-200">
                             <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={product.imageUrl} alt=""/>
                       </div>

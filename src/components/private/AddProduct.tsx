@@ -28,7 +28,7 @@ const AddProduct: React.SFC = () => {
         isDragAccept,
         isDragActive,
         isDragReject
-    } = useDropzone({accept : 'image/jpeg, image/png, image/svg'});
+    } = useDropzone({accept : 'image/jpeg, image/png'});
 
     const files : any = acceptedFiles.map(file => (
         <li key={file.name}>
