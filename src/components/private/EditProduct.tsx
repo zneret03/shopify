@@ -6,7 +6,15 @@ import {ArrowLeft} from 'react-feather';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
-const initialState = {
+interface productStateTypes {
+    product : string,
+    title : string,
+    purpose : string,
+    price : number,
+    quantity : number
+}
+
+const initialState : productStateTypes = {
     product : '',
     title : '',
     purpose : '',
@@ -23,27 +31,30 @@ const EditProduct: React.SFC = (props : any) => {
 
       const onChange = (event : React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
-        const {name, defaultValue} = event.target;
-        setState(prevState => ({...prevState, [name] : defaultValue}));
+        const {name, value} = event.target;
+        setState(prevState => ({...prevState, [name] : value}));
       }
 
       const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
+        const items : productStateTypes = {
+            product,
+            title,
+            purpose,
+            price,
+            quantity
+        }
+
         axios({
-           method : 'post',
-           url : `https://us-central1-shopify-c74df.cloudfunctions.net/updateProduct/api/update:${id}`,
-           data : {
-               product,
-               title,
-               purpose,
-               price,
-               quantity
-           }
+            method : 'put',
+            url : `https://us-central1-shopify-c74df.cloudfunctions.net/updateProduct/api/update/${id}`,
+            headers : {'Access-Control-Allow-Origin' : '*'},
+            data : items 
         }).then(() => {
-            console.log('successfully updated');
+           console.log('updated successfully');
         }).catch((error) => {
-            console.log(error.message); 
+            console.log(error.message);
         })
 
         console.log({product,title,purpose,price,quantity});
@@ -53,8 +64,16 @@ const EditProduct: React.SFC = (props : any) => {
 
       useEffect(() => {
         const getProductdata = async() => {
-            const items_array : object[] = [];
+            const items_array : object[] = []
             if(id){
+                // const document = app.firestore().collection('product').doc(id);
+                //  document.onSnapshot((snapshot) => {
+                //     if(snapshot){
+                //         const result = snapshot.data();
+                //         result && items_array.push({...result, id : result.id});
+                //     }
+                // })
+
                 const document = app.firestore().collection('product').doc(id);
                 const item = await document.get();
                 const result = item.data();
@@ -63,17 +82,14 @@ const EditProduct: React.SFC = (props : any) => {
             setItem(items_array);
         }
         getProductdata();
-      }, [props.location.search])
+      }, [id])
 
-      if(item.length > 0){
-        item.map((productState : any) => {
-            initialState['product'] = productState.product;
-            initialState['title'] = productState.title;
-            initialState['purpose'] = productState.purpose
-            initialState['price'] = productState.price;
-            initialState['quantity'] = productState.quantity
+      console.log(item);
+
+      //get all data and assign to each inputbox
+       item && item.map((productState : any) => {
+           return Object.assign(initialState, productState);
         });
-      }
 
       if(item.length <= 0) {
           return <div className="h-screen w-screen flex items-center justify-center">Loading</div>

@@ -22,18 +22,22 @@ export const addProduct = app.post('/api/productSave', async(request : any, resp
 });
 
 //update products 
-export const updateProduct = app.put('/api/update:item_id', async(request : any, response : any) => {
+export const updateProduct = app.put('/api/update/:item_id', async(request : any, response : any) => {
     try{
+        const price : number = Number(request.body.price);
+        const quantity : number = Number(request.body.quantity);
+        
         const document = db.collection('product').doc(request.params.item_id);
+
         await document.update({
             product : request.body.product,
             title : request.body.title,
             purpose : request.body.purpose,
-            price : request.body.price,
-            quantity : request.body.quantity
+            price : price,
+            quantity : quantity
         });
 
-        return response.status(200).send('updated successfully');
+        return response.status(200).send();
     }
     catch(error){
         return response.status(500).send(error.message);
