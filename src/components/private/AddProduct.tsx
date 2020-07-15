@@ -4,14 +4,26 @@ import {useDropzone} from 'react-dropzone';
 import Header from './Header';
 import {app} from '../../config/firebase';
 import { AuthContext } from '../../auth/AuthProvider';
+import Loading from './Loading';
 import axios from 'axios';
 
-const initialState = {
+interface productStateTypes {
+    product : string,
+    title : string,
+    purpose : string,
+    price : number,
+    quantity : number,
+    gender : string
+}
+
+
+const initialState :productStateTypes = {
     product : '',
     title : '',
     purpose : '',
     price : 0,
-    quantity : 0
+    quantity : 0,
+    gender : ''
 }
 
 
@@ -28,7 +40,7 @@ const AddProduct: React.SFC = () => {
         isDragAccept,
         isDragActive,
         isDragReject
-    } = useDropzone({accept : 'image/jpeg, image/png'});
+    } = useDropzone({accept : 'image/png'});
 
     const files : any = acceptedFiles.map(file => (
         <li key={file.name}>
@@ -36,12 +48,15 @@ const AddProduct: React.SFC = () => {
         </li>
     ));
 
-
       //input onChange
-      const [{product, title, purpose, price, quantity}, setState] = useState(initialState);
-      const [popupText, setPopUpText] = useState<boolean>(false);
+      const [{product, title, purpose, price, quantity, gender}, setState] = useState(initialState);
+      const [message, setMessage] = useState({status : false, message: '', loading : false});
 
-      const onChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+      const clearState = () => {
+          setState({...initialState});
+      }
+
+      const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         event.preventDefault();
         const {name, value} = event.target;
         setState(prevState => ({...prevState, [name] : value}));
@@ -62,8 +77,16 @@ const AddProduct: React.SFC = () => {
         })
      }
 
+     const loadSpinner = () =>{
+        setMessage({status : false, message : '', loading : true});
+    }
+
       const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        // console.log({product, title, purpose, price, quantity, gender});
+        
+        //Load Spinner
+        loadSpinner();
 
         getUserUId().then((data) => {
             acceptedFiles.map(async file => {
@@ -88,10 +111,16 @@ const AddProduct: React.SFC = () => {
                             price : price, 
                             quantity : quantity,
                             imageUrl : imageUrl,
-                            date : date
+                            date : date,
+                            gender : gender
                          } 
                      }).then(() => {
-                        setPopUpText(true);
+                        setMessage({status : true, message : 'Successfully Inserted', loading : false});
+
+                        setTimeout(() => {
+                            clearState();
+                            setMessage({status : false, message : '', loading : false});
+                        }, 5000)
                      }).catch((error) => {
                          console.log(error.message);
                      })
@@ -100,14 +129,14 @@ const AddProduct: React.SFC = () => {
         }).catch((error) =>{
             console.log(error.message);
         })
-        
       } 
 
     return(
         <>
+        {message.loading && <Loading />}
            <Header pageName={'Add Products'}>
                 <div>
-                <form action=""  onSubmit={(event) => onSubmit(event)}>
+                <form onSubmit={(event) => onSubmit(event)}>
                     <div className="grid sm:grid-cols-3 sm:gap-3">
                         <div className="mb-3">
                             <span>Product Name</span>
@@ -136,7 +165,7 @@ const AddProduct: React.SFC = () => {
                         type="text"/>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-3 gap-3">
                         <div className="mb-3">
                             <span>Price</span>
                             <input value={price} 
@@ -157,21 +186,34 @@ const AddProduct: React.SFC = () => {
                             className="border w-full py-1 px-3  rounded" 
                             type="number"/>
                         </div>
+                        <div className="mb-3">
+                            <span>Gender</span>
+                            <select name="gender" className="border w-full py-2 px-3 bg-white rounded" 
+                            value={gender}
+                            onChange={(event) => onChange(event)} >
+                                <option value=""></option>
+                                <option value="Men">Men</option>
+                                <option value="Women">Women</option>
+                                <option value="Kids">Kids</option>
+                            </select>
+                        </div>
                     </div>
                     <div className="mt-6">
                         <div {...getRootProps({className: 'dropzone'})}>
                             <div className="flex items-center justify-center bg-gray-200 py-12 border-dashed border-4 cursor-pointer">
                                 <input {...getInputProps()}/>
                                 {!isDragActive && (<p className="text-center">Drag 'n' drop some image here, or click to select files</p>)}
-                                {isDragReject && (<p>Unable File</p>)}
-                                {isDragAccept && (<p>All image will be accepted</p>)} 
                             </div>
                             <div className="mt-3">
-                                <p 
-                                className={`${popupText ? 'block' : 'hidden'} text-center py-1 bg-green-500 rounded text-white`}>
-                                Successfully Inserted
-                                </p>
-                            </div>
+                                {isDragAccept && (<p className="text-center py-1 bg-green-500 rounded text-white">You got it right brotho</p>)} 
+                                {isDragReject && (<p className="text-center py-1 bg-red-500 rounded text-white">This image is not allowed</p>)
+                                }
+                                {message.status && (
+                                    <p className="text-center py-1 bg-green-500 rounded text-white">
+                                        Successfully Inserted
+                                    </p>  
+                                )}  
+                            </div>      
                         </div>
                         <aside className="mt-2">
                             <h4>Files</h4>

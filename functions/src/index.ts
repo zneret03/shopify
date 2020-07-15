@@ -1,4 +1,4 @@
-import {functions,  } from './middleware/middleware'
+import {functions} from './middleware/middleware'
 import {signIn} from './api/SignIn';
 import {addProduct, getProduct, updateProduct} from './api/products';
 

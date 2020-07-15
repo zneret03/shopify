@@ -13,7 +13,8 @@ export const addProduct = app.post('/api/productSave', async(request : any, resp
         price : price,
         quantity : quantity,
         imageUrl : request.body.imageUrl,
-        date_created : request.body.date
+        date_created : request.body.date,
+        gender : request.body.gender
     }).then(() => {
         return response.status(200).send('successfully inserted');
     }).catch((error : any) => {
@@ -34,7 +35,8 @@ export const updateProduct = app.put('/api/update/:item_id', async(request : any
             title : request.body.title,
             purpose : request.body.purpose,
             price : price,
-            quantity : quantity
+            quantity : quantity,
+            gender : request.body.gender
         });
 
         return response.status(200).send();
@@ -43,7 +45,6 @@ export const updateProduct = app.put('/api/update/:item_id', async(request : any
         return response.status(500).send(error.message);
     }
 })
-
 
 //get all products
 export const getProduct = app.get('/api/getProduct', async(request : any, response : any) => {

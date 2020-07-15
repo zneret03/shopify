@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import Header from '../components/private/Header'
-import {Table, Space, Pagination} from 'antd';
+import {Table, Space, Pagination, Tag} from 'antd';
 import {ProductContext} from '../Context/ProductProvider';
 import {Edit3, Trash2} from 'react-feather';
 import {withRouter} from 'react-router-dom';
@@ -32,6 +32,7 @@ const Products : React.SFC<Props> = ({history}) => {
           title: 'Unique identification',
           dataIndex: 'id',
           key: 'id',
+          render : (text : string) => <span className="text-blue-500">{text}</span>
         },
         {
           title: 'Title',
@@ -52,12 +53,34 @@ const Products : React.SFC<Props> = ({history}) => {
             title: 'Price',
             dataIndex: 'price',
             key: 'price',
-          },
+        },
+        {
+          title : 'Quantity',
+          dataIndex : 'quantity',
+          key: 'quantity'
+        },
+        {
+          title : 'Gender',
+          dataIndex : 'gender',
+          key: 'gender',
+          render : (gender : string ) => {
+              let color = gender.length > 3 ?  'geekblue' : 'green'
+              if(gender === 'Kids'){
+                color = 'volcano'
+              }
+
+              return(
+                 <Tag color={color} key={gender}> 
+                    {gender.toUpperCase()}
+                 </Tag>
+              )
+          }
+        },
         {
           title: 'Action',
           key: 'action',
           render: (items : any) => (
-            <Space size="middle" key={items.id}>
+            <Space size="middle" key="action">
               <button onClick={(event) => getUdateId(event, items.id)}><Edit3 className="text-blue-700" size="20"/></button>
               <button onClick={(event) => getDeleteId(event, items.id)}><Trash2 className="text-red-700" size="20"/></button>
             </Space>

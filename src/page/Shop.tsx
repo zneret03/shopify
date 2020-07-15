@@ -45,8 +45,11 @@ const Shop:React.SFC = () => {
                          </div>
                          <div className="px-4 py-2 font-segoe-UI">
                             <span className="block text-xs text-gray-600 mb-4">{item.purpose}</span>
-                            <span className="block text-xs uppercase tracking-wide mb-1">{item.product}</span>
-                             <span className="text-black text-gray-800">₱{item.price}</span>
+                            <span className="block text-xs text-gray-600 uppercase tracking-wide mb-1">{item.product}</span>
+                            <div className="flex items-center justify-between">
+                                <span className="text-black text-xs text-gray-800">₱{item.price}</span>
+                                <span className="block text-xs text-gray-800 uppercase">{item.gender}</span>
+                            </div>
                          </div>
                      </div>
                     ))}
