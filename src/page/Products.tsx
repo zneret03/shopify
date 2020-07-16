@@ -1,9 +1,12 @@
 import React, {useState, useContext} from 'react';
-import Header from '../components/private/Header'
-import {Table, Space, Pagination, Tag} from 'antd';
+import {Table, Space, Tag, Input} from 'antd';
 import {ProductContext} from '../Context/ProductProvider';
 import {Edit3, Trash2} from 'react-feather';
 import {withRouter} from 'react-router-dom';
+
+//Component
+import Header from '../components/private/Header'
+import {MyPagination} from '../components/private/MyPagination';
 
 interface Props {
   history : any
@@ -12,6 +15,21 @@ interface Props {
 const Products : React.SFC<Props> = ({history}) => {
 
     const {items} = useContext(ProductContext);
+
+    const [search, setSearch] = useState('');
+    // const [data, setData] = useState(items);
+
+    const onChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+      event.preventDefault();
+      // const {value} = event.target;
+
+      // setSearch(value);
+      // const filteredTable = data.filter((entry : any) => {
+      //   console.log(entry.product);
+      // });
+
+      // setData(filteredTable);
+    }
 
     const getUdateId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string) => {
       event.preventDefault();
@@ -88,44 +106,43 @@ const Products : React.SFC<Props> = ({history}) => {
         },
       ];
 
-      const pageSize : number = 6;
-
-      //getting data
-      const getData = (current : number, pageSize : number) => {
-          return  items.slice(current - 1, pageSize);
-      }
-
-      //custom pagination
-      const MyPagination = ({total, onChange, current} : any) => {
-            return(
-                <Pagination 
-                    onChange={onChange}
-                    total={total}
-                    current={current}
-                    pageSize={pageSize}
-                />
-            )
-      }
+    //Data showed to the client
+    const dataShowed : number = 5;
 
     const [current, setCurrent] = useState<number>(1);
+    
+    // get current data;
+    const indexLastData = current * dataShowed;
+    const indexOfFirstData = indexLastData - dataShowed; 
+    const currentData = items.slice(indexOfFirstData, indexLastData);
+
 
     return(
         <>
            <Header pageName={'Products'}>
-               <div className="mb-2 flex justify-end">
-                    <MyPagination 
-                        total={items.length}
-                        current={current}
-                        onChange={setCurrent}
-                    />
-               </div>
+             <div className="mb-3 text-right">
+               <Input className="max-w-xs" 
+               placeholder="Search by..."
+               name="search"
+               value={search}
+               onChange={(event) => onChange(event)}/>
+             </div>
                <div>
                     <Table 
                     className="overflow-auto"
                     columns={columns} 
-                    dataSource={getData(current, pageSize)}
-                    pagination={false}/>
+                    dataSource={currentData}
+                    pagination={false}
+                    />
                 </div>
+                <div className="mt-2 flex justify-center">
+                    <MyPagination 
+                        total={items.length}
+                        current={current}
+                        onChange={setCurrent}
+                        pageSize={dataShowed}
+                    />
+               </div>
            </Header>    
         </>
     )

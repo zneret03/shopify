@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useCallback} from 'react';
 import {Divider} from 'antd';
 import {useDropzone} from 'react-dropzone';
 import Header from './Header';
@@ -26,13 +26,19 @@ const initialState :productStateTypes = {
     gender : ''
 }
 
-
 const AddProduct: React.SFC = () => {
 
     const context = useContext(AuthContext);
     const data : object[] = [];
     data.push(context);
 
+    const [myFile, setMyFile] = useState<any[]>([]);
+
+    //put file in a state so that we have access to remove it
+    const onDrop = useCallback((acceptedFiles : any[]) => {
+        setMyFile([...myFile, ...acceptedFiles]);
+    }, [myFile])
+    
     const {
         acceptedFiles, 
         getRootProps, 
@@ -40,13 +46,23 @@ const AddProduct: React.SFC = () => {
         isDragAccept,
         isDragActive,
         isDragReject
-    } = useDropzone({accept : 'image/png'});
-
-    const files : any = acceptedFiles.map(file => (
+    } = useDropzone({accept : 'image/png', onDrop});
+    
+    //fetch file display as list
+    const files : any = myFile.map(file => (
         <li key={file.name}>
             {file.name} - {file.size}
         </li>
     ));
+
+    //remove file from state
+    const removeFile = () => {
+        if(myFile){
+            const newFiles = [...myFile]
+            newFiles.splice(newFiles.indexOf(files), 1)
+            setMyFile(newFiles)
+        }
+    }
 
       //input onChange
       const [{product, title, purpose, price, quantity, gender}, setState] = useState(initialState);
@@ -119,6 +135,7 @@ const AddProduct: React.SFC = () => {
 
                         setTimeout(() => {
                             clearState();
+                            removeFile();
                             setMessage({status : false, message : '', loading : false});
                         }, 5000)
                      }).catch((error) => {
@@ -129,6 +146,7 @@ const AddProduct: React.SFC = () => {
         }).catch((error) =>{
             console.log(error.message);
         })
+
       } 
 
     return(
