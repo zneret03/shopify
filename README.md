@@ -5,12 +5,12 @@
 - [x] Edit products with realtime product preview
 - [x] Realtime product update from Table
 - [x] Shop lists
-- [] Search Filter
-- [] Server side function Delete
-- [] Add to cart
-- [] Transaction
-- [] Inventory
-- [] Manage Sales
-- [] Sort by product name
-- [] Sort by price
+- [ ] Search Filter
+- [ ] Server side function Delete
+- [ ] Add to cart
+- [ ] Transaction
+- [ ] Inventory
+- [ ] Manage Sales
+- [ ] Sort by product name
+- [ ] Sort by price
 
