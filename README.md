@@ -5,7 +5,7 @@
 - [x] Edit products with realtime product preview
 - [x] Realtime product update from Table
 - [x] Shop lists
-- [ ] Search Filter
+- [x] Search Filter
 - [ ] Server side function Delete
 - [ ] Add to cart
 - [ ] Transaction
