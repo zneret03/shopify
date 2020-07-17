@@ -113,9 +113,8 @@ const EditProduct: React.SFC = (props : any) => {
         <>
           {message.loading && <Loading />}
            <Header pageName={'Edit Products'}>
-               <div className="flex">
-                <div className="w-1/2">
-
+               <div className="md:flex">
+                <div className="md:w-1/2">
                 <div className="flex mb-4">
                 <i className="mr-2"><ArrowLeft size="20"/></i>
                     <Link to="/dashboard/products/viewProducts">
@@ -186,7 +185,7 @@ const EditProduct: React.SFC = (props : any) => {
                         </div>  
                     </form>   
                 </div>
-                    <div className="w-1/2 flex justify-center">
+                    <div className="md:w-1/2 flex md:justify-center justify-center">
                         {item && item.map((product : any, index) => 
                         ( 
                             <div className="border mt-5 mr-2" key={index}>

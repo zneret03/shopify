@@ -44,7 +44,7 @@ export const updateProduct = app.put('/api/update/:item_id', async(request : any
     catch(error){
         return response.status(500).send(error.message);
     }
-})
+});
 
 //get all products
 export const getProduct = app.get('/api/getProduct', async(request : any, response : any) => {

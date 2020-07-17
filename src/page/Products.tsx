@@ -16,20 +16,7 @@ const Products : React.SFC<Props> = ({history}) => {
 
     const {items} = useContext(ProductContext);
 
-    const [search, setSearch] = useState('');
-    // const [data, setData] = useState(items);
-
-    const onChange = (event : React.ChangeEvent<HTMLInputElement>) => {
-      event.preventDefault();
-      // const {value} = event.target;
-
-      // setSearch(value);
-      // const filteredTable = data.filter((entry : any) => {
-      //   console.log(entry.product);
-      // });
-
-      // setData(filteredTable);
-    }
+    const [data, setDataSource] = useState<object[]>(items);
 
     const getUdateId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string) => {
       event.preventDefault();
@@ -40,9 +27,9 @@ const Products : React.SFC<Props> = ({history}) => {
 
     //const [remove, setRemove] = useState<string>('');
 
-    const getDeleteId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string) => {
+    const getDeleteId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string, imageUrl : string) => {
       event.preventDefault();
-      console.log(id);
+      console.log(({id, imageUrl}));
     }
 
     const columns = [
@@ -100,7 +87,7 @@ const Products : React.SFC<Props> = ({history}) => {
           render: (items : any) => (
             <Space size="middle" key="action">
               <button onClick={(event) => getUdateId(event, items.id)}><Edit3 className="text-blue-700" size="20"/></button>
-              <button onClick={(event) => getDeleteId(event, items.id)}><Trash2 className="text-red-700" size="20"/></button>
+              <button onClick={(event) => getDeleteId(event, items.id, items.imageUrl)}><Trash2 className="text-red-700" size="20"/></button>
             </Space>
           ),
         },
@@ -114,18 +101,25 @@ const Products : React.SFC<Props> = ({history}) => {
     // get current data;
     const indexLastData = current * dataShowed;
     const indexOfFirstData = indexLastData - dataShowed; 
-    const currentData = items.slice(indexOfFirstData, indexLastData);
-
+    const currentData = data.slice(indexOfFirstData, indexLastData);
 
     return(
         <>
            <Header pageName={'Products'}>
              <div className="mb-3 text-right">
-               <Input className="max-w-xs" 
-               placeholder="Search by..."
-               name="search"
-               value={search}
-               onChange={(event) => onChange(event)}/>
+               <Input.Search 
+               allowClear
+               className="max-w-xs" 
+               enterButton
+               placeholder="Search by product name"
+               onSearch={nameSearch => (
+                    nameSearch ? (
+                      setDataSource(data.filter((product : any) => 
+                      product.product.includes(nameSearch)))
+                    ) : (
+                      setDataSource(items)
+                    )
+                )}/>
              </div>
                <div>
                     <Table 
@@ -137,7 +131,7 @@ const Products : React.SFC<Props> = ({history}) => {
                 </div>
                 <div className="mt-2 flex justify-center">
                     <MyPagination 
-                        total={items.length}
+                        total={data.length}
                         current={current}
                         onChange={setCurrent}
                         pageSize={dataShowed}
