@@ -3,7 +3,9 @@ import {Table, Space, Tag, Input} from 'antd';
 import {ProductContext} from '../Context/ProductProvider';
 import {Edit3, Trash2} from 'react-feather';
 import {withRouter} from 'react-router-dom';
-
+import swal from 'sweetalert2';
+import {app} from '../config/firebase';
+import axios from 'axios';
 //Component
 import Header from '../components/private/Header'
 import {MyPagination} from '../components/private/MyPagination';
@@ -24,12 +26,47 @@ const Products : React.SFC<Props> = ({history}) => {
         history.push(`/dashboard/products/EditProducts?id=${id}`); 
       }
     }
+    
+    const httpRequest = (config : any) => {
 
-    //const [remove, setRemove] = useState<string>('');
+      const {id, imageUrl, result} = config;
+      axios({
+        method : 'delete',
+        url : `https://us-central1-shopify-c74df.cloudfunctions.net/deleteProducts/api/deleteProduct/${id}`,
+        headers : {'Access-Control-Allow-Origin' : '*'}
+      }).then(() => {
+        const storageRef = app.storage().refFromURL(imageUrl);
+        storageRef.delete().then(()=> {
+          if(result.value){
+            swal.fire({
+              position : 'center',
+              icon : 'success',
+              title: 'Successfully Deleted :)'
+            });
+          }
+          }).catch((error) => {
+            console.log(error.message);
+          });
+      }).catch((error) => {
+        console.log(error.message)
+      })
+    }
 
-    const getDeleteId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string, imageUrl : string) => {
+    const getDeleteId = async(event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string, imageUrl : string) => {
       event.preventDefault();
-      console.log(({id, imageUrl}));
+      swal.fire({
+        position : 'center',
+        icon : 'warning',
+        title : 'Are you sure?',
+        text : 'you wont able to revert this!',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+        showCancelButton : true
+      }).then((result)=>{
+          const config: any = {id, imageUrl, result};
+          httpRequest(config);
+      })
     }
 
     const columns = [

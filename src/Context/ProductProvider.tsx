@@ -1,5 +1,4 @@
 import React, {createContext, useEffect ,useState} from 'react';
-import {Spin} from 'antd';
 import { app } from '../config/firebase';
 interface Props { 
     children : React.ReactNode
@@ -41,10 +40,6 @@ const ProductProvider: React.SFC<Props> = ({children}) => {
                 setItems(productData);
             });
     },[])
-
-    if(items.length <= 0){
-        return <div className="h-screen w-screen flex items-center justify-center"><Spin size="large"/></div>
-    }
 
     return(
         <ProductContext.Provider value={{items}}>

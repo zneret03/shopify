@@ -6,7 +6,8 @@
 - [x] Realtime product update from Table
 - [x] Shop lists
 - [x] Search Filter
-- [ ] Server side function Delete
+- [x] Server side function Delete
+- [ ] halt process when there is duplicate product name
 - [ ] Add to cart
 - [ ] Transaction
 - [ ] Inventory

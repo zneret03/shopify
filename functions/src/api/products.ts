@@ -68,3 +68,16 @@ export const getProduct = app.get('/api/getProduct', async(request : any, respon
     });
     return response.status(200).send(result);
 });
+
+// delete Products
+export const deleteProducts = app.delete('/api/deleteProduct/:item_id', async(request : any, response : any) => {
+    try{
+        if(request.params.item_id){
+            const document = db.collection('product').doc(request.params.item_id);
+            await document.delete();
+            return response.status(200).send();
+        }
+    }catch(error){
+        return response.status(500).send(error.message);
+    }
+})
