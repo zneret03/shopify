@@ -1,9 +1,16 @@
 import { app, db  } from '../middleware/middleware'
 
-//add Product
-export const addProduct = app.post('/api/productSave', async(request : any, response : any) => {
-    const price : number = Number(request.body.price);
-    const quantity : number = Number(request.body.quantity);
+interface ProductTypes {
+    request : any,
+    response : any,
+    price : number,
+    quantity : number
+}
+
+//add Product function
+const addProductData = async(config : ProductTypes) => {
+
+    const {request, response, price, quantity} = config;
 
     return await db.collection('product').doc().create({
         uid: request.body.uid,
@@ -17,9 +24,42 @@ export const addProduct = app.post('/api/productSave', async(request : any, resp
         gender : request.body.gender
     }).then(() => {
         return response.status(200).send('successfully inserted');
-    }).catch((error : any) => {
+     }).catch((error : any) => {
         return response.status(500).send(error.message);
-    })
+    });
+
+}
+
+//add Product
+export const addProduct = app.post('/api/productSave', async(request : any, response : any) => {
+    try{
+        const price : number = Number(request.body.price);
+        const quantity : number = Number(request.body.quantity);
+
+        const document = db.collection('product');
+        return await document.get()
+        .then((docSnapshot : any) => {
+            if(docSnapshot){
+                //map through data and check if the data is already existed
+                docSnapshot.forEach((data : any) => {
+                    if(data.data().product === request.body.product){
+                        return response.send({status : true, message: 'Invalid Item'});
+                    }else{
+                        const config: ProductTypes = {request, response, price, quantity};
+                        addProductData(config).catch((error) => {
+                            return response.status(500).send(error.message);
+                        });
+                    }
+
+                });
+            } 
+        }).catch((error : any) => {
+            return response.status(500).send(error.message);
+        })
+    }catch(error){
+        return response.status(500).send(error.message);
+    }
+
 });
 
 //update products 

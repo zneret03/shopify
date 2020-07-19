@@ -129,15 +129,19 @@ const AddProduct: React.SFC = () => {
                             imageUrl : imageUrl,
                             date : date,
                             gender : gender
-                         } 
-                     }).then(() => {
-                        setMessage({status : true, message : 'Successfully Inserted', loading : false});
-
-                        setTimeout(() => {
-                            clearState();
-                            removeFile();
-                            setMessage({status : false, message : '', loading : false});
-                        }, 5000)
+                         }                                                                          
+                     }).then((response : any) => {
+                        if(response.data.status){
+                            setMessage({status : true, message : response.data.message, loading : false});
+                        }else{
+                            setMessage({status : false, message : 'Successfully Inserted', loading : false});
+                            setTimeout(() => {
+                                clearState();
+                                removeFile();
+                                setMessage({status : false, message : '', loading : false});
+                            }, 5000)
+                        }
+                       
                      }).catch((error) => {
                          console.log(error.message);
                      })
@@ -226,11 +230,9 @@ const AddProduct: React.SFC = () => {
                                 {isDragAccept && (<p className="text-center py-1 bg-green-500 rounded text-white">You got it right brotho</p>)} 
                                 {isDragReject && (<p className="text-center py-1 bg-red-500 rounded text-white">This image is not allowed</p>)
                                 }
-                                {message.status && (
-                                    <p className="text-center py-1 bg-green-500 rounded text-white">
-                                        Successfully Inserted
-                                    </p>  
-                                )}  
+                                <p className={`${message.status ? 'bg-red-500' : 'bg-green-500'} text-center py-1 rounded text-white`}>
+                                    {message.message}
+                                </p>   
                             </div>      
                         </div>
                         <aside className="mt-2">
