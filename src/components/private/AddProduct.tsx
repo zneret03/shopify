@@ -6,6 +6,7 @@ import {app} from '../../config/firebase';
 import { AuthContext } from '../../auth/AuthProvider';
 import Loading from './Loading';
 import axios from 'axios';
+import {Trash} from 'react-feather';
 
 interface productStateTypes {
     product : string,
@@ -36,7 +37,12 @@ const AddProduct: React.SFC = () => {
 
     //put file in a state so that we have access to remove it
     const onDrop = useCallback((acceptedFiles : any[]) => {
-        setMyFile([...myFile, ...acceptedFiles]);
+        if(myFile.length > 0){
+            setMessage({status : true, message : 'Invalid Approach!!!', loading : false});
+        }else{
+            setMyFile([...myFile, ...acceptedFiles]);
+        }
+
     }, [myFile])
     
     const {
@@ -49,11 +55,21 @@ const AddProduct: React.SFC = () => {
     } = useDropzone({accept : 'image/png', onDrop});
     
     //fetch file display as list
-    const files : any = myFile.map(file => (
-        <li key={file.name}>
-            {file.name} - {file.size}
-        </li>
-    ));
+    const files : any = myFile.map((file) => {
+         return (<li className="py-1 px-2 max-w-sm bg-blue-300 rounded mb-1" key={file.name}>
+            <div className="flex items-center justify-between">
+                <span className="text-white text-sm">{file.name} - {file.size}</span>
+                <button type="button" onClick={() => handleDeleteFile(myFile)}><Trash size="22" color="#FFF" className="cursor-pointer" /></button>
+            </div>
+        </li>)
+    });
+
+    //delete specific product item
+    const handleDeleteFile = (file : any) => {
+        const specific_file = [...file];
+        specific_file.length > 0 && specific_file.splice(file, 1);
+        setMyFile(specific_file);
+    }
 
     //remove file from state
     const removeFile = () => {
@@ -100,15 +116,15 @@ const AddProduct: React.SFC = () => {
       const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         // console.log({product, title, purpose, price, quantity, gender});
-        
+            
         //Load Spinner
         loadSpinner();
 
         getUserUId().then((data) => {
             acceptedFiles.map(async file => {
                 if(file){
-                    let today = new Date();
-                    let date = `${today.getMonth()} ${today.getDay()}, ${today.getFullYear()}`
+                     let today = new Date();
+                     let date = `${today.getMonth()} ${today.getDay()}, ${today.getFullYear()}`
 
                      const storageRef = app.storage().ref();  
                      const fileRef = storageRef.child(file.name);
@@ -117,7 +133,7 @@ const AddProduct: React.SFC = () => {
 
                      axios({
                          method : 'post',
-                         url : 'https://us-central1-shopify-c74df.cloudfunctions.net/addProduct/api/productSave',
+                         url : ' https://us-central1-shopify-c74df.cloudfunctions.net/addProduct/api/productSave',
                          headers : {'Access-Control-Allow-Origin' : '*'},
                          data : {
                             uid : data,
@@ -163,7 +179,7 @@ const AddProduct: React.SFC = () => {
                         <div className="mb-3">
                             <span>Product Name</span>
                             <input value={product} 
-                            required
+                            
                             name="product" onChange={(event) => onChange(event)} 
                             className="border w-full py-1 px-3 rounded" 
                             type="text"/>
@@ -171,7 +187,7 @@ const AddProduct: React.SFC = () => {
                         <div className="mb-3">
                             <span>Title</span>
                         <input value={title} 
-                        required
+                        
                         name="title" 
                         onChange={(event) => onChange(event)} 
                         className="border w-full py-1 px-3  rounded" 
@@ -181,7 +197,7 @@ const AddProduct: React.SFC = () => {
                         <div className="mb-3">
                         <span>Purpose</span>
                         <input value={purpose} 
-                        required
+                        
                         name="purpose" onChange={(event) => onChange(event)} 
                         className="border w-full py-1 px-3  rounded" 
                         type="text"/>
@@ -191,7 +207,7 @@ const AddProduct: React.SFC = () => {
                         <div className="mb-3">
                             <span>Price</span>
                             <input value={price} 
-                            required
+                            
                             pattern="[0-9]"
                             name="price" 
                             onChange={(event) => onChange(event)} 
@@ -201,7 +217,7 @@ const AddProduct: React.SFC = () => {
                         <div className="mb-3">
                             <span>Quantity</span>
                             <input value={quantity} 
-                            required
+                            
                             pattern="[0-9]"
                             name="quantity" 
                             onChange={(event) => onChange(event)} 
@@ -242,7 +258,7 @@ const AddProduct: React.SFC = () => {
                     </div>
                 <Divider />
                 <div className="flex justify-end items-end">
-                    <button className="px-4 py-1 rounded-sm bg-red-500 hover:bg-red-400 text-white">Submit</button>
+                    <button type="submit" className="px-4 py-1 rounded-sm bg-red-500 hover:bg-red-400 text-white">Submit</button>
                 </div>  
             </form>   
                 </div>
