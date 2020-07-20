@@ -7,7 +7,7 @@
 - [x] Shop lists
 - [x] Search Filter
 - [x] Server side function Delete
-- [ ] halt process when there is duplicate product name
+- [x] halt process when there is duplicate product name
 - [ ] Add to cart
 - [ ] Transaction
 - [ ] Inventory
