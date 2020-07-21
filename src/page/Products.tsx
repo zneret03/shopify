@@ -26,9 +26,8 @@ const Products : React.SFC<Props> = ({history}) => {
         history.push(`/dashboard/products/EditProducts?id=${id}`); 
       }
     }
-    
-    const httpRequest = (config : any) => {
 
+    const httpRequest = (config : any) => {
       const {id, imageUrl, result} = config;
       axios({
         method : 'delete',
@@ -138,7 +137,7 @@ const Products : React.SFC<Props> = ({history}) => {
     // get current data;
     const indexLastData = current * dataShowed;
     const indexOfFirstData = indexLastData - dataShowed; 
-    const currentData = data.slice(indexOfFirstData, indexLastData);
+    const currentData : object[] = data.slice(indexOfFirstData, indexLastData);
 
     return(
         <>
