@@ -1,6 +1,9 @@
 export const functions = require('firebase-functions');
 export const admin = require('firebase-admin');
 const serviceAccount = require('../../lib/permissions.json');
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -9,9 +12,6 @@ admin.initializeApp({
 
 export const db = admin.firestore();
 
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
 
 export const app = express();
 

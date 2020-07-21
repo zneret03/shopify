@@ -134,7 +134,7 @@ const AddProduct: React.SFC = () => {
                      axios({
                          method : 'post',
                          url : ' https://us-central1-shopify-c74df.cloudfunctions.net/addProduct/api/productSave',
-                         headers : {'Access-Control-Allow-Origin' : '*'},
+                         headers : {  'Access-Control-Allow-Origin': '*'},
                          data : {
                             uid : data,
                             product : product,
@@ -145,7 +145,7 @@ const AddProduct: React.SFC = () => {
                             imageUrl : imageUrl,
                             date : date,
                             gender : gender
-                         }                                                                          
+                         }                                                                 
                      }).then((response : any) => {
                         if(response.data.status){
                             setMessage({status : true, message : response.data.message, loading : false});
@@ -157,7 +157,6 @@ const AddProduct: React.SFC = () => {
                                 setMessage({status : false, message : '', loading : false});
                             }, 5000)
                         }
-                       
                      }).catch((error) => {
                          console.log(error.message);
                      })

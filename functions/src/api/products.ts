@@ -46,16 +46,16 @@ export const addProduct = app.post('/api/productSave', async(request : any, resp
                         return response.send({status : true, message: 'Invalid Item'});
                     }else{
                         const config: ProductTypes = {request, response, price, quantity};
-                        addProductData(config).catch((error) => {
-                            return response.status(500).send(error.message);
+                        addProductData(config).then(()=>{
+                            return response.send('Nice');
+                        }).catch((error) => {
+                            return response.send(error.message);
                         });
                     }
 
                 });
             } 
-        }).catch((error : any) => {
-            return response.status(500).send(error.message);
-        })
+        });
     }catch(error){
         return response.status(500).send(error.message);
     }

@@ -76,7 +76,7 @@ const EditProduct: React.SFC = (props : any) => {
             setMessage({status : false, message : error.message, loading : false});
         })
 
-        console.log({product,title,purpose,price,quantity});
+        // console.log({product,title,purpose,price,quantity});
       } 
 
       const [item, setItem] = useState<object[]>([]);
@@ -91,11 +91,6 @@ const EditProduct: React.SFC = (props : any) => {
                         setItem(items_array);
                     }
                 });
-
-                // const document = app.firestore().collection('product').doc(id);
-                // const item = await document.get();
-                // const result = item.data();
-                // result && items_array.push(result);
             }
       }, [id])
 

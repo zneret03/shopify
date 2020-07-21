@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {Table, Space, Tag, Input} from 'antd';
 import {ProductContext} from '../Context/ProductProvider';
 import {Edit3, Trash2} from 'react-feather';
