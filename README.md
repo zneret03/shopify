@@ -17,5 +17,4 @@
 
 ## Issue to be fix
 - [ ] remove product after delete
-- [ ] data vanishing after page refresh
 - [ ] add product even though cloud firestore is empty

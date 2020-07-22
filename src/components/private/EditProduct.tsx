@@ -75,8 +75,6 @@ const EditProduct: React.SFC = (props : any) => {
         }).catch((error) => {
             setMessage({status : false, message : error.message, loading : false});
         })
-
-        // console.log({product,title,purpose,price,quantity});
       } 
 
       const [item, setItem] = useState<object[]>([]);

@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import {Table, Space, Tag, Input} from 'antd';
 import {ProductContext} from '../Context/ProductProvider';
 import {Edit3, Trash2} from 'react-feather';
@@ -6,6 +6,7 @@ import {withRouter} from 'react-router-dom';
 import swal from 'sweetalert2';
 import {app} from '../config/firebase';
 import axios from 'axios';
+
 //Component
 import Header from '../components/private/Header'
 import {MyPagination} from '../components/private/MyPagination';
@@ -18,8 +19,6 @@ const Products : React.SFC<Props> = ({history}) => {
 
     const {items} = useContext(ProductContext);
 
-    const [data, setDataSource] = useState<object[]>(items);
-
     const getUdateId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string) => {
       event.preventDefault();
       if(id){
@@ -27,8 +26,32 @@ const Products : React.SFC<Props> = ({history}) => {
       }
     }
 
+    //to avoid data loss when parsing data
+    const [data, setDataSource] = useState(items);
+
+    //wait data to arrive
+    const getItem = () => {
+      return new Promise((resolve, reject) => {
+        if(items.length > 0){
+          resolve(items);
+        }else{
+          reject('empty item')
+        }
+      })
+    }
+
+    //if it failsto fetch re-fetch data
+    getItem().then((data : any) => {
+       if(data){
+         setDataSource(data);
+       }
+    }).catch((error) => {
+      console.log(error.message);
+    })
+
     const httpRequest = (config : any) => {
       const {id, imageUrl, result} = config;
+
       axios({
         method : 'delete',
         url : `https://us-central1-shopify-c74df.cloudfunctions.net/deleteProducts/api/deleteProduct/${id}`,
@@ -51,7 +74,7 @@ const Products : React.SFC<Props> = ({history}) => {
       })
     }
 
-    const getDeleteId = async(event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string, imageUrl : string) => {
+    const getDeleteId = async(event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : any, imageUrl : string) => {
       event.preventDefault();
       swal.fire({
         position : 'center',
@@ -63,8 +86,12 @@ const Products : React.SFC<Props> = ({history}) => {
         confirmButtonText: 'Yes, delete it!',
         showCancelButton : true
       }).then((result)=>{
-          const config: any = {id, imageUrl, result};
-          httpRequest(config);
+          if(result){
+            const config: any = {id, imageUrl, result};
+            httpRequest(config);
+          }
+          // const index = items.indexOf(items);
+          // console.log(index);
       })
     }
 
@@ -138,6 +165,10 @@ const Products : React.SFC<Props> = ({history}) => {
     const indexLastData = current * dataShowed;
     const indexOfFirstData = indexLastData - dataShowed; 
     const currentData : object[] = data.slice(indexOfFirstData, indexLastData);
+
+    if(currentData.length <= 0){
+      return <div className="h-screen w-screen flex items-center justify-center">Loading...</div>
+    }
 
     return(
         <>

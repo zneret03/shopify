@@ -15,14 +15,14 @@ const ProductProvider: React.SFC<Props> = ({children}) => {
     const [items, setItems] = useState<object[]>([]);
 
     useEffect(() => {
-            const document = app.firestore();
-            return document.collection('product').onSnapshot((onsnapshot) => {
-                const productData : object[] = []
-                onsnapshot.docs.forEach((item : any) => {
-                    productData.push({...item.data(), id : item.id});
-                })
-                setItems(productData);
-            });
+        const document = app.firestore();
+        return document.collection('product').onSnapshot((onsnapshot) => {
+            const productData : object[] = []
+            onsnapshot.docs.forEach((item : any) => {
+                productData.push({...item.data(), id : item.id});
+            })
+            setItems(productData);
+        });
     },[])
 
     return(
