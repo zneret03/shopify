@@ -123,50 +123,63 @@ const AddProduct: React.SFC = () => {
         getUserUId().then((data) => {
             acceptedFiles.map(async file => {
                 if(file){
-                     let today = new Date();
-                     let date = `${today.getMonth()} ${today.getDay()}, ${today.getFullYear()}`
-
+                    let today = new Date();
+                    let date = `${today.getMonth()} ${today.getDay()}, ${today.getFullYear()}`;
+                    
                      const storageRef = app.storage().ref();  
                      const fileRef = storageRef.child(file.name);
                      await fileRef.put(file);
-                     const imageUrl = await fileRef.getDownloadURL();
-
-                     axios({
-                         method : 'post',
-                         url : ' https://us-central1-shopify-c74df.cloudfunctions.net/addProduct/api/productSave',
-                         headers : {  'Access-Control-Allow-Origin': '*'},
-                         data : {
-                            uid : data,
-                            product : product,
-                            title : title,
-                            purpose : purpose,
-                            price : price, 
-                            quantity : quantity,
-                            imageUrl : imageUrl,
-                            date : date,
-                            gender : gender
-                         }                                                                 
-                     }).then((response : any) => {
-                        if(response.data.status){
-                            setMessage({status : true, message : response.data.message, loading : false});
-                        }else{
-                            setMessage({status : false, message : 'Successfully Inserted', loading : false});
-                            setTimeout(() => {
-                                clearState();
-                                removeFile();
-                                setMessage({status : false, message : '', loading : false});
-                            }, 5000)
+                     await fileRef.getDownloadURL().then((imageUrl) => {
+                        if(imageUrl){
+                            const config = {date, imageUrl, data, file : file.name}
+                            uploadeFileHttpsRequest(config)
                         }
                      }).catch((error) => {
                          console.log(error.message);
-                     })
+                     });
                 }
             });
         }).catch((error) =>{
             console.log(error.message);
         })
-
       } 
+
+      const uploadeFileHttpsRequest = (config : any) => {
+
+        const {date, imageUrl, data, file} = config;
+
+        axios({
+            method : 'post',
+            url : ' https://us-central1-shopify-c74df.cloudfunctions.net/addProduct/api/createProduct',
+            headers : {  'Access-Control-Allow-Origin': '*'},
+            data : {
+            uid : data,
+            fileName : file,
+            product : product,
+            title : title,
+            purpose : purpose,
+            price : price, 
+            quantity : quantity,
+            imageUrl : imageUrl,
+            date : date,
+            gender : gender
+            }                                                                 
+        }).then((response : any) => {
+        if(response){
+            setMessage({status : true, message : response.data.message, loading : false});
+
+            setMessage({status : false, message : 'Successfully Inserted', loading : false});
+            setTimeout(() => {
+                clearState();
+                removeFile();
+                setMessage({status : false, message : '', loading : false});
+            }, 5000)
+
+        }
+        }).catch((error) => {
+            console.log(error.message);
+        })
+      }
 
     return(
         <>

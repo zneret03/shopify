@@ -1,61 +1,28 @@
 import { app, db  } from '../middleware/middleware'
 
-interface ProductTypes {
-    request : any,
-    response : any,
-    price : number,
-    quantity : number
-}
-
-//add Product function
-const addProductData = async(config : ProductTypes) => {
-
-    const {request, response, price, quantity} = config;
-
-    return await db.collection('product').doc().create({
-        uid: request.body.uid,
-        product : request.body.product,
-        title : request.body.title,
-        purpose : request.body.purpose,
-        price : price,
-        quantity : quantity,
-        imageUrl : request.body.imageUrl,
-        date_created : request.body.date,
-        gender : request.body.gender
-    }).then(() => {
-        return response.status(200).send('successfully inserted');
-     }).catch((error : any) => {
-        return response.status(500).send(error.message);
-    });
-
-}
-
 //add Product
-export const addProduct = app.post('/api/productSave', async(request : any, response : any) => {
+export const addProduct = app.post('/api/createProduct', async(request : any, response : any) => {
     try{
-        const price : number = Number(request.body.price);
-        const quantity : number = Number(request.body.quantity);
+            const price : number = Number(request.body.price);
+            const quantity : number = Number(request.body.quantity);
 
-        const document = db.collection('product');
-        return await document.get()
-        .then((docSnapshot : any) => {
-            if(docSnapshot){
-                //map through data and check if the data is already existed
-                docSnapshot.forEach((data : any) => {
-                    if(data.data().product === request.body.product){
-                        return response.send({status : true, message: 'Invalid Item'});
-                    }else{
-                        const config: ProductTypes = {request, response, price, quantity};
-                        addProductData(config).then(()=>{
-                            return response.send('Nice');
-                        }).catch((error) => {
-                            return response.send(error.message);
-                        });
-                    }
+            return db.collection('product').doc().set({
+                uid: request.body.uid,
+                fileName : request.body.fileName,
+                product : request.body.product,
+                title : request.body.title,
+                purpose : request.body.purpose,
+                price : price,
+                quantity : quantity,
+                imageUrl : request.body.imageUrl,
+                date_created : request.body.date,
+                gender : request.body.gender
+            }).then(() => {
+                return response.status(200).send('successfully inserted');
+            }).catch((error : any) => {
+                return response.status(500).send(error.message);
+            });
 
-                });
-            } 
-        });
     }catch(error){
         return response.status(500).send(error.message);
     }

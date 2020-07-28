@@ -49,6 +49,7 @@ const Products : React.SFC<Props> = ({history}) => {
       console.log(error.message);
     })
 
+    //send request to back end
     const httpRequest = (config : any) => {
       const {id, imageUrl, result} = config;
 
@@ -74,7 +75,7 @@ const Products : React.SFC<Props> = ({history}) => {
       })
     }
 
-    const getDeleteId = async(event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : any, imageUrl : string) => {
+    const getDeleteId = async(event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : any, imageUrl : string, file: string) => {
       event.preventDefault();
       swal.fire({
         position : 'center',
@@ -89,6 +90,7 @@ const Products : React.SFC<Props> = ({history}) => {
           if(result){
             const config: any = {id, imageUrl, result};
             httpRequest(config);
+
           }
           // const index = items.indexOf(items);
           // console.log(index);
@@ -150,7 +152,7 @@ const Products : React.SFC<Props> = ({history}) => {
           render: (items : any) => (
             <Space size="middle" key="action">
               <button onClick={(event) => getUdateId(event, items.id)}><Edit3 className="text-blue-700" size="20"/></button>
-              <button onClick={(event) => getDeleteId(event, items.id, items.imageUrl)}><Trash2 className="text-red-700" size="20"/></button>
+              <button onClick={(event) => getDeleteId(event, items.id, items.imageUrl, items.fileName)}><Trash2 className="text-red-700" size="20"/></button>
             </Space>
           ),
         },
