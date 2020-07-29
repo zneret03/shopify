@@ -1,4 +1,4 @@
-import { app, db  } from '../middleware/middleware'
+import { app, db, storage  } from '../middleware/middleware'
 
 //add Product
 export const addProduct = app.post('/api/createProduct', async(request : any, response : any) => {

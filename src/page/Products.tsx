@@ -1,9 +1,8 @@
 import React, {useState, useContext} from 'react';
-import {Table, Space, Tag, Input} from 'antd';
+import {Table, Space, Tag, Input, Popconfirm} from 'antd';
 import {ProductContext} from '../Context/ProductProvider';
 import {Edit3, Trash2} from 'react-feather';
 import {withRouter} from 'react-router-dom';
-import swal from 'sweetalert2';
 import {app} from '../config/firebase';
 import axios from 'axios';
 
@@ -43,7 +42,7 @@ const Products : React.SFC<Props> = ({history}) => {
     //if it failsto fetch re-fetch data
     getItem().then((data : any) => {
        if(data){
-         setDataSource(data);
+          setDataSource(data);
        }
     }).catch((error) => {
       console.log(error.message);
@@ -51,7 +50,7 @@ const Products : React.SFC<Props> = ({history}) => {
 
     //send request to back end
     const httpRequest = (config : any) => {
-      const {id, imageUrl, result} = config;
+      const {id, imageUrl, file} = config;
 
       axios({
         method : 'delete',
@@ -60,13 +59,9 @@ const Products : React.SFC<Props> = ({history}) => {
       }).then(() => {
         const storageRef = app.storage().refFromURL(imageUrl);
         storageRef.delete().then(()=> {
-          if(result.value){
-            swal.fire({
-              position : 'center',
-              icon : 'success',
-              title: 'Successfully Deleted :)'
-            });
-          }
+            const storageRef = app.storage().ref();
+            const deleteRef = storageRef.child('/' + file);
+            deleteRef.delete();
           }).catch((error) => {
             console.log(error.message);
           });
@@ -75,26 +70,12 @@ const Products : React.SFC<Props> = ({history}) => {
       })
     }
 
-    const getDeleteId = async(event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : any, imageUrl : string, file: string) => {
+    const getDeleteId = async(event : any, id : any, imageUrl : string, file: string) => {
       event.preventDefault();
-      swal.fire({
-        position : 'center',
-        icon : 'warning',
-        title : 'Are you sure?',
-        text : 'you wont able to revert this!',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        showCancelButton : true
-      }).then((result)=>{
-          if(result){
-            const config: any = {id, imageUrl, result};
-            httpRequest(config);
-
-          }
-          // const index = items.indexOf(items);
-          // console.log(index);
-      })
+      if(file){
+        const config: any = {id, imageUrl, file};
+        httpRequest(config);
+      }
     }
 
     const columns = [
@@ -138,7 +119,6 @@ const Products : React.SFC<Props> = ({history}) => {
               if(gender === 'Kids'){
                 color = 'volcano'
               }
-
               return(
                  <Tag color={color} key={gender}> 
                     {gender.toUpperCase()}
@@ -152,7 +132,9 @@ const Products : React.SFC<Props> = ({history}) => {
           render: (items : any) => (
             <Space size="middle" key="action">
               <button onClick={(event) => getUdateId(event, items.id)}><Edit3 className="text-blue-700" size="20"/></button>
-              <button onClick={(event) => getDeleteId(event, items.id, items.imageUrl, items.fileName)}><Trash2 className="text-red-700" size="20"/></button>
+              <Popconfirm title="Do you want to delete?" onConfirm={(event) => getDeleteId(event, items.id, items.imageUrl, items.fileName)}>
+              <button><Trash2 className="text-red-700" size="20"/></button>
+              </Popconfirm>
             </Space>
           ),
         },
@@ -168,8 +150,9 @@ const Products : React.SFC<Props> = ({history}) => {
     const indexOfFirstData = indexLastData - dataShowed; 
     const currentData : object[] = data.slice(indexOfFirstData, indexLastData);
 
+    //set spinner if data not arrives
     if(currentData.length <= 0){
-      return <div className="h-screen w-screen flex items-center justify-center">Loading...</div>
+      return <div className="h-screen w-screen flex items-center justify-center">No data to be display :(</div>
     }
 
     return(
