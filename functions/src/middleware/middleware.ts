@@ -1,5 +1,3 @@
-import { request } from "express";
-
 export const functions = require('firebase-functions');
 export const admin = require('firebase-admin');
 const serviceAccount = require('../../lib/permissions.json');

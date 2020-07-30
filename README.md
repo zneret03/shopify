@@ -14,7 +14,3 @@
 - [ ] Manage Sales
 - [ ] Sort by product name
 - [ ] Sort by price
-
-## Issue to be fix
-- [ ] remove product after delete
-- [ ] add product even though cloud firestore is empty

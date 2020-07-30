@@ -1,12 +1,13 @@
-import { app, db, storage  } from '../middleware/middleware'
+import { app, db } from '../middleware/middleware'
 
 //add Product
 export const addProduct = app.post('/api/createProduct', async(request : any, response : any) => {
     try{
             const price : number = Number(request.body.price);
             const quantity : number = Number(request.body.quantity);
+            const firestoreDb = db.collection('product').doc();
 
-            return db.collection('product').doc().set({
+            return firestoreDb.set({
                 uid: request.body.uid,
                 fileName : request.body.fileName,
                 product : request.body.product,

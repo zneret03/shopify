@@ -173,8 +173,7 @@ const AddProduct: React.SFC = () => {
                 clearState();
                 removeFile();
                 setMessage({status : false, message : '', loading : false});
-            }, 5000)
-
+            }, 2000)
         }
         }).catch((error) => {
             console.log(error.message);
