@@ -9,6 +9,7 @@ const Home = lazy(() => import('./page/Home'));
 const Shop = lazy(() => import('./page/Shop'));
 const Dashboard = lazy(() => import('./page/Dashboard'));
 const PublicRoute = lazy(() => import('./layouts/public/PublicRoute'));
+const Collection = lazy(() => import('./components/public/Collection'));
 const PrivateRoute = lazy(() => import('./layouts/private/PrivateRoute'));
 const Products = lazy(() => import('./page/Products'));
 const addProducts = lazy(() => import('./components/private/AddProduct'))
@@ -23,6 +24,7 @@ const App:React.SFC = () => {
           <Switch>
             <PublicRoute exact={true} path="/" component={Home}/>
             <PublicRoute exact={true} path="/shop" component={Shop}/>
+            <PublicRoute exact={true} path="/shop/collection/the_merch/item" component={Collection}/>
             <PrivateRoute exact={true}  path="/dashboard" component={Dashboard}/>
             <PrivateRoute exact={true} path="/dashboard/products/viewProducts" component={Products} />
             <PrivateRoute exact={true} path="/dashboard/products/addProducts" component={addProducts} />

@@ -1,11 +1,22 @@
 import React, {useContext} from 'react';
 import {ArrowLeft, ChevronDown} from 'react-feather';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {ProductContext} from '../Context/ProductProvider';
 
-const Shop:React.SFC = () => {
+interface Props {
+    history : any
+} 
+
+const Shop:React.SFC<Props> = ({history}) => {
 
     const {items} = useContext(ProductContext);
+
+    const getProductId = (event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => {
+        event.preventDefault();
+        if(id){
+            history.push(`/shop/collection/the_merch/item?id=${id}`);
+        }
+    }
 
     return(
         <div className="font-mono text-black">
@@ -39,7 +50,9 @@ const Shop:React.SFC = () => {
                 </div> */}
                 <div className="grid grid-rows md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
                     {items.map((item : any) => (
-                    <div className="border mt-5 mr-2" key={item.uid}>
+                    <div className="border mt-5 mr-2 cursor-pointer" 
+                    key={item.id} 
+                    onClick={(event) => getProductId(event, item.id)}>
                          <div className="py-6 px-12 bg-gray-200">
                                  <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={item.imageUrl} alt=""/>
                          </div>
@@ -59,4 +72,4 @@ const Shop:React.SFC = () => {
     )
 }
 
-export default Shop;
+export default withRouter(Shop);
