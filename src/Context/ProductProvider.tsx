@@ -13,7 +13,7 @@ const ProductContext = createContext({} as IContext);
 const ProductProvider: React.SFC<Props> = ({children}) => {
 
     const [items, setItems] = useState<object[]>([]);
-
+    
     useEffect(() => {
         const document = app.firestore();
         return document.collection('product').onSnapshot((onsnapshot) => {

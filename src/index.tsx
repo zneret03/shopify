@@ -6,6 +6,7 @@ import './assets/index.css';
 import 'antd/dist/antd.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import 'react-medium-image-zoom/dist/styles.css'
 
 ReactDOM.render(
   <React.StrictMode>
