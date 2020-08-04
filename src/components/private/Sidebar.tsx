@@ -99,10 +99,10 @@ const Navbar:React.SFC = () =>{
     return(
             <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 md:block hidden bg-white h-screen overflow-auto">
                 <div className="px-6">
-                    <div>
-                    <div className="pt-6 flex justify-center">
-                        <img className="w-32 h-32 object-cover rounded-full" src={require('../../image/exampleProfile.jpg')} alt=""/>
-                    </div>
+                    <div> 
+                        <div className="pt-6 flex justify-center">
+                            <img className="w-32 h-32 object-cover rounded-full" src={require('../../image/exampleProfile.jpg')} alt=""/>
+                        </div>
                     {name ? (
                         <div  className="text-center mt-2">
                             <span className="font-bold text-lg">{`${name}`}</span>

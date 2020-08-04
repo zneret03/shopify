@@ -1,5 +1,4 @@
 import React, {useState, useContext, useCallback} from 'react';
-import {Divider} from 'antd';
 import {useDropzone} from 'react-dropzone';
 import Header from './Header';
 import {app} from '../../config/firebase';
@@ -184,13 +183,18 @@ const AddProduct: React.SFC = () => {
         <>
         {message.loading && <Loading />}
            <Header pageName={'Add Products'}>
-                <div>
-                <form onSubmit={(event) => onSubmit(event)}>
+           <p className={`${message.status ? 'bg-red-500' : 'bg-green-500'} text-center py-1 rounded text-white`}>
+                {message.message}
+            </p>  
+            <div>
+                <form className="lg:flex" onSubmit={(event) => onSubmit(event)}>
+                    {/**Start */}
+                    <div className="lg:w-1/2 mr-5">
                     <div className="grid sm:grid-cols-3 sm:gap-3">
                         <div className="mb-3">
                             <span>Product Name</span>
                             <input value={product} 
-                            
+                            required
                             name="product" onChange={(event) => onChange(event)} 
                             className="border w-full py-1 px-3 rounded" 
                             type="text"/>
@@ -198,7 +202,7 @@ const AddProduct: React.SFC = () => {
                         <div className="mb-3">
                             <span>Title</span>
                         <input value={title} 
-                        
+                        required
                         name="title" 
                         onChange={(event) => onChange(event)} 
                         className="border w-full py-1 px-3  rounded" 
@@ -208,7 +212,7 @@ const AddProduct: React.SFC = () => {
                         <div className="mb-3">
                         <span>Purpose</span>
                         <input value={purpose} 
-                        
+                        required
                         name="purpose" onChange={(event) => onChange(event)} 
                         className="border w-full py-1 px-3  rounded" 
                         type="text"/>
@@ -218,7 +222,7 @@ const AddProduct: React.SFC = () => {
                         <div className="mb-3">
                             <span>Price</span>
                             <input value={price} 
-                            
+                            required
                             pattern="[0-9]"
                             name="price" 
                             onChange={(event) => onChange(event)} 
@@ -228,7 +232,7 @@ const AddProduct: React.SFC = () => {
                         <div className="mb-3">
                             <span>Quantity</span>
                             <input value={quantity} 
-                            
+                            required
                             pattern="[0-9]"
                             name="quantity" 
                             onChange={(event) => onChange(event)} 
@@ -239,7 +243,7 @@ const AddProduct: React.SFC = () => {
                             <span>Gender</span>
                             <select name="gender" className="border w-full py-2 px-3 bg-white rounded" 
                             value={gender}
-                            onChange={(event) => onChange(event)} >
+                            onChange={(event) => onChange(event)}>
                                 <option value=""></option>
                                 <option value="Men">Men</option>
                                 <option value="Women">Women</option>
@@ -247,30 +251,34 @@ const AddProduct: React.SFC = () => {
                             </select>
                         </div>
                     </div>
+                    <div>
+                        <span>Description</span>
+                        <textarea required name="description" className="w-full border rounded px-2 py-1" cols={30} rows={7} />
+                    </div>
+                    </div>
+                    {/*end*/}
+                    <div className="lg:w-1/2">
                     <div className="mt-6">
                         <div {...getRootProps({className: 'dropzone'})}>
-                            <div className="flex items-center justify-center bg-gray-200 py-12 border-dashed border-4 cursor-pointer">
+                            <div className="flex items-center justify-center bg-gray-200 py-32 border-dashed border-4 cursor-pointer">
                                 <input {...getInputProps()}/>
                                 {!isDragActive && (<p className="text-center">Drag 'n' drop some image here, or click to select files</p>)}
                             </div>
                             <div className="mt-3">
                                 {isDragAccept && (<p className="text-center py-1 bg-green-500 rounded text-white">You got it right brotho</p>)} 
                                 {isDragReject && (<p className="text-center py-1 bg-red-500 rounded text-white">This image is not allowed</p>)
-                                }
-                                <p className={`${message.status ? 'bg-red-500' : 'bg-green-500'} text-center py-1 rounded text-white`}>
-                                    {message.message}
-                                </p>   
+                                } 
                             </div>      
                         </div>
                         <aside className="mt-2">
                             <h4>Files</h4>
                             <ul>{files}</ul>
                         </aside>
+                    </div>  
+                    <div className="flex justify-end items-end">
+                        <button type="submit" className="px-4 py-1 rounded-sm bg-red-500 hover:bg-red-400 text-white">Submit</button>
                     </div>
-                <Divider />
-                <div className="flex justify-end items-end">
-                    <button type="submit" className="px-4 py-1 rounded-sm bg-red-500 hover:bg-red-400 text-white">Submit</button>
-                </div>  
+                </div>
             </form>   
                 </div>
             </Header>
