@@ -17,7 +17,8 @@ export const addProduct = app.post('/api/createProduct', async(request : any, re
                 quantity : quantity,
                 imageUrl : request.body.imageUrl,
                 date_created : request.body.date,
-                gender : request.body.gender
+                gender : request.body.gender,
+                description : request.body.description
             }).then(() => {
                 return response.status(200).send('successfully inserted');
             }).catch((error : any) => {
@@ -44,7 +45,8 @@ export const updateProduct = app.put('/api/update/:item_id', async(request : any
             purpose : request.body.purpose,
             price : price,
             quantity : quantity,
-            gender : request.body.gender
+            gender : request.body.gender,
+            description : request.body.description
         });
 
         return response.status(200).send();

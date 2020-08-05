@@ -13,7 +13,8 @@ interface productStateTypes {
     purpose : string,
     price : number,
     quantity : number,
-    gender : string
+    gender : string,
+    description : string
 }
 
 
@@ -23,7 +24,8 @@ const initialState :productStateTypes = {
     purpose : '',
     price : 0,
     quantity : 0,
-    gender : ''
+    gender : '',
+    description : ''
 }
 
 const AddProduct: React.SFC = () => {
@@ -80,18 +82,26 @@ const AddProduct: React.SFC = () => {
     }
 
       //input onChange
-      const [{product, title, purpose, price, quantity, gender}, setState] = useState(initialState);
+      const [{product, 
+        title, 
+        purpose, 
+        price, 
+        quantity, 
+        gender, 
+        description}, 
+        setState] = useState(initialState);
+
       const [message, setMessage] = useState({status : false, message: '', loading : false});
 
       const clearState = () => {
           setState({...initialState});
       }
 
-      const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         event.preventDefault();
         const {name, value} = event.target;
         setState(prevState => ({...prevState, [name] : value}));
-      }
+        }
 
       //get UserUid
       const getUserUId = () => {
@@ -161,7 +171,8 @@ const AddProduct: React.SFC = () => {
             quantity : quantity,
             imageUrl : imageUrl,
             date : date,
-            gender : gender
+            gender : gender,
+            description
             }                                                                 
         }).then((response : any) => {
         if(response){
@@ -253,7 +264,12 @@ const AddProduct: React.SFC = () => {
                     </div>
                     <div>
                         <span>Description</span>
-                        <textarea required name="description" className="w-full border rounded px-2 py-1" cols={30} rows={7} />
+                        <textarea value={description} onChange={(event) => onChange(event)}
+                        required 
+                        name="description" 
+                        className="w-full border rounded px-2 py-1" 
+                        cols={30} 
+                        rows={7} />
                     </div>
                     </div>
                     {/*end*/}

@@ -54,6 +54,7 @@ const Navbar: React.SFC = () => {
         if(showSearch === true) return setShowSearch(false);
     }
 
+
     //** event listener when resizing the window
     useEffect(() => {
         hamburger();
@@ -120,7 +121,9 @@ const Navbar: React.SFC = () => {
                             <User className="hover:text-gray-600" 
                             onClick={(event) => openLogin(event)}/></span>
                         <Badge count={5}>
-                            <span><ShoppingCart  className="hover:text-gray-600" /></span>
+                            <Link to="/cart">
+                                <span><ShoppingCart color="#000" className="hover:text-gray-600" /></span>
+                            </Link>
                         </Badge>
                     </div>
                 </div>

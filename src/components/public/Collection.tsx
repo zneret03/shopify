@@ -77,8 +77,8 @@ const Collection: React.SFC = (props : any) => {
         </div>
         </Link>
            {item && item.map((product : any, index) => (
-                    <div className="flex" key={index}>
-                       <div className="w-1/2">
+                    <div className="lg:flex" key={index}>
+                       <div className="lg:w-1/2">
                            <div >
                            <Zoom>
                                <img className="sm:w-8/12 sm:h-8/12 object-contain mx-auto" 
@@ -87,7 +87,7 @@ const Collection: React.SFC = (props : any) => {
                            </Zoom>
                            </div>
                            </div>
-                       <div className="w-1/2 ml-5">
+                       <div className="lg:w-1/2 ml-5">
                        <form  onSubmit={(event) => submitEvent(event)}>
                            <span className="text-3xl font-bold">{product.product}</span>
                            <span className="text-xl font-bold block">₱{product.price.toLocaleString()}</span>
@@ -130,7 +130,7 @@ const Collection: React.SFC = (props : any) => {
                                </button>
                            </div>  
                            </form> 
-                           <Description />
+                           <Description description={product.description} gender={product.gender} productName={product.product}/>
                        </div> 
                     </div>
            ))}

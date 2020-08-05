@@ -7,6 +7,7 @@ import {ProductProvider} from './Context/ProductProvider';
 //components
 const Home = lazy(() => import('./page/Home'));
 const Shop = lazy(() => import('./page/Shop'));
+const Cart = lazy(() => import('./components/public/Cart'))
 const Dashboard = lazy(() => import('./page/Dashboard'));
 const PublicRoute = lazy(() => import('./layouts/public/PublicRoute'));
 const Collection = lazy(() => import('./components/public/Collection'));
@@ -24,6 +25,7 @@ const App:React.SFC = () => {
           <Switch>
             <PublicRoute exact={true} path="/" component={Home}/>
             <PublicRoute exact={true} path="/shop" component={Shop}/>
+            <PublicRoute exact={true} path="/cart" component={Cart}/>
             <PublicRoute exact={true} path="/shop/collection/the_merch/item" component={Collection}/>
             <PrivateRoute exact={true}  path="/dashboard" component={Dashboard}/>
             <PrivateRoute exact={true} path="/dashboard/products/viewProducts" component={Products} />

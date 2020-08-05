@@ -14,7 +14,8 @@ interface productStateTypes {
     purpose : string,
     price : number,
     quantity : number,
-    gender : string
+    gender : string,
+    description : string
 }
 
 const initialState : productStateTypes = {
@@ -23,18 +24,19 @@ const initialState : productStateTypes = {
     purpose : '',
     price : 0,
     quantity : 0,
-    gender : ''
+    gender : '',
+    description : ''
 }
 
 const EditProduct: React.SFC = (props : any) => {
 
       //input onChange
-      const [{product, title, purpose, price, quantity, gender}, setState] = useState(initialState);
+      const [{product, title, purpose, price, quantity, gender, description}, setState] = useState(initialState);
       const params = new URLSearchParams(props.location.search);
       const id = params.get('id');
 
       //get input onChange
-      const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         event.preventDefault();
         const {name, value} = event.target;
         setState(prevState => ({...prevState, [name] : value}));
@@ -56,7 +58,8 @@ const EditProduct: React.SFC = (props : any) => {
             purpose,
             price,
             quantity,
-            gender
+            gender,
+            description
         }
 
         loadSpinner();
@@ -153,7 +156,7 @@ const EditProduct: React.SFC = (props : any) => {
                                 className="border w-full py-1 px-3  rounded" 
                                 type="number"/>
                             </div>
-                            <div className="mb-3">
+                        <div className="mb-3">
                             <span>Gender</span>
                             {gender && (
                                    <select name="gender" className="border w-full py-2 px-3 bg-white rounded" 
@@ -166,6 +169,15 @@ const EditProduct: React.SFC = (props : any) => {
                                    </select>
                             )}  
                         </div>
+                        </div>
+                        <div className="mb-1">
+                            <span>Description</span>
+                            <textarea defaultValue={description} onChange={(event) => onChange(event)}
+                            required 
+                            name="description" 
+                            className="w-full border rounded px-2 py-1" 
+                            cols={30} 
+                            rows={3} />
                         </div>
                         {message.status ? (
                             <div className="bg-green-400 w-full rounded text-center">
@@ -182,7 +194,7 @@ const EditProduct: React.SFC = (props : any) => {
                         {item && item.map((product : any, index) => 
                         ( 
                             <div className="border mt-5 mr-2" key={index}>
-                                <div className="py-6 px-12 bg-gray-200">
+                                <div className="py-8 px-12 bg-gray-200">
                                         <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={product.imageUrl} alt=""/>
                                 </div>
                                 <div className="px-4 py-2 font-segoe-UI">
