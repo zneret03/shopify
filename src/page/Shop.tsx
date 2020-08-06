@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
-import {ArrowLeft, ChevronDown} from 'react-feather';
-import {Link, withRouter} from 'react-router-dom';
+import {ChevronDown} from 'react-feather';
+import {withRouter} from 'react-router-dom';
 import {ProductContext} from '../Context/ProductProvider';
-
+import Back from '../utils/Back';
 interface Props {
     history : any
 } 
@@ -21,12 +21,7 @@ const Shop:React.SFC<Props> = ({history}) => {
     return(
         <div className="font-mono text-black">
             <div className="container mx-auto px-6 py-8">
-                <div className="flex">
-                    <i className="mr-2"><ArrowLeft size="20"/></i>
-                    <Link to="/">
-                        <span className="uppercase tracking-widest underline font-bold text-black">Back</span>
-                    </Link>
-                </div>
+                <Back path="/"/>
                 <div className="my-8">
                     <span className="uppercase text-3xl font-bold">all products</span>
                     <span className="ml-3 text-gray-500">[{items.length}]</span>

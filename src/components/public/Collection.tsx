@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Zoom from 'react-medium-image-zoom';
-import {Link} from 'react-router-dom';
 import {app} from '../../config/firebase';
-import {ArrowLeft} from 'react-feather';
 import Description from './Description';
+import Back from '../../utils/Back';
 
 interface productInfoType {
     size : string,
@@ -70,18 +69,13 @@ const Collection: React.SFC = (props : any) => {
     return(
        <>
        <div className="container mx-auto px-20 py-10">
-       <Link to="/shop">
-       <div className="flex items-center mb-10">
-                <i className="mr-2 text-black"><ArrowLeft size="20"/></i>
-                <span className="uppercase tracking-widest underline font-bold text-black">Back</span>
-        </div>
-        </Link>
+            <Back path="/shop"/>
            {item && item.map((product : any, index) => (
                     <div className="lg:flex" key={index}>
                        <div className="lg:w-1/2">
                            <div >
                            <Zoom>
-                               <img className="sm:w-8/12 sm:h-8/12 object-contain mx-auto" 
+                               <img className="sm:w-8/12 sm:h-8/12 object-contain mx-auto"
                                src={product.imageUrl}
                                alt=""/>
                            </Zoom>
@@ -100,7 +94,7 @@ const Collection: React.SFC = (props : any) => {
                                    <option value="S">S</option>
                                    <option value="M">M</option>
                                    <option value="L">L</option>
-                                   <option value="XL">XL</option>
+                                   <option value="XL">XL</option>   
                                    <option value="2XL">2XL</option>
                                    <option value="3XL">3XL</option>
                                    <option value="4XL">4XL</option>

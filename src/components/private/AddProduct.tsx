@@ -5,7 +5,7 @@ import {app} from '../../config/firebase';
 import { AuthContext } from '../../auth/AuthProvider';
 import Loading from './Loading';
 import axios from 'axios';
-import {Trash} from 'react-feather';
+import {Trash, Plus} from 'react-feather';
 
 interface productStateTypes {
     product : string,
@@ -92,16 +92,29 @@ const AddProduct: React.SFC = () => {
         setState] = useState(initialState);
 
       const [message, setMessage] = useState({status : false, message: '', loading : false});
+      const [size, setSize] = useState<any>([]);
 
       const clearState = () => {
           setState({...initialState});
+      }
+
+      const addInputSize = (event : React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        setSize([...size, ""]);
       }
 
       const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         event.preventDefault();
         const {name, value} = event.target;
         setState(prevState => ({...prevState, [name] : value}));
-        }
+      }
+
+      const sizeOnChange = (event : React.ChangeEvent<HTMLInputElement>, index : number) => {
+          event.preventDefault();
+          size[index] = event.target.value;
+          //setting all the change event from input
+          setSize([...size]);
+      }
 
       //get UserUid
       const getUserUId = () => {
@@ -124,7 +137,7 @@ const AddProduct: React.SFC = () => {
 
       const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // console.log({product, title, purpose, price, quantity, gender});
+        // console.log({product, title, purpose, price, quantity, gender, description, size});
             
         //Load Spinner
         loadSpinner();
@@ -172,7 +185,8 @@ const AddProduct: React.SFC = () => {
             imageUrl : imageUrl,
             date : date,
             gender : gender,
-            description
+            description,
+            size
             }                                                                 
         }).then((response : any) => {
         if(response){
@@ -262,6 +276,20 @@ const AddProduct: React.SFC = () => {
                             </select>
                         </div>
                     </div>
+                    <div className="grid sm:grid-cols-3 sm:gap-3">
+                        {size.map((size : any, index : number)=> {
+                           return (
+                            <div className="mb-3" key={index}>
+                                <input value={size} 
+                                required
+                                name="size" onChange={(event) => sizeOnChange(event, index)} 
+                                className="border w-full py-1 px-3 rounded" 
+                                placeholder="size"
+                                type="text"/>
+                            </div>
+                           )
+                        })}
+                    </div>
                     <div>
                         <span>Description</span>
                         <textarea value={description} onChange={(event) => onChange(event)}
@@ -270,6 +298,12 @@ const AddProduct: React.SFC = () => {
                         className="w-full border rounded px-2 py-1" 
                         cols={30} 
                         rows={7} />
+                    </div>
+                    <div className="flex justify-end items-end mt-3">
+                        <button type="button" onClick={(event) => addInputSize(event)}
+                        className="px-1 py-1 rounded-full bg-red-500 hover:bg-red-400 text-white">
+                            <Plus size="20"/>
+                        </button>
                     </div>
                     </div>
                     {/*end*/}

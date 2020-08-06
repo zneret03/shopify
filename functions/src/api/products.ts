@@ -18,7 +18,8 @@ export const addProduct = app.post('/api/createProduct', async(request : any, re
                 imageUrl : request.body.imageUrl,
                 date_created : request.body.date,
                 gender : request.body.gender,
-                description : request.body.description
+                description : request.body.description,
+                size : request.body.size
             }).then(() => {
                 return response.status(200).send('successfully inserted');
             }).catch((error : any) => {
