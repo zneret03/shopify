@@ -96,12 +96,17 @@ const AddProduct: React.SFC = () => {
 
       const clearState = () => {
           setState({...initialState});
+          setSize([]);
       }
 
       const addInputSize = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         setSize([...size, ""]);
       }
+
+    //   const removeInputSize = (event : React.MouseEvent<HTMLButtonElement>, index : number) => {
+    //       event.preventDefault();
+    //   }
 
       const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         event.preventDefault();
@@ -191,7 +196,6 @@ const AddProduct: React.SFC = () => {
         }).then((response : any) => {
         if(response){
             setMessage({status : true, message : response.data.message, loading : false});
-
             setMessage({status : false, message : 'Successfully Inserted', loading : false});
             setTimeout(() => {
                 clearState();
@@ -284,6 +288,7 @@ const AddProduct: React.SFC = () => {
                                 required
                                 name="size" onChange={(event) => sizeOnChange(event, index)} 
                                 className="border w-full py-1 px-3 rounded" 
+                                maxLength={1}
                                 placeholder="size"
                                 type="text"/>
                             </div>

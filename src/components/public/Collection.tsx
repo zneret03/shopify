@@ -88,17 +88,14 @@ const Collection: React.SFC = (props : any) => {
                            <div className="flex mt-5">
                              <div className="w-full">
                              <span>Size</span>
-                             <select name="size" onChange={(event) => setSize(event.target.value)} 
-                             className="border py-2 px-2 w-full bg-white">
-                                   <option value=""></option>
-                                   <option value="S">S</option>
-                                   <option value="M">M</option>
-                                   <option value="L">L</option>
-                                   <option value="XL">XL</option>   
-                                   <option value="2XL">2XL</option>
-                                   <option value="3XL">3XL</option>
-                                   <option value="4XL">4XL</option>
-                               </select>
+                                 <select name="size" onChange={(event) => setSize(event.target.value)} 
+                                 className="border py-2 px-2 w-full bg-white">
+                                      {product.size.map((size : any) => (
+                                        <>
+                                            <option value={size}>{size}</option>
+                                        </>
+                                        ))}
+                                   </select>
                              </div>
                              <div className="w-full pl-8">
                              <span>Quantity</span>
