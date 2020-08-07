@@ -1,5 +1,31 @@
 import { app, db } from '../middleware/middleware'
 
+export const cart = app.post('/api/cart', async(request : any, response : any) => {
+    try{
+        const total : number = Number(request.body.Subtotal);
+        const quantity : number = Number(request.body.Totalquantity);
+
+        const firestoreDb = db.collection('Cart').doc();
+
+        return firestoreDb.set({
+            productId : request.body.productId,
+            imageUrl : request.body.imageUrl,
+            purpose : request.body.purpose,
+            productName : request.body.productName,
+            Subtotal : total,
+            Totalquantity : quantity,
+            gender : request.body.gender,
+            status : request.body.status
+        }).then(() => {
+            return response.status(200).send('Successfully added to cart');
+        }).catch((error : any) => {
+            return response.status(500).send(error.message);
+        });
+    }catch(error){
+        return response.status(500).send(error.message);
+    }
+})
+
 //add Product
 export const addProduct = app.post('/api/createProduct', async(request : any, response : any) => {
     try{

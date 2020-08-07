@@ -7,10 +7,10 @@ import {ProductProvider} from './Context/ProductProvider';
 //components
 const Home = lazy(() => import('./page/Home'));
 const Shop = lazy(() => import('./page/Shop'));
-const Cart = lazy(() => import('./components/public/Cart'))
+const Cart = lazy(() => import('./page/Cart'))
 const Dashboard = lazy(() => import('./page/Dashboard'));
 const PublicRoute = lazy(() => import('./layouts/public/PublicRoute'));
-const Collection = lazy(() => import('./components/public/Collection'));
+const Collection = lazy(() => import('./page/Collection'));
 const PrivateRoute = lazy(() => import('./layouts/private/PrivateRoute'));
 const Products = lazy(() => import('./page/Products'));
 const addProducts = lazy(() => import('./components/private/AddProduct'))

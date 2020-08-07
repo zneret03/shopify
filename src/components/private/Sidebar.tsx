@@ -16,17 +16,16 @@ import {
 import {Divider} from 'antd';
 import {Link} from 'react-router-dom';
 
+export const signOut = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    event.preventDefault();
+    app.auth().signOut();
+}
+
 const Navbar:React.SFC = () =>{
 
     const currentUser : any = useContext(AuthContext);
     const data : object[] = []
     data.push(currentUser)
-
-
-    const signOut = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-        event.preventDefault();
-        app.auth().signOut();
-    }
 
     //Main toggle
     const [menu, setMenu] = useState<boolean>(false);

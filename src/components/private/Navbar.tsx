@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import {Menu} from 'react-feather';
+import {signOut} from './Sidebar';
 const Navbar:React.SFC = () => {
 
     const [responsive, setResponsive] = useState<boolean>(false);
@@ -63,7 +64,7 @@ const Navbar:React.SFC = () => {
                                  </ul>
                              </div>
                              <span className="mr-5 cursor-pointer">Settings</span>
-                             <span className="mr-5 cursor-pointer">Logout </span>
+                             <span className="mr-5 cursor-pointer" onClick={signOut}>Logout </span>
                          </div>
                         ) : (
                             <div>                                                                                                     

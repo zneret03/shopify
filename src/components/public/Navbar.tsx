@@ -1,11 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Search, ShoppingCart, User, Menu} from 'react-feather'
 import {Link} from 'react-router-dom';
 import {Badge} from 'antd'
-
+import {CartContext} from '../../Context/CartProvider';
 import SearchItem from './SearchItem';
 import Login from '../Forms/Login';
 const Navbar: React.SFC = () => {
+
+
+    //context api 
+    const {cartItems} = useContext(CartContext);
 
     //** open login modal
     const [login, setLogin] = useState(false);
@@ -120,7 +124,7 @@ const Navbar: React.SFC = () => {
                             <span className="mr-5 md:block hidden">
                             <User className="hover:text-gray-600" 
                             onClick={(event) => openLogin(event)}/></span>
-                        <Badge count={5}>
+                        <Badge count={cartItems.length}>
                             <Link to="/cart">
                                 <span><ShoppingCart color="#000" className="hover:text-gray-600" /></span>
                             </Link>

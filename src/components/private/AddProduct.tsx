@@ -5,7 +5,7 @@ import {app} from '../../config/firebase';
 import { AuthContext } from '../../auth/AuthProvider';
 import Loading from './Loading';
 import axios from 'axios';
-import {Trash, Plus} from 'react-feather';
+import {Trash} from 'react-feather';
 
 interface productStateTypes {
     product : string,
@@ -99,14 +99,30 @@ const AddProduct: React.SFC = () => {
           setSize([]);
       }
 
-      const addInputSize = (event : React.MouseEvent<HTMLButtonElement>) => {
+      //removing and adding input fields dynamically
+      const buttonEventHandle = (event : any) => {
         event.preventDefault();
-        setSize([...size, ""]);
-      }
 
-    //   const removeInputSize = (event : React.MouseEvent<HTMLButtonElement>, index : number) => {
-    //       event.preventDefault();
-    //   }
+        //get all the data in array
+        const sizeArr = [...size];
+        if(event.target.id === "decrementInputs"){
+            if (size.length !== 0) {
+                //remove data 1 by 1
+                sizeArr.splice(size, 1);
+                setMessage({status : false, message : '', loading : false});
+                setSize(sizeArr);
+              }
+        }
+
+        if(event.target.id === "incrementInput"){
+            if(size.length < 6){
+                setSize([...size, ""]);
+            }else{
+                setMessage({status : true, message : 'Not more than 6 inputs', loading : false});
+            }
+        }
+        
+      }
 
       const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         event.preventDefault();
@@ -280,16 +296,15 @@ const AddProduct: React.SFC = () => {
                             </select>
                         </div>
                     </div>
-                    <div className="grid sm:grid-cols-3 sm:gap-3">
+                    <div className="grid sm:grid-cols-6 sm:gap-3">
                         {size.map((size : any, index : number)=> {
                            return (
-                            <div className="mb-3" key={index}>
-                                <input value={size} 
+                            <div className="mb-3 relative" key={index}><input value={size} 
                                 required
                                 name="size" onChange={(event) => sizeOnChange(event, index)} 
-                                className="border w-full py-1 px-3 rounded" 
-                                maxLength={1}
-                                placeholder="size"
+                                className="border w-full py-1 px-3 rounded uppercase" 
+                                maxLength={2}
+                                placeholder="Size"
                                 type="text"/>
                             </div>
                            )
@@ -305,9 +320,13 @@ const AddProduct: React.SFC = () => {
                         rows={7} />
                     </div>
                     <div className="flex justify-end items-end mt-3">
-                        <button type="button" onClick={(event) => addInputSize(event)}
-                        className="px-1 py-1 rounded-full bg-red-500 hover:bg-red-400 text-white">
-                            <Plus size="20"/>
+                    <button  id="decrementInputs" onClick={(event) => buttonEventHandle(event)}
+                        className={`${size.length > 0 ? 'block' : 'hidden'} px-3 py-1 rounded-full bg-red-500 hover:bg-red-400 text-white mr-2`}> 
+                            -
+                        </button>
+                        <button  id="incrementInput" onClick={(event) => buttonEventHandle(event)}
+                        className="px-3 py-1 rotate-45 rounded-full bg-red-500 hover:bg-red-400 text-white">
+                           +
                         </button>
                     </div>
                     </div>

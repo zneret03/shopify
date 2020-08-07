@@ -14,3 +14,7 @@
 - [ ] Manage Sales
 - [ ] Sort by product name
 - [ ] Sort by price
+
+## Issue
+- [ ] Sum all items in Cart
+- [ ] Notification if there is no product there is no notification
