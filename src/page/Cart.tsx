@@ -2,19 +2,38 @@ import React, {useContext, useState} from 'react';
 import {Divider} from 'antd';
 import Back from '../utils/Back';
 import {CartContext} from '../Context/CartProvider';
+import {withRouter} from 'react-router-dom';
+import {totalAmount} from '../utils/TotalAmount';
 
+interface PropsType {
+    history : any
+}
 
+const Cart : React.SFC<PropsType> = ({history}) => {
 
-const Cart : React.SFC = () => {
     const {cartItems} = useContext(CartContext);
-    const [subTotal, setSubTotal] = useState<number>(0);
+    const [subTotal, setSubTotal] = useState(0);
+    const productTotalAmount = totalAmount(cartItems);
 
-    cartItems.forEach((item : any) => {
-        item.Subtotal += item.Subtotal;
-        console.log(item.Subtotal.toLocaleString());
+    productTotalAmount.then((amount : any)=>{
+        if(amount){
+            setSubTotal(amount);
+        }
+    }).catch((error) => {
+        setSubTotal(0);
+        console.log(error.message);
     })
 
+
+    const openCheckOut = (event : React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        if(subTotal){
+            history.push('/cart/checkOut');
+        }
+    }
+
     return(
+        <>
         <div className="container mx-auto px-3">
             <div className="md:flex md:justify-between py-8">
                     <div>
@@ -32,7 +51,7 @@ const Cart : React.SFC = () => {
                                             <span className="block text-xs text-gray-600 mb-4">{items.purpose}</span>
                                             <div className="rounded-full bg-gray-500 h-2 w-2 mt-2" style={{backgroundColor: items.status}}></div>
                                         </div>
-                                            <span className="block text-xs text-gray-600 uppercase tracking-wide mb-1">{items.product}</span>
+                                            <span className="block text-xs   text-gray-600 uppercase tracking-wide mb-1">{items.productName}</span>
                                             <div className="flex items-center justify-between">
                                                 <span className="text-black text-xs text-gray-800">₱{items.Subtotal.toLocaleString()}</span>
                                                 <span className="block text-xs text-gray-800 uppercase">{items.gender}</span>
@@ -48,15 +67,19 @@ const Cart : React.SFC = () => {
                         <Divider />
                             <div className="flex justify-between">
                                 <span>Subtotal</span>
-                                <span>₱</span>
+                                <span>₱{subTotal.toLocaleString()}</span>
                             </div>
                        <div className="text-center mt-10">
-                        <button className="border py-3 w-full rounded-full text-lg hover:bg-gray-300 hover:text-white">Check out</button>
+                        <button onClick={(event) => openCheckOut(event)}
+                        className="border py-3 w-full rounded-full text-lg hover:bg-gray-300 hover:text-white">
+                            Check out
+                        </button>
                        </div>
                     </div>
             </div>
         </div>
+        </>
     )
 }
 
-export default Cart;
+export default withRouter(Cart);
