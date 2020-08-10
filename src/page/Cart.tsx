@@ -3,7 +3,7 @@ import {Divider} from 'antd';
 import Back from '../utils/Back';
 import {CartContext} from '../Context/CartProvider';
 import {withRouter} from 'react-router-dom';
-import {totalAmount} from '../utils/TotalAmount';
+import {pendingItems} from '../utils/PendingItems';
 
 interface PropsType {
     history : any
@@ -13,9 +13,21 @@ const Cart : React.SFC<PropsType> = ({history}) => {
 
     const {cartItems} = useContext(CartContext);
     const [subTotal, setSubTotal] = useState(0);
-    const productTotalAmount = totalAmount(cartItems);
+    const pending = pendingItems(cartItems);
 
-    productTotalAmount.then((amount : any)=>{
+    const totalAmount = () => {
+        return new Promise((resolve, reject)=>{
+            if(cartItems){
+                    const total = pending.reduce((a : any, b : any) => a + b.Subtotal, 0);
+                    resolve(total);
+            }else{  
+                reject('No amount gettting');
+            }
+        })
+    }
+    
+
+    totalAmount().then((amount : any)=>{
         if(amount){
             setSubTotal(amount);
         }

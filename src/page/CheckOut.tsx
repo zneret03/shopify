@@ -2,15 +2,40 @@ import React, {useContext, useState} from 'react';
 import {Divider} from 'antd';
 import Back from '../utils/Back';
 import {CartContext} from '../Context/CartProvider';
-import {totalAmount} from '../utils/TotalAmount';
+import {pendingItems} from '../utils/PendingItems';
+
+interface itemTypes { 
+    firstName : string,
+    lastName : string,
+    email : string,
+    address : string
+}
+
+const itemsObject : itemTypes = {
+    firstName : '',
+    lastName : '',
+    email : '',
+    address : ''
+}
 
 const CheckOut : React.SFC = () => {
 
     const {cartItems} = useContext(CartContext);
     const [subTotal, setSubTotal] = useState(0);
-    const productTotalAmount = totalAmount(cartItems);
-
-    productTotalAmount.then((amount : any)=>{
+    const pending = pendingItems(cartItems);
+    
+    const totalAmount = () => {
+        return new Promise((resolve, reject)=>{
+            if(cartItems){
+                    const total = pending.reduce((a : any, b : any) => a + b.Subtotal, 0);
+                    resolve(total);
+            }else{  
+                reject('No amount gettting');
+            }
+        })
+    }
+    
+    totalAmount().then((amount : any)=>{
         if(amount){
             setSubTotal(amount);
         }
@@ -19,6 +44,20 @@ const CheckOut : React.SFC = () => {
         console.log(error.message);
     })
 
+
+    const [{firstName, lastName, email, address}, setState] = useState(itemsObject);
+
+    const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        event.preventDefault();
+        const {name, value} = event.target;
+        setState(prevState => ({...prevState, [name] : value}));
+    }
+
+    const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log({firstName, lastName, email, address, subTotal});
+    }
+
     return(
         <div className="container mx-auto px-10 py-6">
             <div className="text-center my-5">
@@ -26,27 +65,43 @@ const CheckOut : React.SFC = () => {
             </div>
             <div className="md:flex md:justify-between">
                <div className="w-full mb-2">
-                <form className="shadow py-6 px-6 md:mr-6">
+                <form onSubmit={(event) => onSubmit(event)} className="shadow py-6 px-6 md:mr-6">
                     <Back path="/cart"/>
                     <h1 className="text-2xl">Billing Address</h1>
                     <div>
                         <div className="mb-2 grid sm:grid-cols-2 sm:gap-2">
                             <div className="mr-2">
-                                <span className="mr-3 block">Full Name</span>
-                                <input type="text" className="border py-1 rounded px-2 w-full"/>
+                                <span className="mr-3 block">First Name</span>
+                                <input type="text" 
+                                value={firstName} 
+                                name="firstName" 
+                                onChange={(event) => onChange(event)}
+                                className="border py-1 rounded px-2 w-full"/>
                             </div>
                             <div>
                                 <span className="mr-3 text-sm block">Last Name</span>
-                                <input type="text" className="border py-1 rounded px-2 w-full"/>
+                                <input type="text" 
+                                value={lastName} 
+                                name="lastName" 
+                                onChange={(event) => onChange(event)}
+                                className="border py-1 rounded px-2 w-full"/>
                             </div>
                         </div>
                             <div className="mb-2">
                                 <span className="text-sm block">Email</span>
-                                <input type="text" className="border py-1 rounded w-full px-2"/>
+                                <input type="email" 
+                                value={email} 
+                                name="email" 
+                                onChange={(event) => onChange(event)}
+                                className="border py-1 rounded w-full px-2"/>
                             </div>
                         <div className="mb-2">
                                 <span className="mr-3 text-sm block">Address</span>
-                                <input type="text" className="border py-1 rounded w-full px-2"/>
+                                <input type="text" 
+                                value={address} 
+                                name="address" 
+                                onChange={(event) => onChange(event)}
+                                className="border py-1 rounded w-full px-2"/>
                         </div>
                         <div className="grid sm:grid-cols-3 sm:gap-1">
                             <div className="mr-2">
@@ -71,11 +126,12 @@ const CheckOut : React.SFC = () => {
                 </div>
                 <div className="md:w-1/2">
                     <div className="shadow px-5 py-4">
-                         <div className="my-5">
-                            <span className="text-2xl text-black">Your cart</span>
+                         <div className="my-5 flex justify-between items-center">
+                             <div><span className="text-2xl text-black">Your cart</span></div>
+                            <div><span className="bg-gray-400 py-2 px-3 rounded-full text-white font-bold">{pending.length}</span></div>
                         </div>
-                        {cartItems.map((items : any) => (
-                            <>
+                        {pending.map((items : any) => (
+                            <div className={`${items.status === "#ff4444" ? "block" : "hidden"}`}>
                             <div className="flex items-center justify-between overflow-auto">
                                 <div>
                                     <span className="font-bold text-lg">{items.productName}</span>
@@ -86,7 +142,7 @@ const CheckOut : React.SFC = () => {
                                 </div>
                             </div>
                             <Divider />
-                            </>
+                            </div>
                         ))}
                         <div className="text-right flex items-center justify-between">
                             <span className="text-lg font-bold">Total</span>
