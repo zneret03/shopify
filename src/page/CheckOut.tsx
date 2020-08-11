@@ -3,6 +3,7 @@ import {Divider} from 'antd';
 import Back from '../utils/Back';
 import {CartContext} from '../Context/CartProvider';
 import {pendingItems} from '../utils/PendingItems';
+import {GetRegion, GetProvince} from '../utils/RegionProvince';
 
 interface itemTypes { 
     firstName : string,
@@ -58,6 +59,13 @@ const CheckOut : React.SFC = () => {
         console.log({firstName, lastName, email, address, subTotal});
     }
 
+    const [activeRegion, setActiveRegion] = useState('NCR');
+
+    const activeRegionOnChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
+        event.preventDefault();
+        setActiveRegion(event.target.value);
+    }
+
     return(
         <div className="container mx-auto px-10 py-6">
             <div className="text-center my-5">
@@ -105,12 +113,14 @@ const CheckOut : React.SFC = () => {
                         </div>
                         <div className="grid sm:grid-cols-3 sm:gap-1">
                             <div className="mr-2">
-                                <span className="text-sm block">Country</span>
-                                <input type="text" className="border py-1 rounded w-full"/>
+                                <span className="text-sm block">Regions</span>
+                                <GetRegion 
+                                onChange={(event) => activeRegionOnChange(event)} 
+                                value={activeRegion}/>
                             </div>
                             <div className="mr-2">
-                                <span className="text-sm block">State</span>
-                                <input type="text" className="border py-1 rounded w-full"/>
+                                <span className="text-sm block">Province</span>
+                                <GetProvince region={activeRegion}/>
                             </div>
                             <div>
                                 <span className="text-sm block">Zipcode</span>
