@@ -9,14 +9,16 @@ interface itemTypes {
     firstName : string,
     lastName : string,
     email : string,
-    address : string
+    address : string,
+    zipcode : string
 }
 
 const itemsObject : itemTypes = {
     firstName : '',
     lastName : '',
     email : '',
-    address : ''
+    address : '',
+    zipcode : ''
 }
 
 const CheckOut : React.SFC = () => {
@@ -43,10 +45,12 @@ const CheckOut : React.SFC = () => {
     }).catch((error) => {
         setSubTotal(0);
         console.log(error.message);
-    })
+    });
 
 
-    const [{firstName, lastName, email, address}, setState] = useState(itemsObject);
+    const [{firstName, lastName, email, address, zipcode}, setState] = useState(itemsObject);
+    const [activeRegion, setActiveRegion] = useState('NCR');
+    const [province, setProvince] = useState('');
 
     const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         event.preventDefault();
@@ -56,14 +60,7 @@ const CheckOut : React.SFC = () => {
 
     const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log({firstName, lastName, email, address, subTotal});
-    }
-
-    const [activeRegion, setActiveRegion] = useState('NCR');
-
-    const activeRegionOnChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
-        event.preventDefault();
-        setActiveRegion(event.target.value);
+        console.log({firstName, lastName, email, address, subTotal, activeRegion, province, zipcode , pending});
     }
 
     return(
@@ -115,16 +112,19 @@ const CheckOut : React.SFC = () => {
                             <div className="mr-2">
                                 <span className="text-sm block">Regions</span>
                                 <GetRegion 
-                                onChange={(event) => activeRegionOnChange(event)} 
+                                onChange={(event) => setActiveRegion(event.target.value)} 
                                 value={activeRegion}/>
                             </div>
                             <div className="mr-2">
                                 <span className="text-sm block">Province</span>
-                                <GetProvince region={activeRegion}/>
+                                <GetProvince region={activeRegion} 
+                                onChange={(event) => setProvince(event.target.value)} 
+                                value={province}/>
                             </div>
                             <div>
                                 <span className="text-sm block">Zipcode</span>
-                                <input type="text" className="border py-1 rounded w-full"/>
+                                <input type="text" value={zipcode} name="zipcode" 
+                                className="border py-1 px-2 rounded w-full" onChange={(event) => onChange(event)}/>
                             </div>
                         </div>
                     </div>
