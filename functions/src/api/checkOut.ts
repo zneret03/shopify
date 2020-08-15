@@ -1,22 +1,43 @@
-import { app, db } from '../middleware/middleware'
+import { app, db, functions } from '../middleware/middleware'
 
-// export const updateCartItems = functions.firestore.document('Cart/{cartId}').onCreate(async(snap : any, context : any)=> {
-//     const newValues = snap.after.data();
-//     const previousValues = snap.before.data();
+export const updateCartItems = functions.firestore.document('Cart/{cartId}').onUpdate(async(snap : any, context : any)=> {
+    const newValues = snap.after.data();
+    const previousValues = snap.before.data();
 
-//     let updatePromises : any = [];
+    const updatePromises : any = [];
 
-//     if(newValues.status !== previousValues.status){
-//         const snapshot = await db.collection('Transaction').where('status', '==', previousValues.status);
+    if(newValues.status !== previousValues.status){
+        const snapshot = await db.collection('transaction').where('status', '==', previousValues.status).get();
 
-//         snapshot.forEach((doc : any) => {
-//             updatePromises.push(db.collection('Transaction').doc(doc.id).update({status : '#33ff99'}));
-//         });
-//     }
+        snapshot.forEach((doc : any) => {
+            updatePromises.push(db.collection('transaction').doc(doc.id).update({status : newValues.status}));
+        });
+    }
 
-//     await Promise.all(updatePromises);
-// });
+    await Promise.all(updatePromises);
+});
 
 export const checkOut = app.post('/api/checkOut/items', async(request : any, response : any) =>  {
-    return 
+    try {
+        const subTotal = Number(request.body.subTotal);
+        const document = db.collection('transaction').doc();
+
+        return document.set({
+            firstName : request.body.firstNameb,
+            lastName : request.body.lastName,
+            email : request.body.email,
+            address : request.body.address,
+            subTotal : subTotal,
+            region : request.body.activeRegion,
+            province : request.body.province,
+            zipcode : request.body.zipcode,
+            itemsCheckout : request.body.pending
+        }).then(() => {
+            return response.status(200).send('Thank you for shopping :)');
+        }).catch((error : any) => {
+            return response.status(500).send(error.message);
+        });
+    } catch (error) {
+        return response.status(500).send(error.message);
+    }
 });

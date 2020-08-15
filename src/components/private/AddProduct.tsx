@@ -193,21 +193,21 @@ const AddProduct: React.SFC = () => {
 
         axios({
             method : 'post',
-            url : ' https://us-central1-shopify-c74df.cloudfunctions.net/addProduct/api/createProduct',
+            url : 'https://us-central1-shopify-c74df.cloudfunctions.net/addProduct/api/createProduct',
             headers : {  'Access-Control-Allow-Origin': '*'},
             data : {
-            uid : data,
-            fileName : file,
-            product : product,
-            title : title,
-            purpose : purpose,
-            price : price, 
-            quantity : quantity,
-            imageUrl : imageUrl,
-            date : date,
-            gender : gender,
-            description,
-            size
+                uid : data,
+                fileName : file,
+                product : product,
+                title : title,
+                purpose : purpose,
+                price : price, 
+                quantity : quantity,
+                imageUrl : imageUrl,
+                date : date,
+                gender : gender,
+                description,
+                size
             }                                                                 
         }).then((response : any) => {
         if(response){

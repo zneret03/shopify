@@ -4,7 +4,7 @@ import Back from '../utils/Back';
 import {CartContext} from '../Context/CartProvider';
 import {withRouter} from 'react-router-dom';
 import {pendingItems} from '../utils/PendingItems';
-
+import {app} from '../config/firebase';
 interface PropsType {
     history : any
 }
@@ -26,7 +26,6 @@ const Cart : React.SFC<PropsType> = ({history}) => {
         })
     }
     
-
     totalAmount().then((amount : any)=>{
         if(amount){
             setSubTotal(amount);
@@ -34,13 +33,27 @@ const Cart : React.SFC<PropsType> = ({history}) => {
     }).catch((error) => {
         setSubTotal(0);
         console.log(error.message);
-    })
+    });
 
-
+    //Click checkout button redirect to Checkout form
     const openCheckOut = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         if(subTotal){
             history.push('/cart/checkOut');
+        }
+    }
+
+    //Delete items
+    const deleteCartItems = async(event: React.MouseEvent<HTMLButtonElement>, id : string) => {
+        event.preventDefault();
+
+        try {
+            if(id){
+                const document = app.firestore().collection('Cart').doc(id);
+                await document.delete();
+            }
+        } catch (error) {
+            console.log(error.message);
         }
     }
 
@@ -55,7 +68,10 @@ const Cart : React.SFC<PropsType> = ({history}) => {
                             <div className="grid grid-rows gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                 {cartItems.map((items : any, index : number) => (
                                     <div className={`${items.status === "#ff4444" ? 'block' : 'hidden'} border`} key={index}>
-                                        <div className="bg-gray-200 py-6 px-6">
+                                        <div className="bg-gray-200 py-6 px-6 relative">
+                                            <div className="absolute top-0 right-0 px-2">
+                                                <button onClick={(event) => deleteCartItems(event, items.id)}>x</button>
+                                            </div>
                                             <img className="w-40 h-40 object-contain mx-auto" src={items.imageUrl} alt=""/>
                                         </div>
                                         <div className="px-4 py-2 font-segoe-UI">

@@ -4,6 +4,7 @@ import Back from '../utils/Back';
 import {CartContext} from '../Context/CartProvider';
 import {pendingItems} from '../utils/PendingItems';
 import {GetRegion, GetProvince} from '../utils/RegionProvince';
+import axios from 'axios';
 
 interface itemTypes { 
     firstName : string,
@@ -50,7 +51,7 @@ const CheckOut : React.SFC = () => {
 
     const [{firstName, lastName, email, address, zipcode}, setState] = useState(itemsObject);
     const [activeRegion, setActiveRegion] = useState('NCR');
-    const [province, setProvince] = useState('');
+    const [province, setProvince] = useState('Metro Manila');
 
     const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         event.preventDefault();
@@ -60,7 +61,28 @@ const CheckOut : React.SFC = () => {
 
     const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log({firstName, lastName, email, address, subTotal, activeRegion, province, zipcode , pending});
+        //console.log({firstName, lastName, email, address, subTotal, activeRegion, province, zipcode , pending});
+
+        axios({
+           method : 'post', 
+           url : 'https://us-central1-shopify-c74df.cloudfunctions.net/checkOut/api/checkOut/items',
+           headers : { 'Access-Control-Allow-Origin': '*'},
+           data : {
+            firstName,
+            lastName,
+            email,
+            address,
+            subTotal,
+            activeRegion,
+            province,
+            zipcode,
+            pending,
+           }
+        }).then((response) => {
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error.message);
+        })
     }
 
     return(
@@ -114,11 +136,11 @@ const CheckOut : React.SFC = () => {
                                 <GetRegion 
                                 onChange={(event) => setActiveRegion(event.target.value)} 
                                 value={activeRegion}/>
-                            </div>
+                            </div> 
                             <div className="mr-2">
                                 <span className="text-sm block">Province</span>
                                 <GetProvince region={activeRegion} 
-                                onChange={(event) => setProvince(event.target.value)} 
+                                onChange={(event) => setProvince(event.target.value)}
                                 value={province}/>
                             </div>
                             <div>

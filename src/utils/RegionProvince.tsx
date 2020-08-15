@@ -53,7 +53,7 @@ export const GetRegion : React.SFC<regionPropTypes> = ({onChange, value}) => {
 interface provincePropsTypes{
     region : string,
     onChange : (event : React.ChangeEvent<HTMLSelectElement>) => void,
-    value : string
+    value : any
 }
 
 export const GetProvince : React.SFC<provincePropsTypes> = ({region, onChange, value}) => {
@@ -78,12 +78,15 @@ export const GetProvince : React.SFC<provincePropsTypes> = ({region, onChange, v
         })
     });
 
-
     return(
         <>
-        <select className="border py-2 px-2 bg-white rounded w-full" onChange={onChange} value={value}>
-            {province && province.map((data : any) => (
-                <option value={data.key} key={data.key}>{data.name}</option>
+        <select className="border py-2 px-2 bg-white rounded w-full" onChange={onChange} value={province}>
+            {province && province.map((province : any) => (
+                <>
+                <option value={province.name} key={province.key}>
+                    {province.name}
+                </option>
+                </>
             ))}
         </select>
         </>
