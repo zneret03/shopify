@@ -10,4 +10,4 @@ exports.getProduct = functions.https.onRequest(getProduct);
 exports.updateProduct = functions.https.onRequest(updateProduct);
 exports.deleteProducts = functions.https.onRequest(deleteProducts);
 exports.checkOut = functions.https.onRequest(checkOut);
-exports.updateCartItems = functions.https.onRequest(updateCartItems);
+exports.updateCartItems = updateCartItems;

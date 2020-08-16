@@ -76,7 +76,7 @@ export const GetProvince : React.SFC<provincePropsTypes> = ({region, onChange, v
         }).catch((error) => {
             console.log(error.message);
         })
-    });
+    },[]);
 
     return(
         <>

@@ -14,7 +14,7 @@ interface itemTypes {
     zipcode : string
 }
 
-const itemsObject : itemTypes = {
+const itemsObject : itemTypes = {   
     firstName : '',
     lastName : '',
     email : '',
@@ -61,6 +61,7 @@ const CheckOut : React.SFC = () => {
 
     const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
         //console.log({firstName, lastName, email, address, subTotal, activeRegion, province, zipcode , pending});
 
         axios({
@@ -82,7 +83,7 @@ const CheckOut : React.SFC = () => {
             console.log(response.data);
         }).catch((error) => {
             console.log(error.message);
-        })
+        });
     }
 
     return(
