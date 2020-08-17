@@ -103,7 +103,7 @@ const Navbar: React.SFC = () => {
                             <Link to="/mens" 
                             style={{color: theme}} 
                             className="sm:mr-10 mr-5 border-b border-white hover:border-black">
-                                MENS
+                                MEN
                             </Link>
                             <Link to="womens" 
                             style={{color: theme}} 
