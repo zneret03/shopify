@@ -5,15 +5,6 @@ export const checkOut = app.post('/api/checkOut/items', async(request : any, res
     try {
         const subTotal = Number(request.body.subTotal);
         const document = db.collection('transaction').doc();
-        // request.body.pending.map((item : any) => {
-        //     db.collection('Cart').doc(item.id).update({
-        //         status : '#00C851'
-        //     }).then(() => {
-        //         return response.status(200).send('Thank you for shopping');
-        //     }).catch((err : any) => {
-        //         return response.status(500).send(err.message);
-        //     });
-        // })
         
         return document.set({           
             firstName : request.body.firstName,
@@ -24,7 +15,7 @@ export const checkOut = app.post('/api/checkOut/items', async(request : any, res
             region : request.body.activeRegion,
             province : request.body.province,
             zipcode : request.body.zipcode,
-            itemsCheckout : request.body.pendinge
+            itemsCheckout : request.body.pending
         }).then(() => {
             return response.status(200).send('Thank you for shopping :)');
         }).catch((error : any) => {

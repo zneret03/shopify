@@ -77,7 +77,7 @@ const CheckOut : React.SFC = () => {
             activeRegion,
             province,
             zipcode,
-            pending,
+            pending
            }
         }).then((response) => {
             console.log(response.data);
