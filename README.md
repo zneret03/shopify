@@ -8,13 +8,11 @@
 - [x] Search Filter
 - [x] Server side function Delete
 - [x] halt process when there is duplicate product name
-- [ ] Add to cart
-- [ ] Transaction
+- [x] Add to cart
+- [x] Transaction
+- [ ] Buy it now
 - [ ] Inventory
 - [ ] Manage Sales
 - [ ] Sort by product name
 - [ ] Sort by price
 
-## Issue
-- [ ] Sum all items in Cart
-- [ ] Notification if there is no product there is no notification
