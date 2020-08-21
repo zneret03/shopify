@@ -11,6 +11,7 @@
 - [x] Add to cart
 - [x] Transaction
 - [ ] Buy it now
+- [ ] Fixing Region and province select elemet
 - [ ] Inventory
 - [ ] Manage Sales
 - [ ] Sort by product name
