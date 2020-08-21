@@ -4,6 +4,7 @@ import Back from '../utils/Back';
 import {CartContext} from '../Context/CartProvider';
 import {pendingItems} from '../utils/PendingItems';
 import {GetRegion, GetProvince} from '../utils/RegionProvince';
+import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
 interface itemTypes { 
@@ -27,6 +28,7 @@ const CheckOut : React.SFC = () => {
     const {cartItems} = useContext(CartContext);
     const [subTotal, setSubTotal] = useState(0);
     const pending = pendingItems(cartItems);
+    const [message, setMessage] = useState({status : false, message: '', loading : false});
     
     const totalAmount = () => {
         return new Promise((resolve, reject)=>{
@@ -40,8 +42,10 @@ const CheckOut : React.SFC = () => {
     }
     
     totalAmount().then((amount : any)=>{
-        if(amount){
+        if(amount !== 0){
             setSubTotal(amount);
+        }else{
+            setSubTotal(0);
         }
     }).catch((error) => {
         setSubTotal(0);
@@ -59,10 +63,19 @@ const CheckOut : React.SFC = () => {
         setState(prevState => ({...prevState, [name] : value}));
     }
 
+    const loadSpinner = () =>{
+        setMessage({status : false, message : '', loading : true});
+    }
+
+    const clearState = () => {
+        setState({...itemsObject});
+    }
+
     const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         //console.log({firstName, lastName, email, address, subTotal, activeRegion, province, zipcode , pending});
+        loadSpinner();
 
         axios({
            method : 'post', 
@@ -80,13 +93,31 @@ const CheckOut : React.SFC = () => {
             pending
            }
         }).then((response) => {
-            console.log(response.data);
+            if(response){
+                setMessage({status : true, message : response.data, loading : false});
+                setMessage({status : false, message : 'Checkout Success', loading : false});
+                setTimeout(() => {
+                    clearState();
+                    setMessage({status : false, message : '', loading : false});
+                }, 2000)
+            }
         }).catch((error) => {
-            console.log(error.message);
+            if(error) {
+                setMessage({status : true, message : 'Checkout Denied', loading : false});
+            }
         });
     }
 
+    if(message.loading){
+        return <div className="h-screen w-screen flex items-center justify-center">Loading...</div>
+    }
+
+    if(pending.length <= 0){
+        return <Redirect to="/cart"/>
+    }
+
     return(
+        <>
         <div className="container mx-auto px-10 py-6">
             <div className="text-center my-5">
                 <span className="text-2xl text-black">Checkout Form</span>
@@ -96,6 +127,9 @@ const CheckOut : React.SFC = () => {
                 <form onSubmit={(event) => onSubmit(event)} className="shadow py-6 px-6 md:mr-6">
                     <Back path="/cart"/>
                     <h1 className="text-2xl">Billing Address</h1>
+                    <p className={`${message.status ? 'bg-red-500' : 'bg-green-500'} text-center py-1 rounded text-white`}>
+                        {message.message}
+                    </p>
                     <div>
                         <div className="mb-2 grid sm:grid-cols-2 sm:gap-2">
                             <div className="mr-2">
@@ -103,6 +137,7 @@ const CheckOut : React.SFC = () => {
                                 <input type="text" 
                                 value={firstName} 
                                 name="firstName" 
+                                required
                                 onChange={(event) => onChange(event)}
                                 className="border py-1 rounded px-2 w-full"/>
                             </div>
@@ -111,6 +146,7 @@ const CheckOut : React.SFC = () => {
                                 <input type="text" 
                                 value={lastName} 
                                 name="lastName" 
+                                required
                                 onChange={(event) => onChange(event)}
                                 className="border py-1 rounded px-2 w-full"/>
                             </div>
@@ -120,6 +156,7 @@ const CheckOut : React.SFC = () => {
                                 <input type="email" 
                                 value={email} 
                                 name="email" 
+                                required
                                 onChange={(event) => onChange(event)}
                                 className="border py-1 rounded w-full px-2"/>
                             </div>
@@ -128,6 +165,7 @@ const CheckOut : React.SFC = () => {
                                 <input type="text" 
                                 value={address} 
                                 name="address" 
+                                required
                                 onChange={(event) => onChange(event)}
                                 className="border py-1 rounded w-full px-2"/>
                         </div>
@@ -147,6 +185,7 @@ const CheckOut : React.SFC = () => {
                             <div>
                                 <span className="text-sm block">Zipcode</span>
                                 <input type="text" value={zipcode} name="zipcode" 
+                                required
                                 className="border py-1 px-2 rounded w-full" onChange={(event) => onChange(event)}/>
                             </div>
                         </div>
@@ -164,7 +203,7 @@ const CheckOut : React.SFC = () => {
                             <div><span className="bg-gray-400 py-2 px-3 rounded-full text-white font-bold">{pending.length}</span></div>
                         </div>
                         {pending.map((items : any) => (
-                            <div className={`${items.status === "#ff4444" ? "block" : "hidden"}`}>
+                            <div className={`${items.status.color === "#ff4444" ? "block" : "hidden"}`}>
                             <div className="flex items-center justify-between overflow-auto">
                                 <div>
                                     <span className="font-bold text-lg">{items.productName}</span>
@@ -185,6 +224,7 @@ const CheckOut : React.SFC = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

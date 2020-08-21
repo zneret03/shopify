@@ -17,7 +17,7 @@ const CartProvider: React.SFC<Props> = ({children}) => {
     
     useEffect(() => {
         const document = app.firestore();
-        return document.collection('Cart').onSnapshot((onsnapshot) => {
+        return document.collection('transaction').onSnapshot((onsnapshot) => {
             const productData : object[] = []
             onsnapshot.docs.forEach((item : any) => {
                 productData.push({...item.data(), id : item.id});

@@ -1,12 +1,19 @@
 import { app, db } from '../middleware/middleware'
 
-
 export const checkOut = app.post('/api/checkOut/items', async(request : any, response : any) =>  {
     try {
         const subTotal = Number(request.body.subTotal);
-        const document = db.collection('transaction').doc();
+        const document = db.collection('customerInformation');
         
-        return document.set({           
+        const itemsIdArray : any[] = [];
+        const date = new Date();
+        const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`
+
+        request.body.pending.map((item : any)=>{
+            itemsIdArray.push(item.id);
+        });
+
+        return document.add({      
             firstName : request.body.firstName,
             lastName : request.body.lastName,
             email : request.body.email,
@@ -15,9 +22,10 @@ export const checkOut = app.post('/api/checkOut/items', async(request : any, res
             region : request.body.activeRegion,
             province : request.body.province,
             zipcode : request.body.zipcode,
-            itemsCheckout : request.body.pending
+            items : itemsIdArray,
+            date_created : today
         }).then(() => {
-            return response.status(200).send('Thank you for shopping :)');
+            return response.status(200).send('Thank you for shopping :)'); 
         }).catch((error : any) => {
             return response.status(500).send(error.message);
         });

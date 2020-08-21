@@ -4,7 +4,6 @@ import {app} from '../config/firebase';
 import Description from '../components/public/Description';
 import Back from '../utils/Back';
 import axios from 'axios';
-import Loading from '../components/private/Loading';
 
 interface productInfoType {
     size : string,
@@ -36,39 +35,44 @@ const Collection: React.SFC = (props : any) => {
 
     const loadSpinner = () =>{
         setMessage({status : false, message : '', loading : true});
-  }
+    }
 
-    const addToCart = (event : React.MouseEvent<HTMLButtonElement>) => {
+    const addToCart = (event : React.MouseEvent<HTMLButtonElement>, quantity : number) => {
         event.preventDefault();
-        
+
         loadSpinner();
 
-        item.map(async(item : any) => {
-            const subTotal = item.price * counter.count;
-            const statusColor = "#ff4444";
-            return axios({
-                method : 'post',
-                url : 'https://us-central1-shopify-c74df.cloudfunctions.net/cart/api/cart',
-                headers : {  'Access-Control-Allow-Origin': '*'},
-                data : {
-                    productId : item.id,
-                    imageUrl : item.imageUrl,
-                    purpose : item.purpose,
-                    productName : item.product,
-                    Subtotal : subTotal,
-                    Totalquantity : counter.count,
-                    gender : item.gender,
-                    status : statusColor,
-                }
-            }).then((response) => {
-                setMessage({status : true, message : response.data, loading : false})
-                setTimeout(() => {
-                    setMessage({status : false, message : '', loading : false});
-                }, 4000)
-            }).catch((error) => {   
-                console.log(error.message);
-            })
-        });
+        if(quantity > counter.count){
+            item.map(async(item : any) => {
+                const subTotal = item.price * counter.count;
+                const statusColor = "#ff4444";
+                return axios({
+                    method : 'post',
+                    url : 'https://us-central1-shopify-c74df.cloudfunctions.net/cart/api/cart',
+                    headers : {  'Access-Control-Allow-Origin': '*'},
+                    data : {
+                        productId : item.id,
+                        imageUrl : item.imageUrl,
+                        purpose : item.purpose,
+                        productName : item.product,
+                        Subtotal : subTotal,
+                        Totalquantity : counter.count,
+                        gender : item.gender,
+                        status : statusColor,
+                    }
+                }).then((response) => {
+                    setMessage({status : true, message : response.data, loading : false})
+                    setTimeout(() => {
+                        setMessage({status : false, message : '', loading : false});
+                    }, 4000)
+                }).catch((error) => {   
+                    console.log(error.message);
+                })
+            });
+        }else{
+            setMessage({status : false, message : 'unable to proceed im sorry :(', loading : false})
+        }
+       
     }
 
     useEffect(() => {
@@ -102,13 +106,18 @@ const Collection: React.SFC = (props : any) => {
         }
     }
 
+    const centerElement = 'h-screen w-screen flex justify-center items-center';
+
     if(item.length <= 0){
-        return <div className="h-screen w-screen flex justify-center items-center">Loading...</div>
+        return <div className={centerElement}>Loading...</div>
+    }
+
+    if(message.loading){
+        return <div className={centerElement}>Loading...</div>
     }
 
     return(
        <>
-        {message.loading && <Loading />}
        <div className="container mx-auto px-20 py-10">
             <Back path="/shop"/>
            {item && item.map((product : any, index) => (
@@ -151,7 +160,7 @@ const Collection: React.SFC = (props : any) => {
                                    <span className="text-white text-sm">{message.message}</span>
                            </div>
                            <div className="mt-5">
-                               <button onClick={(event) => addToCart(event)} type="button" id="AddToCart" className="rounded-sm border border-black py-2 w-full uppercase tracking-wider font-bold hover:text-gray-600">Add Cart</button>
+                               <button onClick={(event) => addToCart(event, product.quantity)} type="button" id="AddToCart" className="rounded-sm border border-black py-2 w-full uppercase tracking-wider font-bold hover:text-gray-600">Add Cart</button>
                            </div>
                            <div className="mt-3">
                                <button type="submit" id="buyItNow" className="rounded-sm tracking-wider py-2 w-full uppercase tracking-wider font-bold bg-gray-900 text-white hover:bg-gray-700">

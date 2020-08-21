@@ -1,13 +1,34 @@
 import { app, db } from '../middleware/middleware'
 
+const onSubtractQuantity = async(config : any) => {
+    const {request, response, quantity} = config;
+
+    try {
+        const document = db.collection('product').doc(request.body.productId);
+
+        const value = await document.get();
+
+        if(value){
+            const newQuantity = value.data().quantity - quantity;
+
+            await document.update({
+                quantity : newQuantity
+            });
+        }
+        
+    } catch (error) {
+        return response.status(500).send(error.message);
+    }
+}
+
 export const cart = app.post('/api/cart', async(request : any, response : any) => {
     try{
         const total : number = Number(request.body.Subtotal);
         const quantity : number = Number(request.body.Totalquantity);
 
-        const firestoreDb = db.collection('Cart').doc();
+        const firestoreDb = db.collection('transaction');
 
-        return firestoreDb.set({
+        return firestoreDb.add({
             productId : request.body.productId,
             imageUrl : request.body.imageUrl,
             purpose : request.body.purpose,
@@ -15,9 +36,15 @@ export const cart = app.post('/api/cart', async(request : any, response : any) =
             Subtotal : total,
             Totalquantity : quantity,
             gender : request.body.gender,
-            status : request.body.status
+            status : {color : request.body.status, itemStatus : 'pending'}
         }).then(() => {
-            return response.status(200).send('Successfully added to cart');
+            const config : any = {request, response, quantity};
+            onSubtractQuantity(config)
+            .then(() => {
+                return response.status(200).send('Successfully added to cart');    
+            }).catch((error : any) => {
+                return response.status(500).send(error.message);
+            });
         }).catch((error : any) => {
             return response.status(500).send(error.message);
         });

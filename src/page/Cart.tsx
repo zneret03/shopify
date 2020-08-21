@@ -5,6 +5,7 @@ import {CartContext} from '../Context/CartProvider';
 import {withRouter} from 'react-router-dom';
 import {pendingItems} from '../utils/PendingItems';
 import {app} from '../config/firebase';
+import {Link} from 'react-router-dom';
 interface PropsType {
     history : any
 }
@@ -25,10 +26,13 @@ const Cart : React.SFC<PropsType> = ({history}) => {
             }
         })
     }
+
     
     totalAmount().then((amount : any)=>{
-        if(amount){
+        if(amount > 0){
             setSubTotal(amount);
+        }else{
+            setSubTotal(0);
         }
     }).catch((error) => {
         setSubTotal(0);
@@ -49,7 +53,7 @@ const Cart : React.SFC<PropsType> = ({history}) => {
 
         try {
             if(id){
-                const document = app.firestore().collection('Cart').doc(id);
+                const document = app.firestore().collection('transaction').doc(id);
                 await document.delete();
             }
         } catch (error) {
@@ -66,8 +70,8 @@ const Cart : React.SFC<PropsType> = ({history}) => {
                         <span className="text-2xl text-black">Shopping Bag</span>
                         <div className="mt-6">
                             <div className="grid grid-rows gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                                {cartItems.map((items : any, index : number) => (
-                                    <div className={`${items.status === "#ff4444" ? 'block' : 'hidden'} border`} key={index}>
+                                {pending.map((items : any, index : number) => (
+                                    <div className={`${items.status.color === "#ff4444" ? 'block' : 'hidden'} border`} key={index}>
                                         <div className="bg-gray-200 py-6 px-6 relative">
                                             <div className="absolute top-0 right-0 px-2">
                                                 <button onClick={(event) => deleteCartItems(event, items.id)}>x</button>
@@ -77,7 +81,7 @@ const Cart : React.SFC<PropsType> = ({history}) => {
                                         <div className="px-4 py-2 font-segoe-UI">
                                         <div className="flex justify-between">
                                             <span className="block text-xs text-gray-600 mb-4">{items.purpose}</span>
-                                            <div className="rounded-full bg-gray-500 h-2 w-2 mt-2" style={{backgroundColor: items.status}}></div>
+                                            <div className="rounded-full bg-gray-500 h-2 w-2 mt-2" style={{backgroundColor: items.status.color}}></div>
                                         </div>
                                             <span className="block text-xs   text-gray-600 uppercase tracking-wide mb-1">{items.productName}</span>
                                             <div className="flex items-center justify-between">
@@ -89,6 +93,15 @@ const Cart : React.SFC<PropsType> = ({history}) => {
                                 ))}
                             </div>
                         </div>
+                        {pending.length <= 0 && (
+                            <div className="text-center md:absolute md:inset-x-0">
+                                <span className="block mb-4">Your Shopping bag is empty</span>
+                                <Link to="/shop" 
+                                className="uppercase tracking-wide font-bold border py-2 px-8 mt-2 bg-gray-900 text-white hover:text-white hover:bg-gray-700 rounded">
+                                    Continue Shopping
+                                </Link>
+                            </div>
+                        )}
                     </div>
                     <div className="md:w-1/4 w-full md:ml-4 md:mt-0 mt-6 sm:mt-6">
                         <span className="text-2xl text-black">Product Summary</span>
