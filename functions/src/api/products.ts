@@ -30,6 +30,7 @@ export const cart = app.post('/api/cart', async(request : any, response : any) =
 
         return firestoreDb.add({
             productId : request.body.productId,
+            size : request.body.size,
             imageUrl : request.body.imageUrl,
             purpose : request.body.purpose,
             productName : request.body.productName,
@@ -51,7 +52,9 @@ export const cart = app.post('/api/cart', async(request : any, response : any) =
     }catch(error){
         return response.status(500).send(error.message);
     }
-})
+});
+
+
 
 //add Product
 export const addProduct = app.post('/api/createProduct', async(request : any, response : any) => {

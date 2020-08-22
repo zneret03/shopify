@@ -5,3 +5,9 @@ export const pendingItems = (cartItems : any) => {
         return obj.status.itemStatus === "pending";
     });
 }
+
+export const filterItems = (items : any, gender : string) => {
+    return items.filter((obj : any) => {
+        return obj.gender.toLowerCase() === gender.toLowerCase();
+    });
+}

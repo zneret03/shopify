@@ -1,11 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {Search, ShoppingCart, User, Menu} from 'react-feather'
+import {ShoppingCart, User, Menu} from 'react-feather'
 import {Link} from 'react-router-dom';
 import {Badge} from 'antd'
 import {CartContext} from '../../Context/CartProvider';
-import SearchItem from './SearchItem';
 import Login from '../Forms/Login';
-import {pendingItems} from '../../utils/PendingItems'
+import {pendingItems} from '../../utils/FilteredItems'
 
 const Navbar: React.SFC = () => {
 
@@ -46,21 +45,6 @@ const Navbar: React.SFC = () => {
         if(toggle === true) return setToggle(false);
     }
 
-    //** open search menu
-    const [showSearch, setShowSearch] = useState(false);
-
-    const openSearch = (event: React.MouseEvent<SVGElement, MouseEvent> | React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-        event.preventDefault();
-        if(showSearch !== true) return setShowSearch(true)
-    }
-
-    //** close search menu
-    const closeSearch = (event:  React.MouseEvent<SVGElement, MouseEvent>) =>{
-        event.preventDefault();
-        if(showSearch === true) return setShowSearch(false);
-    }
-
-
     //** event listener when resizing the window
     useEffect(() => {
         hamburger();
@@ -72,7 +56,6 @@ const Navbar: React.SFC = () => {
     
     return(
         <div className="shadow sticky top-0 bg-white z-20">
-        {showSearch && <SearchItem close={(event) => closeSearch(event)}/>}
         {login && <Login close={(event : any) => closeLogin(event)} />}
          <div className="text-black">
            <div className="container mx-auto px-5">
@@ -100,7 +83,7 @@ const Navbar: React.SFC = () => {
                             className="sm:mr-10 mr-5 border-b border-black">
                                 HOME
                             </Link>
-                            <Link to="/mens" 
+                            <Link to="/shop?gender=men" 
                             style={{color: theme}} 
                             className="sm:mr-10 mr-5 border-b border-white hover:border-black">
                                 MEN
@@ -119,10 +102,6 @@ const Navbar: React.SFC = () => {
                     </>
                    )}
                     <div className="flex cursor-pointer block">
-                        <span className="mr-5 md:block hidden">
-                            <Search className="hover:text-gray-600"  
-                            onClick={(event) => openSearch(event)}/>
-                        </span>
                             <span className="mr-5 md:block hidden">
                             <User className="hover:text-gray-600" 
                             onClick={(event) => openLogin(event)}/></span>
@@ -140,7 +119,6 @@ const Navbar: React.SFC = () => {
                 <Link to="/womens" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 hover:text-black text-black">WOMEN</Link>
                 <Link to="/kids" className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black">KIDS</Link>
                 <span onClick={(event) => openLogin(event)} className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black">LOGIN</span>
-                <span onClick={(event) => openSearch(event)} className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black">SEARCH</span>
             </div>
             </div>
         </div>  

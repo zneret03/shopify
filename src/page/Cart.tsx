@@ -3,7 +3,7 @@ import {Divider} from 'antd';
 import Back from '../utils/Back';
 import {CartContext} from '../Context/CartProvider';
 import {withRouter} from 'react-router-dom';
-import {pendingItems} from '../utils/PendingItems';
+import {pendingItems} from '../utils/FilteredItems';
 import {app} from '../config/firebase';
 import {Link} from 'react-router-dom';
 interface PropsType {

@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {Divider} from 'antd';
 import Back from '../utils/Back';
 import {CartContext} from '../Context/CartProvider';
-import {pendingItems} from '../utils/PendingItems';
+import {pendingItems} from '../utils/FilteredItems';
 import {GetRegion, GetProvince} from '../utils/RegionProvince';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';

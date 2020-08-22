@@ -4,6 +4,7 @@ import {app} from '../config/firebase';
 import Description from '../components/public/Description';
 import Back from '../utils/Back';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
 
 interface productInfoType {
     size : string,
@@ -27,17 +28,12 @@ const Collection: React.SFC = (props : any) => {
 
     const [message, setMessage] = useState({status : false, message : '', loading : false});
 
-    const submitEvent = (event : React.FormEvent<HTMLFormElement | HTMLButtonElement>) => {
-        event.preventDefault();
-
-        console.log({size, counter});
-    }
-
     const loadSpinner = () =>{
         setMessage({status : false, message : '', loading : true});
     }
 
-    const addToCart = (event : React.MouseEvent<HTMLButtonElement>, quantity : number) => {
+    //*Adding to cart and direct Buy
+    const onSubmitEvent = (event : any, quantity : number) => {
         event.preventDefault();
 
         loadSpinner();
@@ -46,33 +42,56 @@ const Collection: React.SFC = (props : any) => {
             item.map(async(item : any) => {
                 const subTotal = item.price * counter.count;
                 const statusColor = "#ff4444";
-                return axios({
-                    method : 'post',
-                    url : 'https://us-central1-shopify-c74df.cloudfunctions.net/cart/api/cart',
-                    headers : {  'Access-Control-Allow-Origin': '*'},
-                    data : {
-                        productId : item.id,
-                        imageUrl : item.imageUrl,
-                        purpose : item.purpose,
-                        productName : item.product,
-                        Subtotal : subTotal,
-                        Totalquantity : counter.count,
-                        gender : item.gender,
-                        status : statusColor,
-                    }
-                }).then((response) => {
-                    setMessage({status : true, message : response.data, loading : false})
-                    setTimeout(() => {
-                        setMessage({status : false, message : '', loading : false});
-                    }, 4000)
-                }).catch((error) => {   
-                    console.log(error.message);
-                })
+
+                //*event check for addToCart or buyItNow
+                const addToCart = event.target.id === "AddToCart";
+                const buyItNow = event.target.id === "buyItNow";
+
+                const data : any = { 
+                    productId : item.id,
+                    size : size,
+                    imageUrl : item.imageUrl,
+                    purpose : item.purpose,
+                    productName : item.product,
+                    Subtotal : subTotal,
+                    Totalquantity : counter.count,
+                    gender : item.gender,
+                    status: statusColor,
+                }
+
+                const config : any = {data};
+    
+                    return onHttpsRequestPost(config)
+                    .then(() => {
+                        if(addToCart){  
+                            setMessage({status : true, message : 'Successfully add to cart', loading : false})
+                            setTimeout(() => {
+                                setMessage({status : false, message : '', loading : false});
+                            }, 4000)
+                        }
+
+                        if(buyItNow){ 
+                            props.history.push('/cart/checkOut');
+                        }
+                    }).catch((error) => {
+                        console.log(error.message);
+                    });   
             });
         }else{
             setMessage({status : false, message : 'unable to proceed im sorry :(', loading : false})
         }
        
+    }
+
+    const onHttpsRequestPost = async(config : any) => {
+        const {data} = config;
+
+        await axios({
+            method : 'post',
+            url : 'https://us-central1-shopify-c74df.cloudfunctions.net/cart/api/cart',
+            headers : {  'Access-Control-Allow-Origin': '*'},
+            data : data
+        });
     }
 
     useEffect(() => {
@@ -132,14 +151,15 @@ const Collection: React.SFC = (props : any) => {
                            </div>
                            </div>
                        <div className="lg:w-1/2 ml-5">
-                       <form  onSubmit={(event) => submitEvent(event)}>
+                       <form>
                            <span className="text-3xl font-bold">{product.product}</span>
                            <span className="text-xl font-bold block">₱{product.price.toLocaleString()}</span>
                            <div className="flex mt-5">
                              <div className="w-full">
                              <span>Size</span>
-                                 <select name="size" onChange={(event) => setSize(event.target.value)} 
+                                 <select name="size" value={size} onChange={(event) => setSize(event.target.value)} 
                                  className="border py-2 px-2 w-full bg-white">
+                                      <option value=""></option>
                                       {product.size.map((size : any) => (
                                         <>
                                             <option value={size}>{size}</option>
@@ -160,10 +180,19 @@ const Collection: React.SFC = (props : any) => {
                                    <span className="text-white text-sm">{message.message}</span>
                            </div>
                            <div className="mt-5">
-                               <button onClick={(event) => addToCart(event, product.quantity)} type="button" id="AddToCart" className="rounded-sm border border-black py-2 w-full uppercase tracking-wider font-bold hover:text-gray-600">Add Cart</button>
+                               <button 
+                               onClick={(event) => onSubmitEvent(event, product.quantity)} 
+                               type="button" 
+                               id="AddToCart" 
+                               className="rounded-sm border border-black py-2 w-full uppercase tracking-wider font-bold hover:text-gray-600">
+                                   Add Cart
+                                </button>
                            </div>
                            <div className="mt-3">
-                               <button type="submit" id="buyItNow" className="rounded-sm tracking-wider py-2 w-full uppercase tracking-wider font-bold bg-gray-900 text-white hover:bg-gray-700">
+                               <button type="button" 
+                               onClick={(event) => onSubmitEvent(event, product.quantity)} 
+                               id="buyItNow" 
+                               className="rounded-sm tracking-wider py-2 w-full uppercase tracking-wider font-bold bg-gray-900 text-white hover:bg-gray-700">
                                    Buy it now
                                </button>
                            </div>  
@@ -177,4 +206,4 @@ const Collection: React.SFC = (props : any) => {
     )
 }
 
-export default Collection;
+export default withRouter(Collection);

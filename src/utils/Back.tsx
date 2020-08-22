@@ -8,7 +8,7 @@ interface PropsType {
 
 const Back : React.SFC<PropsType> = ({path}) => {
     return(
-        <Link to={path} className="flex items-center mb-6">
+        <Link to={path} className="flex items-center w-20 mb-6">
             <i className="mr-2"><ArrowLeft size="20" color="#000"/></i>
             <span></span>
             <span className="uppercase tracking-widest underline font-bold text-black">Back</span>
