@@ -16,6 +16,7 @@ const Cart : React.SFC<PropsType> = ({history}) => {
     const [subTotal, setSubTotal] = useState(0);
     const pending = pendingItems(cartItems);
 
+    //*return total amount of all items added to cart
     const totalAmount = () => {
         return new Promise((resolve, reject)=>{
             if(cartItems){
@@ -24,10 +25,9 @@ const Cart : React.SFC<PropsType> = ({history}) => {
             }else{  
                 reject('No amount gettting');
             }
-        })
+        });
     }
 
-    
     totalAmount().then((amount : any)=>{
         if(amount > 0){
             setSubTotal(amount);
@@ -39,7 +39,7 @@ const Cart : React.SFC<PropsType> = ({history}) => {
         console.log(error.message);
     });
 
-    //Click checkout button redirect to Checkout form
+    //*Click checkout button redirect to Checkout form
     const openCheckOut = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         if(subTotal){
@@ -47,7 +47,7 @@ const Cart : React.SFC<PropsType> = ({history}) => {
         }
     }
 
-    //Delete items
+    //*Delete items
     const deleteCartItems = async(event: React.MouseEvent<HTMLButtonElement>, id : string) => {
         event.preventDefault();
 

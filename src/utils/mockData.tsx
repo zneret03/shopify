@@ -1,4 +1,5 @@
 
+    //*New arrival
     const shoesInformation = [
         {
             id : 1,
@@ -18,6 +19,7 @@
         }
     ]
 
+    //*Items
     const shoes = [
         {
             id : 1,
@@ -45,24 +47,25 @@
         }
     ]
 
+    //*Category
     const CategoryInformation = [
         {
             id : 1,
             image : 'Mens.jpg',
             buttonName : 'mens',
-            redirect : '/shop'
+            redirect : 'shop?gender=men'
         },
         {
             id : 2,
             image : 'Women.jpg',
             buttonName : 'women',
-            redirect : '/shop'
+            redirect : 'shop?gender=women'
         },
         {
             id : 3,
             image : 'Kids.jpg',
             buttonName : 'Kids',
-            redirect : '/shop'
+            redirect : 'shop?gender=kids'
         }
     ]
 

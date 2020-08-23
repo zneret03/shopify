@@ -16,10 +16,16 @@ const Card :React.SFC<PropsType> = ({filteredItems, history}) => {
         }
     }
 
+    if(filteredItems.length <= 0 ){
+        return <div className="flex items-center justify-center mt-6 border bg-gray-200 py-2 px-4">
+                    There is no merch yet :(
+               </div>
+    }
+
     return(
         <div className="grid grid-rows md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredItems.map((item : any) => (
-            item.quantity > 0 ? (
+            item.quantity > 0 && (
                 <div className="border mt-5 mr-2 cursor-pointer" 
                 key={item.id} 
                 onClick={(event) => getProductId(event, item.id)}>
@@ -38,8 +44,6 @@ const Card :React.SFC<PropsType> = ({filteredItems, history}) => {
                         </div>
                     </div>
                 </div>
-            ) : (
-                null
             )
         ))}
     </div>

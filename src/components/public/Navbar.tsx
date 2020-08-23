@@ -52,7 +52,9 @@ const Navbar: React.SFC = () => {
         return () => window.removeEventListener('resize', hamburger);
     }, [])
     
+    //*Tailwind Css for html elements    
     const theme = '#000'
+    const NavbarCss : string = 'sm:mr-10 mr-5 border-b border-white hover:border-black focus:border-black';
     
     return(
         <div className="shadow sticky top-0 bg-white z-20">
@@ -80,22 +82,22 @@ const Navbar: React.SFC = () => {
                         <div className="font-mono sm:font-bold cursor-pointer py-1 text-lg sm:flex tracking-widest">
                             <Link to="/" 
                             style={{color: theme}} 
-                            className="sm:mr-10 mr-5 border-b border-black">
+                            className={NavbarCss}>
                                 HOME
                             </Link>
                             <Link to="/shop?gender=men" 
                             style={{color: theme}} 
-                            className="sm:mr-10 mr-5 border-b border-white hover:border-black">
+                            className={NavbarCss}>
                                 MEN
                             </Link>
-                            <Link to="womens" 
+                            <Link to="/shop?gender=women" 
                             style={{color: theme}} 
-                            className="sm:mr-10 mr-5 border-b border-white hover:border-black">
+                            className={NavbarCss}>
                                 WOMEN
                             </Link>
-                            <Link to="/kids" 
+                            <Link to="/shop?gender=kids" 
                             style={{color: theme}} 
-                            className="sm:mr-10 mr-5 border-b border-white hover:border-black">
+                            className={NavbarCss}>
                                 KIDS
                             </Link>
                         </div>
