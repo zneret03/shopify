@@ -12,6 +12,7 @@
 - [x] Transaction
 - [x] Buy it now
 - [x] Search filter in view product
+- [ ] Social media authentication
 - [ ] Fixing Region and province select element
 - [ ] Inventory
 - [ ] Manage Sales

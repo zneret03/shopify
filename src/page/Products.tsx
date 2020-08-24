@@ -17,16 +17,14 @@ interface Props {
 const Products : React.SFC<Props> = ({history}) => {
 
     const {items} = useContext(ProductContext);
-
+    const [searchFilter, setSearchFilter] = useState(null);
+    
     const getUdateId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string) => {
       event.preventDefault();
       if(id){
         history.push(`/dashboard/products/EditProducts?id=${id}`); 
       }
     }
-
-    //**
-    const [searchFilter, setSearchFilter] = useState(null);
 
     //** send request to back end for deleting products
     const httpRequest = (config : any) => {
