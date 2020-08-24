@@ -11,7 +11,7 @@
 - [x] Add to cart
 - [x] Transaction
 - [x] Buy it now
-- [ ] Search filter in view product
+- [x] Search filter in view product
 - [ ] Fixing Region and province select element
 - [ ] Inventory
 - [ ] Manage Sales

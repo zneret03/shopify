@@ -25,30 +25,10 @@ const Products : React.SFC<Props> = ({history}) => {
       }
     }
 
-    //** to avoid data loss when parsing data
-    const [data, setDataSource] = useState(items);
+    //**
+    const [searchFilter, setSearchFilter] = useState(null);
 
-    //** wait data to arrive
-    const getItem = () => {
-      return new Promise((resolve, reject) => {
-        if(items.length > 0){
-          resolve(items);
-        }else{
-          reject('empty item')
-        }
-      })
-    }
-
-    //** if it fail fetch re-fetch data
-    getItem().then((data : any) => {
-       if(data){
-          setDataSource(data);
-       }
-    }).catch((error) => {
-      console.log(error.message);
-    })
-
-    //** send request to back end
+    //** send request to back end for deleting products
     const httpRequest = (config : any) => {
       const {id, imageUrl, file} = config;
 
@@ -145,11 +125,11 @@ const Products : React.SFC<Props> = ({history}) => {
     const dataShowed : number = 5;
 
     const [current, setCurrent] = useState<number>(1);
-    
+
     //** get current data;
     const indexLastData = current * dataShowed;
     const indexOfFirstData = indexLastData - dataShowed; 
-    const currentData : object[] = data.slice(indexOfFirstData, indexLastData);
+    const currentData : object[] = items.slice(indexOfFirstData, indexLastData);
 
     //** set spinner if data not arrives
     if(currentData.length <= 0){
@@ -166,10 +146,10 @@ const Products : React.SFC<Props> = ({history}) => {
                placeholder="Search by product name"
                onSearch={nameSearch => (
                     nameSearch ? (
-                      setDataSource(data.filter((item : any) => 
+                      setSearchFilter(items.filter((item : any) => 
                       item.product.includes(nameSearch)))
                     ) : (
-                      setDataSource(items)
+                      setSearchFilter(null)
                     )
                 )}/>
              </div>
@@ -177,13 +157,13 @@ const Products : React.SFC<Props> = ({history}) => {
                     <Table 
                     className="overflow-auto"
                     columns={columns} 
-                    dataSource={currentData}
+                    dataSource={searchFilter === null ? currentData : searchFilter}
                     pagination={false}
                     />
                 </div>
                 <div className="mt-2 flex justify-center">
                     <MyPagination 
-                        total={data.length}
+                        total={items.length}
                         current={current}
                         onChange={setCurrent}
                         pageSize={dataShowed}
