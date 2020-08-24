@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import {Spin} from 'antd';
 import {AuthProvider} from './auth/AuthProvider';
 import {ProductProvider} from './Context/ProductProvider';
+import NetworkDetection from './utils/NetworkDetection';
 
 //components
 const Home = lazy(() => import('./page/Home'));
@@ -41,4 +42,4 @@ const App:React.SFC = () => {
   );
 }
 
-export default App;
+export default NetworkDetection(App);

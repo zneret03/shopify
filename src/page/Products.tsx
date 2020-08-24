@@ -25,10 +25,10 @@ const Products : React.SFC<Props> = ({history}) => {
       }
     }
 
-    //to avoid data loss when parsing data
+    //** to avoid data loss when parsing data
     const [data, setDataSource] = useState(items);
 
-    //wait data to arrive
+    //** wait data to arrive
     const getItem = () => {
       return new Promise((resolve, reject) => {
         if(items.length > 0){
@@ -39,7 +39,7 @@ const Products : React.SFC<Props> = ({history}) => {
       })
     }
 
-    //if it failsto fetch re-fetch data
+    //** if it fail fetch re-fetch data
     getItem().then((data : any) => {
        if(data){
           setDataSource(data);
@@ -48,7 +48,7 @@ const Products : React.SFC<Props> = ({history}) => {
       console.log(error.message);
     })
 
-    //send request to back end
+    //** send request to back end
     const httpRequest = (config : any) => {
       const {id, imageUrl, file} = config;
 
@@ -70,6 +70,7 @@ const Products : React.SFC<Props> = ({history}) => {
       })
     }
 
+    //** Delete Table Data
     const getDeleteId = async(event : any, id : any, imageUrl : string, file: string) => {
       event.preventDefault();
       if(file){
@@ -140,17 +141,17 @@ const Products : React.SFC<Props> = ({history}) => {
         },
       ];
 
-    //Data showed to the client
+    //** Data showed to the client
     const dataShowed : number = 5;
 
     const [current, setCurrent] = useState<number>(1);
     
-    // get current data;
+    //** get current data;
     const indexLastData = current * dataShowed;
     const indexOfFirstData = indexLastData - dataShowed; 
     const currentData : object[] = data.slice(indexOfFirstData, indexLastData);
 
-    //set spinner if data not arrives
+    //** set spinner if data not arrives
     if(currentData.length <= 0){
       return <div className="h-screen w-screen flex items-center justify-center">No data to be display :(</div>
     }
@@ -162,12 +163,11 @@ const Products : React.SFC<Props> = ({history}) => {
                <Input.Search 
                allowClear
                className="max-w-xs" 
-               enterButton
                placeholder="Search by product name"
                onSearch={nameSearch => (
                     nameSearch ? (
-                      setDataSource(data.filter((product : any) => 
-                      product.product.includes(nameSearch)))
+                      setDataSource(data.filter((item : any) => 
+                      item.product.includes(nameSearch)))
                     ) : (
                       setDataSource(items)
                     )

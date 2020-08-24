@@ -7,14 +7,15 @@ interface Props {
     history : any
 }
 
-
 const SearchItem:React.SFC<Props> = ({close, history}) => {
 
     const [search, setSearch] = useState<string>('');
 
     const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+       if(search){
         history.push(`/shop?productName=${search}`);
+       }
     }
 
     return(
@@ -24,12 +25,13 @@ const SearchItem:React.SFC<Props> = ({close, history}) => {
                     <span className="float-right cursor-pointer p-3"><X onClick={close}/></span>
                     <div className="py-5 px-5">
                         <form onSubmit={(event) => onSubmit(event)}>
-                        <span className="text-2xl">Search Items</span>
+                        {/* <span className="text-2xl">Search Items</span> */}
                         <input onChange={(event) => setSearch(event.target.value)}
                         type="text" 
-                        value={search} name="search" 
-                        className="border w-full rounded text-2xl px-4 border focus:border-red-500"/>
-                        <button className="my-3 py-2 px-6 bg-black rounded text-white font-bold float-right hover:bg-gray-900">
+                        value={search} name="search"
+                        placeholder="Search Product Name" 
+                        className="border w-full rounded text-sm py-2 px-4 border focus:border-red-500"/>
+                        <button className="my-3 py-2 px-6 bg-black text-white float-right hover:bg-gray-900">
                             Search
                         </button>
                         </form>

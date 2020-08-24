@@ -124,12 +124,14 @@ const AddProduct: React.SFC = () => {
         
       }
 
+      //**Input change event */
       const onChange = (event : React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         event.preventDefault();
         const {name, value} = event.target;
         setState(prevState => ({...prevState, [name] : value}));
       }
 
+      //**Get size change event */
       const sizeOnChange = (event : React.ChangeEvent<HTMLInputElement>, index : number) => {
           event.preventDefault();
           size[index] = event.target.value;
@@ -137,7 +139,7 @@ const AddProduct: React.SFC = () => {
           setSize([...size]);
       }
 
-      //get UserUid
+      //**get UserUid
       const getUserUId = () => {
         return new Promise((resolve, reject) => {
             if(data.length > 0){
@@ -170,7 +172,7 @@ const AddProduct: React.SFC = () => {
                     let date = `${today.getMonth()} ${today.getDay()}, ${today.getFullYear()}`;
                     
                      const storageRef = app.storage().ref();  
-                     const fileRef = storageRef.child(file.name);
+                     const fileRef = storageRef.child(`Product/${file.name}`);
                      await fileRef.put(file);
                      await fileRef.getDownloadURL().then((imageUrl) => {
                         if(imageUrl){
@@ -299,11 +301,12 @@ const AddProduct: React.SFC = () => {
                     <div className="grid sm:grid-cols-6 sm:gap-3">
                         {size.map((size : any, index : number)=> {
                            return (
-                            <div className="mb-3 relative" key={index}><input value={size} 
+                            <div className="mb-3 relative" key={index}>
+                                <input value={size} 
                                 required
                                 name="size" onChange={(event) => sizeOnChange(event, index)} 
                                 className="border w-full py-1 px-3 rounded uppercase" 
-                                maxLength={2}
+                                maxLength={5}
                                 placeholder="Size"
                                 type="text"/>
                             </div>

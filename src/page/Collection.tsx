@@ -137,12 +137,12 @@ const Collection: React.SFC = (props : any) => {
 
     return(
        <>
-       <div className="container mx-auto px-20 py-10">
+       <div className="container mx-auto lg:px-20 px-5 py-10">
             <Back path="/shop"/>
            {item && item.map((product : any, index) => (
                     <div className="lg:flex" key={index}>
                        <div className="lg:w-1/2">
-                           <div >
+                           <div>
                            <Zoom>
                                <img className="sm:w-8/12 sm:h-8/12 object-contain mx-auto"
                                src={product.imageUrl}
@@ -154,7 +154,7 @@ const Collection: React.SFC = (props : any) => {
                        <form>
                            <span className="text-3xl font-bold">{product.product}</span>
                            <span className="text-xl font-bold block">₱{product.price.toLocaleString()}</span>
-                           <div className="flex mt-5">
+                           <div className="md:flex mt-5">
                              <div className="w-full">
                              <span>Size</span>
                                  <select name="size" value={size} onChange={(event) => setSize(event.target.value)} 
@@ -167,12 +167,12 @@ const Collection: React.SFC = (props : any) => {
                                         ))}
                                    </select>
                              </div>
-                             <div className="w-full pl-8">
+                             <div className="w-full md:pl-8">
                              <span>Quantity</span>
                               <div className="flex">
-                              <button id="decrement" className="border md:py-2 md:px-4 px-2"  onClick={(event) => counterHandle(event)}>-</button>
-                              <input type="text" value={counter.count} required className="border py-2 py-1 mx-auto text-center"/>
-                              <button id="increment" className="border md:py-2 md:px-4 px-2" onClick={(event) => counterHandle(event)}>+</button>
+                              <button id="decrement" className="border md:py-2 px-4 px-2"  onClick={(event) => counterHandle(event)}>-</button>
+                              <input type="text" value={counter.count} required className="border py-2 w-full mx-auto text-center"/>
+                              <button id="increment" className="border md:py-2 px-4 px-2" onClick={(event) => counterHandle(event)}>+</button>
                               </div>
                              </div>
                            </div>

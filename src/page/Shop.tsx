@@ -3,42 +3,46 @@ import {ProductContext} from '../Context/ProductProvider';
 import {filterItems} from '../utils/FilteredItems';
 import Card from '../utils/Card';
 import {withRouter} from 'react-router-dom';
-//components
+import ReactTypingEffect from 'react-typing-effect';
+
+//** components
 import Back from '../utils/Back';
-import Filters from './Filters';
+import Filters from '../components/public/Filters';
 
 const Shop:React.SFC = (props : any) => {
 
     const {items} = useContext(ProductContext);
-    const [search, setSearch] = useState<string>('');
+    // **const [search, setSearch] = useState<string>('');
     const [filter, setFilter] = useState([]);
     
-    //*Get query string
-    const params = new URLSearchParams(props.location.search);
-    const gender = params.get('gender');
+    // **Get query string
+    const params : any = new URLSearchParams(props.location.search);
+    const gender : string | null = params.get('gender');
+    const productName : string | null = params.get('productName');
 
-    //*filter items not final for search purposes
+    // **filter items return if product name is null
     let filteredItems = items.filter((item : any) => {
-        return item.product.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+        if(productName){
+            return item.product.toLowerCase().indexOf(productName.toLowerCase()) !== -1;
+        }else{
+            return item;
+        }
     });
 
     const [badge, setBadge] = useState(true);
 
-    //*badge
+    // **badge
     const hideBadge = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
 
         if(badge){
             setBadge(false);
-            props.history.push('/shop');
+            props.history.push('/shop');                                                
         }
-
-        if(gender){
-            setBadge(true);
-        }
+        gender && setBadge(true);
     }
 
-    //*render if items and gender changes
+    // **render if items and gender changes
     useEffect(() => {
         if(gender !== null){
             const filterGender = filterItems(items, gender);
@@ -46,28 +50,48 @@ const Shop:React.SFC = (props : any) => {
         }else{
             setFilter(filteredItems);
         }
+
+        //** return some clean Up
+        return () => {
+            setFilter(filteredItems)
+        }
     },[gender || items]);
+
+
+    // **render if productName changes
+    useEffect(() => {
+       productName && setFilter(filteredItems);
+
+       //** return some clean Up
+       return () => setFilter(filteredItems);
+    }, [productName])
 
     return(
         <div className="font-mono text-black">
             <div className="container mx-auto px-6 py-8">
                 <Back path="/"/>
                 <div className="my-8">
-                    <span className="uppercase text-3xl font-bold">{gender ? (`${gender} Merch`) : ('all products')}</span>
-                    <span className="ml-3 text-gray-500">[{filteredItems.length}]</span>
+                    <span>
+                        <ReactTypingEffect className="uppercase text-3xl font-bold" 
+                        speed={100}
+                        eraseDelay={500}
+                        typingDelay={200}
+                        text={gender ? (`$~${gender} Merch`) : ('$~all products')}/>
+                    </span>
+                    <span className="ml-3 text-gray-500">[{filter.length}]</span>
                 </div>
                 <div className="text-right lg:flex lg:items-center lg:justify-between">
-                    <div className="mt-3">
+                    <div className="mb-3">
                         <button onClick={(event) => hideBadge(event)}
                         className={`${badge ? 'block' : 'hidden' } px-5 block bg-gray-300 rounded-sm text-sm hover:bg-red-500 hover:text-white`}>
                             {gender}
                         </button>
                     </div> 
-                    <input type="text" 
+                    {/* <input type="text" 
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
-                    className="border sm:mb-4 sm:w-full lg:w-1/4 sm:py-2 lg:py-1 px-4 rounded focus:outline-none focus:shadow-outline" 
-                    placeholder="Search Product Name"/>
+                    className="border sm:mb-4 mb-2 py-2 sm:w-full lg:w-1/4 lg:py-1 px-4 rounded focus:outline-none focus:shadow-outline" 
+                    placeholder="Search Product Name"/> */}
                 </div>
                 <Filters />
                 <Card filteredItems={filter}/>

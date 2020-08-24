@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {ShoppingCart, User, Menu} from 'react-feather'
+import {ShoppingCart, User, Menu, Search} from 'react-feather'
 import {Link} from 'react-router-dom';
 import {Badge} from 'antd'
 import {CartContext} from '../../Context/CartProvider';
-import Login from '../Forms/Login';
 import {pendingItems} from '../../utils/FilteredItems'
 
+// **Components 
+import SearchItem from '../public/SearchItem';
+import Login from '../Forms/Login';
 const Navbar: React.SFC = () => {
 
     const {cartItems} = useContext(CartContext);
@@ -25,6 +27,19 @@ const Navbar: React.SFC = () => {
         if(login === true) return setLogin(false);
     }
 
+    // ** Show search bar
+    const [search, setSearch] = useState(false);
+
+    const openSearch = (event : React.MouseEvent<SVGElement, MouseEvent>) => {
+        event.preventDefault();
+        if(search !== true) return setSearch(true);
+    }
+    
+    const closeSearch = (event : React.MouseEvent<SVGElement, MouseEvent>) => {
+        event.preventDefault();
+        if(search === true) return setSearch(false);
+    }
+
     // ** show hamburger icon when resizing window
     const [Hamburger, setHamburger] = useState(false);
 
@@ -36,11 +51,12 @@ const Navbar: React.SFC = () => {
         }
     }
 
+
     // ** Toggle Menu in small size window
     const [toggle, setToggle] = useState(false);
 
-    const openToggle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
+    const openToggle = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
         if(toggle !== true) return setToggle(true)
         if(toggle === true) return setToggle(false);
     }
@@ -58,6 +74,7 @@ const Navbar: React.SFC = () => {
     
     return(
         <div className="shadow sticky top-0 bg-white z-20">
+        {search && (<SearchItem close={(event : any) => closeSearch(event)}/>)}
         {login && <Login close={(event : any) => closeLogin(event)} />}
          <div className="text-black">
            <div className="container mx-auto px-5">
@@ -104,9 +121,14 @@ const Navbar: React.SFC = () => {
                     </>
                    )}
                     <div className="flex cursor-pointer block">
-                            <span className="mr-5 md:block hidden">
+                        <span className="mr-5 md:block hidden">
+                            <Search className="hover:text-gray-600" 
+                            onClick={(event) => openSearch(event)}/>
+                        </span>
+                        <span className="mr-5 md:block hidden">
                             <User className="hover:text-gray-600" 
-                            onClick={(event) => openLogin(event)}/></span>
+                            onClick={(event) => openLogin(event)}/>
+                        </span>
                         <Badge count={pending.length}>
                             <Link to="/cart">
                                 <span><ShoppingCart color="#000" className="hover:text-gray-600" /></span>

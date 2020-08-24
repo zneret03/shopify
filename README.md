@@ -10,10 +10,12 @@
 - [x] halt process when there is duplicate product name
 - [x] Add to cart
 - [x] Transaction
-- [ ] Buy it now
-- [ ] Fixing Region and province select elemet
+- [x] Buy it now
+- [ ] Search filter in view product
+- [ ] Fixing Region and province select element
 - [ ] Inventory
 - [ ] Manage Sales
 - [ ] Sort by product name
 - [ ] Sort by price
+- [ ] Chart
 
