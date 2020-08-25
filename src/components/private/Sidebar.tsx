@@ -78,8 +78,8 @@ const Navbar:React.SFC = () =>{
             
                     data.map((userInformation : any) => {
                       return resolve(`${userInformation.firstname} ${userInformation.lastname}`);
-                    })
-                })
+                    });
+                });
             }else{
                 reject('array is empty');
             }
@@ -93,7 +93,8 @@ const Navbar:React.SFC = () =>{
     }).catch((error) => {
         console.log(error.message);
     })
-
+    
+    console.log(currentUser);
 
     return(
             <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 md:block hidden bg-white h-screen overflow-auto">
@@ -102,9 +103,9 @@ const Navbar:React.SFC = () =>{
                         <div className="pt-6 flex justify-center">
                             <img className="w-32 h-32 object-cover rounded-full" src={require('../../image/exampleProfile.jpg')} alt=""/>
                         </div>
-                    {name ? (
+                    {name  || currentUser.displayName ? (
                         <div  className="text-center mt-2">
-                            <span className="font-bold text-lg">{`${name}`}</span>
+                            <span className="font-bold text-lg">{`${name || currentUser.displayName}`}</span>
                         </div>
                      ) : (
                         <div  className="text-center mt-2">

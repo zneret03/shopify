@@ -5,7 +5,7 @@ import Modal from './Modal';
 import SignUp from './SingUp';
 import PasswordReset from './PasswordRest';
 import {AuthContext} from '../../auth/AuthProvider'
-import {app} from '../../config/firebase';
+import {app, provider} from '../../config/firebase';
 import {withRouter, Redirect} from 'react-router-dom';
 
 interface Props  {
@@ -57,6 +57,20 @@ const Login:React.SFC<Props> = ({close, history}) => {
         if(passwordReset !== true) return setPasswordReset(true);
     }
 
+
+    //** Facebook authentication
+    const facebookAuthProviderEvent = (event : React.MouseEvent<HTMLOrSVGElement>) => {
+        event.preventDefault();
+
+        provider.facebook.setCustomParameters({
+            'display' : 'popup'
+        });
+
+        app.auth().signInWithPopup(provider.facebook).catch((error : any) => {
+            console.log(error.message);
+        })
+    }
+
     if(context){
         return <Redirect to="/dashboard"/>
     }
@@ -86,7 +100,7 @@ const Login:React.SFC<Props> = ({close, history}) => {
                     <div className="text-center">
                         <span className="font-bold text-gray-500 text-sm font-sans">Sign in with</span>
                         <ul className="flex justify-center mt-3">
-                            <li className="mr-3 py-1 px-1 rounded hover:bg-blue-800 bg-blue-700 cursor-pointer"><Facebook color="#FFF"/></li>
+                            <li className="mr-3 py-1 px-1 rounded hover:bg-blue-800 bg-blue-700 cursor-pointer"><Facebook color="#FFF" onClick={(event) => facebookAuthProviderEvent(event)}/></li>
                             <li className="mr-3 py-1 px-1 rounded hover:bg-blue-700 bg-blue-500 cursor-pointer"><Twitter color="#FFF"/></li>
                             <li className="mr-3 py-1 px-1 rounded hover:bg-red-700 bg-red-500 cursor-pointer"><Chrome color="#FFF"/></li>
                         </ul>

@@ -51,7 +51,6 @@ const Navbar: React.SFC = () => {
         }
     }
 
-
     // ** Toggle Menu in small size window
     const [toggle, setToggle] = useState(false);
 
@@ -60,6 +59,7 @@ const Navbar: React.SFC = () => {
         if(toggle !== true) return setToggle(true)
         if(toggle === true) return setToggle(false);
     }
+
 
     //** event listener when resizing the window
     useEffect(() => {
