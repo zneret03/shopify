@@ -19,7 +19,7 @@ var firebaseConfig = {
   const provider = {
     facebook : new firebase.auth.FacebookAuthProvider(),
     google : new firebase.auth.GoogleAuthProvider(),
-    instagram : new firebase.auth.TwitterAuthProvider()
+    github : new firebase.auth.GithubAuthProvider()
   }
 
   export {app, provider}

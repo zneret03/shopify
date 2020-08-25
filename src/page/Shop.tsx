@@ -44,26 +44,19 @@ const Shop:React.SFC = (props : any) => {
 
     // **render if items and gender changes
     useEffect(() => {
-        if(gender !== null){
+        if(gender){
             const filterGender = filterItems(items, gender);
             setFilter(filterGender);
         }else{
             setFilter(filteredItems);
         }
 
-        //** return some clean Up
-        return () => {
-            setFilter(filteredItems)
-        }
-    },[gender || items]);
+    },[gender, items]);
 
 
     // **render if productName changes
     useEffect(() => {
        productName && setFilter(filteredItems);
-
-       //** return some clean Up
-       return () => setFilter(filteredItems);
     }, [productName])
 
     return(

@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {Facebook, Twitter, Chrome} from 'react-feather';
+import {Facebook, GitHub, Chrome} from 'react-feather';
 import {Divider} from 'antd';
 import Modal from './Modal';
 import SignUp from './SingUp';
@@ -20,7 +20,7 @@ const Login:React.SFC<Props> = ({close, history}) => {
     //user input 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('')
+    const [message, setMessage] = useState({status : false, message : ''})
     
     //submit form
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) =>{
@@ -30,7 +30,7 @@ const Login:React.SFC<Props> = ({close, history}) => {
             if(context){
                 history.push('/dashboard')
             }
-        }).catch(err => setError(err.message));
+        }).catch(err => setMessage({status : true, message : err.message}));
    }
    
 
@@ -67,7 +67,41 @@ const Login:React.SFC<Props> = ({close, history}) => {
         });
 
         app.auth().signInWithPopup(provider.facebook).catch((error : any) => {
-            console.log(error.message);
+            if(error){
+                setMessage({status: true, message : error.message})
+            }
+        })
+    }
+
+    //** Google authentication 
+    const googleAuthProviderEvent = (event : React.MouseEvent<HTMLOrSVGElement>) => {
+        event.preventDefault();
+
+
+        provider.google.setCustomParameters({
+            'display' : 'popup'
+        });
+
+        app.auth().signInWithPopup(provider.google).catch((error : any) => {
+            if(error){
+                setMessage({status: true, message : error.message})
+            }
+        })
+    }
+
+    //** Github authentication 
+    const githubAuthProviderEvent = (event : React.MouseEvent<HTMLOrSVGElement>) => {
+        event.preventDefault();
+
+
+        provider.github.setCustomParameters({
+            'display' : 'popup'
+        });
+
+        app.auth().signInWithPopup(provider.github).catch((error : any) => {
+            if(error){
+                setMessage({status: true, message : error.message})
+            }
         })
     }
 
@@ -100,9 +134,15 @@ const Login:React.SFC<Props> = ({close, history}) => {
                     <div className="text-center">
                         <span className="font-bold text-gray-500 text-sm font-sans">Sign in with</span>
                         <ul className="flex justify-center mt-3">
-                            <li className="mr-3 py-1 px-1 rounded hover:bg-blue-800 bg-blue-700 cursor-pointer"><Facebook color="#FFF" onClick={(event) => facebookAuthProviderEvent(event)}/></li>
-                            <li className="mr-3 py-1 px-1 rounded hover:bg-blue-700 bg-blue-500 cursor-pointer"><Twitter color="#FFF"/></li>
-                            <li className="mr-3 py-1 px-1 rounded hover:bg-red-700 bg-red-500 cursor-pointer"><Chrome color="#FFF"/></li>
+                            <li className="mr-3 py-1 px-1 rounded hover:bg-blue-800 bg-blue-700 cursor-pointer">
+                                <Facebook color="#FFF" onClick={(event) => facebookAuthProviderEvent(event)}/>
+                            </li>
+                            <li className="mr-3 py-1 px-1 rounded hover:bg-gray-700 bg-gray-900 cursor-pointer">
+                                <GitHub color="#FFF" onClick={(event) => githubAuthProviderEvent(event)}/>
+                            </li>
+                            <li className="mr-3 py-1 px-1 rounded hover:bg-red-700 bg-red-500 cursor-pointer">
+                                <Chrome color="#FFF" onClick={(event) => googleAuthProviderEvent(event)}/>
+                            </li>
                         </ul>
                     </div>
                     <Divider />
@@ -125,10 +165,10 @@ const Login:React.SFC<Props> = ({close, history}) => {
                                 onChange={(event) => setPassword(event.target.value)}/>
                             </div>
                             <div className="text-center mt-5">
-                                {error && (
+                                {message.status && (
                                     <div className="text-left bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mb-2 font-sans">
                                         <span className="font-bold">Warning!!!</span>
-                                        <span className="block text-sm">{error}</span>
+                                        <span className="block text-sm">{message.message}</span>
                                     </div>
                                 )}
                                
