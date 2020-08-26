@@ -13,7 +13,7 @@
 - [x] Buy it now
 - [x] Search filter in view product
 - [x] Social media authentication
-- [ ] Fixing Region and province select element
+- [x] Fixing Region and province select element
 - [ ] Inventory
 - [ ] Manage Sales
 - [ ] Sort by product name
