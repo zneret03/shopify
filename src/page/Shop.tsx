@@ -39,11 +39,11 @@ const Shop:React.SFC = (props : any) => {
             setBadge(false);
             props.history.push('/shop');                                                
         }
-        gender && setBadge(true);
+
+       return setBadge(true);
     }
 
-    // **render if items and gender changes
-    useEffect(() => {
+    const getGenderParams = () =>{
         if(gender){
             const filterGender = filterItems(items, gender);
             setFilter(filterGender);
@@ -51,13 +51,18 @@ const Shop:React.SFC = (props : any) => {
             setFilter(filteredItems);
         }
 
-    },[gender, items]);
+    }
 
+    // **render if items and gender changes
+    useEffect(getGenderParams ,[gender, items]);
+
+    //** get latest product Name each render
+    const getProductNameParams = () => {
+        productName && setFilter(filteredItems);
+    }
 
     // **render if productName changes
-    useEffect(() => {
-       productName && setFilter(filteredItems);
-    }, [productName])
+    useEffect(getProductNameParams, [productName])
 
     return(
         <div className="font-mono text-black">

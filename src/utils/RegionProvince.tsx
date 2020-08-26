@@ -60,7 +60,7 @@ export const GetProvince : React.SFC<provincePropsTypes> = ({region, onChange, v
 
     const [province, setProvince] = useState(null);
 
-    useEffect(() => {
+    const getProvince = () => {
         let provinceFiltered = null;
 
         fetch('https://raw.githubusercontent.com/darklight721/philippines/master/provinces.json')
@@ -76,7 +76,9 @@ export const GetProvince : React.SFC<provincePropsTypes> = ({region, onChange, v
         }).catch((error) => {
             console.log(error.message);
         })
-    },[]);
+    }
+
+    useEffect(getProvince ,[province]);
 
     return(
         <>
