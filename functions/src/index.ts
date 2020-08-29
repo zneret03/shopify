@@ -18,7 +18,6 @@ exports.onTransactCreate = functions.firestore.document('customerInformation/{cu
     })
 });
 
-
 exports.signIn = functions.https.onRequest(signIn);
 exports.cart = functions.https.onRequest(cart);
 exports.addProduct = functions.https.onRequest(addProduct);

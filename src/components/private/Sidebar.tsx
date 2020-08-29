@@ -132,13 +132,19 @@ const Navbar:React.SFC = () =>{
                                    <span>Home</span>
                                    </Link>
                                 </li>
-                                <li className="mb-5 hover:bg-gray-200 px-2 py-1 rounded flex items-center cursor-pointer focus:bg-gray-200">
-                                    <span className="mr-2"><Folder size="18"/></span>
+                                <li className="mb-5 cursor-pointer">
+                                   <Link to="/inventory" 
+                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-200 focus:bg-gray-200">
+                                   <span className="mr-2"><Folder size="18"/></span>
                                    <span>Inventory</span>
+                                   </Link>
                                 </li>
-                                <li className="mb-5 hover:bg-gray-200 focus:bg-gray-200 px-2 py-1 rounded flex items-center cursor-pointer">
+                                <li className="mb-5 cursor-pointer">
+                                    <Link to="/order" 
+                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-200 focus:bg-gray-200">
                                     <span className="mr-2"><ShoppingCart size="18"/></span>
                                    <span>Orders</span>
+                                   </Link>
                                 </li>
                                 <li className="mb-5 cursor-pointer ml-2" onClick={(event) => openProducts(event)}>
                                     <div className="flex items-center justify-between">

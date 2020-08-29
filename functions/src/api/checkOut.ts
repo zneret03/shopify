@@ -7,7 +7,10 @@ export const checkOut = app.post('/api/checkOut/items', async(request : any, res
         
         const itemsIdArray : any[] = [];
         const date = new Date();
-        const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`
+        const time = `${date.getHours()}:${date.getMinutes}:${date.getMilliseconds}`
+        const today = `${date.getMonth()} ${date.getDay()} ${date.getFullYear()}`
+
+        const timeDate = `${today}, ${time}`;
 
         request.body.pending.map((item : any)=>{
             itemsIdArray.push(item.id);
@@ -23,7 +26,7 @@ export const checkOut = app.post('/api/checkOut/items', async(request : any, res
             province : request.body.province,
             zipcode : request.body.zipcode,
             items : itemsIdArray,
-            date_created : today
+            date_created : timeDate
         }).then(() => {
             return response.status(200).send('Thank you for shopping :)'); 
         }).catch((error : any) => {

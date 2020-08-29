@@ -11,6 +11,8 @@ const Shop = lazy(() => import('./page/Shop'));
 const Cart = lazy(() => import('./page/Cart'));
 const CheckOut = lazy(() => import('./page/CheckOut'));
 const Dashboard = lazy(() => import('./page/Dashboard'));
+const Inventory = lazy(() => import('./page/Inventory'));
+const Order = lazy(() => import('./page/Orders'));
 const PublicRoute = lazy(() => import('./layouts/public/PublicRoute'));
 const Collection = lazy(() => import('./page/Collection'));
 const PrivateRoute = lazy(() => import('./layouts/private/PrivateRoute'));
@@ -31,6 +33,8 @@ const App:React.SFC = () => {
             <PublicRoute exact={true} path="/cart/checkOut" component={CheckOut}/>
             <PublicRoute exact={true} path="/shop/collection/the_merch/item" component={Collection}/>
             <PrivateRoute exact={true}  path="/dashboard" component={Dashboard}/>
+            <PrivateRoute exact={true}  path="/order" component={Order}/>
+            <PrivateRoute exact={true}  path="/inventory" component={Inventory}/>
             <PrivateRoute exact={true} path="/dashboard/products/viewProducts" component={Products} />
             <PrivateRoute exact={true} path="/dashboard/products/addProducts" component={addProducts} />
             <PrivateRoute exact={true} path="/dashboard/products/EditProducts" component={EditProduct} />
