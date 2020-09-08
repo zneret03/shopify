@@ -6,7 +6,6 @@ const LandingPage:React.FC = () => {
             {/** Landing page */}
                 <div className="sm:px-20 px-5 sm:py-8 px-0 bg-gray-100">
                     <div>
-                        <p>dwadawdawd</p>
                         <div className="absolute left-0 mt-8 ml-5 lg:block hidden">
                             <svg width="74" className="w-48 h-48" height="61" viewBox="0 0 74 61" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M36.2556 29.309V11.2236L21.501 0V15.7669C4.8846 20.0425 8.05067 24.1737 10.5994 25.9404L0 30.6524L17.277 38.3381L34.7797 30.6524L17.277 22.9727L10.9527 25.7849C8.2387 22.39 16.5029 18.3306 21.501 16.2699V18.3134L36.2556 29.309Z" fill="#FAE8E8"/>
