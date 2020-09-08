@@ -66,7 +66,7 @@ const EditProduct: React.SFC = (props : any) => {
 
         axios({
             method : 'put',
-            url : `https://us-central1-shopify-c74df.cloudfunctions.net/updateProduct/api/update/${id}`,
+            url : `/api/index?name=updateProduct&&productId=${id}`,
             headers : {'Access-Control-Allow-Origin' : '*'},
             data : items 
         }).then(() => {

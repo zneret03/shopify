@@ -32,7 +32,7 @@ const Products : React.SFC<Props> = ({history}) => {
 
       axios({
         method : 'delete',
-        url : `https://us-central1-shopify-c74df.cloudfunctions.net/deleteProducts/api/deleteProduct/${id}`,
+        url : `/api/index?name=deleteProduct&&productId=${id}`,
         headers : {'Access-Control-Allow-Origin' : '*'}
       }).then(() => {
         const storageRef = app.storage().refFromURL(imageUrl);

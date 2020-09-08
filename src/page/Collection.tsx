@@ -47,7 +47,19 @@ const Collection: React.SFC = (props : any) => {
                 const addToCart = event.target.id === "AddToCart";
                 const buyItNow = event.target.id === "buyItNow";
 
-                const data : any = { 
+                // const data : any = { 
+                //     productId : item.id,
+                //     size : size,
+                //     imageUrl : item.imageUrl,
+                //     purpose : item.purpose,
+                //     productName : item.product,
+                //     Subtotal : subTotal,
+                //     Totalquantity : counter.count,
+                //     gender : item.gender,
+                //     status: statusColor,
+                // }
+
+                const config : any = {
                     productId : item.id,
                     size : size,
                     imageUrl : item.imageUrl,
@@ -57,25 +69,23 @@ const Collection: React.SFC = (props : any) => {
                     Totalquantity : counter.count,
                     gender : item.gender,
                     status: statusColor,
-                }
-
-                const config : any = {data};
+                };
     
-                    return onHttpsRequestPost(config)
-                    .then(() => {
-                        if(addToCart){  
-                            setMessage({status : true, message : 'Successfully add to cart', loading : false})
-                            setTimeout(() => {
-                                setMessage({status : false, message : '', loading : false});
-                            }, 4000)
-                        }
+                return onHttpsRequestPost(config)
+                .then(() => {
+                    if(addToCart){  
+                        setMessage({status : true, message : 'Successfully add to cart', loading : false})
+                        setTimeout(() => {
+                            setMessage({status : false, message : '', loading : false});
+                        }, 4000)
+                    }
 
-                        if(buyItNow){ 
-                            props.history.push('/cart/checkOut');
-                        }
-                    }).catch((error) => {
-                        console.log(error.message);
-                    });   
+                    if(buyItNow){ 
+                        props.history.push('/cart/checkOut');
+                    }
+                }).catch((error) => {
+                    console.log(error.message);
+                });   
             });
         }else{
             setMessage({status : false, message : 'unable to proceed im sorry :(', loading : false})
@@ -84,13 +94,23 @@ const Collection: React.SFC = (props : any) => {
     }
 
     const onHttpsRequestPost = async(config : any) => {
-        const {data} = config;
+        const {productId, size, imageUrl, purpose, productName, Subtotal, Totalquantity, gender, status} = config;
 
         await axios({
-            method : 'post',
-            url : 'https://us-central1-shopify-c74df.cloudfunctions.net/cart/api/cart',
+            method : 'POST',
+            url : '/api/index?name=addCart',
             headers : {  'Access-Control-Allow-Origin': '*'},
-            data : data
+            data : {
+                productId,
+                size,
+                imageUrl,
+                purpose,
+                productName,
+                Subtotal,
+                Totalquantity,
+                gender,
+                status
+            }
         });
     }
 

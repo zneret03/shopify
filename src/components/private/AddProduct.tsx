@@ -194,8 +194,8 @@ const AddProduct: React.SFC = () => {
         const {date, imageUrl, data, file} = config;
 
         axios({
-            method : 'post',
-            url : 'https://us-central1-shopify-c74df.cloudfunctions.net/addProduct/api/createProduct',
+            method : 'POST',
+            url : '/api/index?name=addProduct',
             headers : {  'Access-Control-Allow-Origin': '*'},
             data : {
                 uid : data,

@@ -40,7 +40,7 @@ const SignUp:React.SFC<Props> = ({back}) => {
 
         app.auth().createUserWithEmailAndPassword(email, password).then((cred) => {
             if(cred.user){
-                axios.post('https://us-central1-shopify-c74df.cloudfunctions.net/signIn/api/signIn', {
+                axios.post('/api/index?name=signIn', {
                     id : cred.user.uid,
                     email : email,
                     firstname : firstname,
@@ -85,7 +85,7 @@ const SignUp:React.SFC<Props> = ({back}) => {
                 <div>
                     <input type="password" required name="password" value={password} onChange={(event) => onChange(event)}
                     className="border block py-2 w-full px-4 rounded hover:border-red-500 focus:border-red-500" 
-                    placeholder="Lastname"/>
+                    placeholder="Password"/>
                 </div>
                 <Divider />
                 <div className="text-center">

@@ -93,8 +93,7 @@ const Navbar:React.SFC = () =>{
     }).catch((error) => {
         console.log(error.message);
     })
-    
-    console.log(currentUser);
+
 
     return(
             <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 md:block hidden bg-white h-screen overflow-auto">

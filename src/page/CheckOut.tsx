@@ -79,7 +79,7 @@ const CheckOut : React.SFC = () => {
 
         axios({
            method : 'post', 
-           url : 'https://us-central1-shopify-c74df.cloudfunctions.net/checkOut/api/checkOut/items',
+           url : '/api/index?name=checkOut',
            headers : { 'Access-Control-Allow-Origin': '*'},
            data : {
             firstName,
@@ -102,6 +102,7 @@ const CheckOut : React.SFC = () => {
                 }, 2000)
             }
         }).catch((error) => {
+            console.log(error.message)
             if(error) {
                 setMessage({status : true, message : 'Checkout Denied', loading : false});
             }
