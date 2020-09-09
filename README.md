@@ -14,7 +14,7 @@
 - [x] Search filter in view product
 - [x] Social media authentication
 - [x] Fixing Region and province select element
-- [ ] Fixing firebase issue
+- [x] Fixing firebase issue
 - [ ] Customer Orders
 - [ ] Inventory
 - [ ] Manage Sales
