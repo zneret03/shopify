@@ -1,9 +1,11 @@
 import React, {useState, useContext} from 'react';
 import {Table, Space, Tag, Input, Popconfirm} from 'antd';
-import {ProductContext} from '../Context/ProductProvider';
 import {Edit3, Trash2} from 'react-feather';
 import {withRouter} from 'react-router-dom';
 import {app} from '../config/firebase';
+import {filteredProduct} from '../utils/FilteredItems';
+import {ProductContext} from '../Context/ProductProvider';
+import {AuthContext} from '../auth/AuthProvider';
 import axios from 'axios';
 
 //Component
@@ -17,7 +19,11 @@ interface Props {
 const Products : React.SFC<Props> = ({history}) => {
 
     const {items} = useContext(ProductContext);
+    const currentUser : any = useContext(AuthContext);
     const [searchFilter, setSearchFilter] = useState(null);
+
+    //**return current user product posted */
+    const filtered = filteredProduct(items, currentUser);
     
     const getUdateId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string) => {
       event.preventDefault();
@@ -127,11 +133,12 @@ const Products : React.SFC<Props> = ({history}) => {
     //** get current data;
     const indexLastData = current * dataShowed;
     const indexOfFirstData = indexLastData - dataShowed; 
-    const currentData : object[] = items.slice(indexOfFirstData, indexLastData);
+    const currentData : object[] = filtered.slice(indexOfFirstData, indexLastData);
+
 
     //** set spinner if data not arrives
     if(currentData.length <= 0){
-      return <div className="h-screen w-screen flex items-center justify-center">No data to be display :(</div>
+      return <div className="h-screen w-screen flex items-center justify-center">Empty</div>
     }
 
     return(
@@ -144,7 +151,7 @@ const Products : React.SFC<Props> = ({history}) => {
                placeholder="Search by product name"
                onSearch={nameSearch => (
                     nameSearch ? (
-                      setSearchFilter(items.filter((item : any) => 
+                      setSearchFilter(filtered.filter((item : any) => 
                       item.product.includes(nameSearch)))
                     ) : (
                       setSearchFilter(null)
@@ -154,14 +161,14 @@ const Products : React.SFC<Props> = ({history}) => {
                <div>
                     <Table 
                     className="overflow-auto"
-                    columns={columns} 
-                    dataSource={searchFilter === null ? currentData : searchFilter}
-                    pagination={false}
+                      columns={columns} 
+                      dataSource={searchFilter === null ? currentData : searchFilter}
+                      pagination={false}
                     />
                 </div>
                 <div className="mt-2 flex justify-center">
                     <MyPagination 
-                        total={items.length}
+                        total={filtered.length}
                         current={current}
                         onChange={setCurrent}
                         pageSize={dataShowed}

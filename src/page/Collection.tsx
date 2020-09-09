@@ -47,18 +47,6 @@ const Collection: React.SFC = (props : any) => {
                 const addToCart = event.target.id === "AddToCart";
                 const buyItNow = event.target.id === "buyItNow";
 
-                // const data : any = { 
-                //     productId : item.id,
-                //     size : size,
-                //     imageUrl : item.imageUrl,
-                //     purpose : item.purpose,
-                //     productName : item.product,
-                //     Subtotal : subTotal,
-                //     Totalquantity : counter.count,
-                //     gender : item.gender,
-                //     status: statusColor,
-                // }
-
                 const config : any = {
                     productId : item.id,
                     size : size,

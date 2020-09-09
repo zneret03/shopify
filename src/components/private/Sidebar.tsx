@@ -24,8 +24,8 @@ export const signOut = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) =
 const Navbar:React.SFC = () =>{
 
     const currentUser : any = useContext(AuthContext);
-    const data : object[] = []
-    data.push(currentUser)
+    // const data : object[] = []
+    // data.push(currentUser)
 
     //Main toggle
     const [menu, setMenu] = useState<boolean>(false);
@@ -65,21 +65,13 @@ const Navbar:React.SFC = () =>{
 
     const [name, setName] = useState(null);
 
+    //**Get username */
     const getuserUid = () => {
-        return new Promise((resolve, reject) => {
-            if(data.length > 0){
-                data.forEach(async(user : any) => {
-                    const document = app.firestore().collection('user').doc(user.uid);
+        return new Promise(async(resolve, reject) => {
+            if(currentUser){
+                    const document = app.firestore().collection('user').doc(currentUser.uid);
                     const uid = await document.get();
-                    const result = uid.data();
-                    const data: any = [];
-            
-                    data.push(result);
-            
-                    data.map((userInformation : any) => {
-                      return resolve(`${userInformation.firstname} ${userInformation.lastname}`);
-                    });
-                });
+                    return resolve(`${uid.data().firstname} ${uid.data().lastname}`);
             }else{
                 reject('array is empty');
             }
@@ -111,11 +103,9 @@ const Navbar:React.SFC = () =>{
                             <span className="text-sm">Loading...</span>
                         </div>
                      )}
-                    {data.map((currentUser : any) => (
                         <div className="text-center" key="currentUser">
                                 <span className="text-sm text-gray-600 block">{currentUser.email}</span>
                         </div>
-                        ))}
                         <Divider />
                         <div className={`${menu ? 'text-gray-600' : ''} flex items-center justify-between px-1 cursor-pointer`} 
                         onClick={(event) => Menu(event)}>

@@ -30,6 +30,7 @@ const CheckOut : React.SFC = () => {
     const pending = pendingItems(cartItems);
     const [message, setMessage] = useState({status : false, message: '', loading : false});
     
+    //**getting total accumilated amount in product */
     const totalAmount = () => {
         return new Promise((resolve, reject)=>{
             if(cartItems){

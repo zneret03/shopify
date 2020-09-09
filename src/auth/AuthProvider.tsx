@@ -9,7 +9,7 @@ interface IContext {
     authenticted : any
 }
 
-const AuthContext  = createContext({});
+const AuthContext  = createContext([]);
 
 class AuthProvider extends React.Component<Props, IContext> {
 
