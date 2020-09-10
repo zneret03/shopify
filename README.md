@@ -15,6 +15,7 @@
 - [x] Social media authentication
 - [x] Fixing Region and province select element
 - [x] Fixing firebase issue
+- [ ] Email news paper
 - [ ] Customer Orders
 - [ ] Inventory
 - [ ] Manage Sales

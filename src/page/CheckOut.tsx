@@ -109,7 +109,7 @@ const CheckOut : React.SFC = () => {
             }
         });
     }
-
+     
     if(message.loading){
         return <div className="h-screen w-screen flex items-center justify-center">Loading...</div>
     }
@@ -201,7 +201,7 @@ const CheckOut : React.SFC = () => {
                 <div className="md:w-1/2">
                     <div className="shadow px-5 py-4">
                          <div className="my-5 flex justify-between items-center">
-                             <div><span className="text-2xl text-black">Your cart</span></div>
+                            <div><span className="text-2xl block text-black">Your cart</span></div>
                             <div><span className="bg-gray-400 py-2 px-3 rounded-full text-white font-bold">{pending.length}</span></div>
                         </div>
                         {pending.map((items : any) => (

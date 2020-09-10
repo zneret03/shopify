@@ -44,18 +44,6 @@ module.exports = async(event) => {
             pending.map((item) => {
                 itemsIdArray.push(item.id);
             })
-
-            // console.log({
-            //     firstName, 
-            //     lastName, 
-            //     email, 
-            //     address, 
-            //     subTotal, 
-            //     activeRegion, 
-            //     province, 
-            //     zipcode,
-            //     itemsIdArray
-            // })
             
             const document = firebaseDb.collection('customerInformation').doc();
 
