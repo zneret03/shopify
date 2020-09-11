@@ -24,7 +24,7 @@ const Products : React.SFC<Props> = ({history}) => {
 
     //**return current user product posted */
     const filtered = filteredProduct(items, currentUser);
-    
+
     const getUdateId = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, id : string) => {
       event.preventDefault();
       if(id){
@@ -144,36 +144,36 @@ const Products : React.SFC<Props> = ({history}) => {
     return(
         <>
            <Header pageName={'Products'}>
-             <div className="mb-3 text-right">
-               <Input.Search 
-               allowClear
-               className="max-w-xs" 
-               placeholder="Search by product name"
-               onSearch={nameSearch => (
-                    nameSearch ? (
-                      setSearchFilter(filtered.filter((item : any) => 
-                      item.product.includes(nameSearch)))
-                    ) : (
-                      setSearchFilter(null)
-                    )
-                )}/>
-             </div>
-               <div>
-                    <Table 
-                    className="overflow-auto"
-                      columns={columns} 
-                      dataSource={searchFilter === null ? currentData : searchFilter}
-                      pagination={false}
-                    />
+              <div className="mb-3 text-right">
+                <Input.Search 
+                allowClear
+                className="max-w-xs" 
+                placeholder="Search by product name"
+                onSearch={nameSearch => (
+                      nameSearch ? (
+                        setSearchFilter(filtered.filter((item : any) => 
+                        item.product.includes(nameSearch)))
+                      ) : (
+                        setSearchFilter(null)
+                      )
+                  )}/>
+              </div>
+                <div>
+                      <Table 
+                      className="overflow-auto"
+                        columns={columns} 
+                        dataSource={searchFilter === null ? currentData : searchFilter}
+                        pagination={false}
+                      />
+                  </div>
+                  <div className="mt-2 flex justify-center">
+                      <MyPagination 
+                          total={filtered.length}
+                          current={current}
+                          onChange={setCurrent}
+                          pageSize={dataShowed}
+                      />
                 </div>
-                <div className="mt-2 flex justify-center">
-                    <MyPagination 
-                        total={filtered.length}
-                        current={current}
-                        onChange={setCurrent}
-                        pageSize={dataShowed}
-                    />
-               </div>
            </Header>    
         </>
     )
