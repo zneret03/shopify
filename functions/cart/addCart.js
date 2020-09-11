@@ -23,6 +23,7 @@ const onSubtractQuantity = async(config) => {
 module.exports = async(event) => {
     try {
         const {
+            uid,
             productId, 
             size, 
             imageUrl, 
@@ -40,6 +41,7 @@ module.exports = async(event) => {
         const document = firebaseDb.collection('transaction').doc();
 
         await document.set({
+            uid : uid,
             productId : productId,
             size : size,
             imageUrl : imageUrl,

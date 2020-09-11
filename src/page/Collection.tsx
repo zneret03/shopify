@@ -48,6 +48,7 @@ const Collection: React.SFC = (props : any) => {
                 const buyItNow = event.target.id === "buyItNow";
 
                 const config : any = {
+                    uid : item.uid,
                     productId : item.id,
                     size : size,
                     imageUrl : item.imageUrl,
@@ -56,7 +57,7 @@ const Collection: React.SFC = (props : any) => {
                     Subtotal : subTotal,
                     Totalquantity : counter.count,
                     gender : item.gender,
-                    status: statusColor,
+                    status: statusColor
                 };
     
                 return onHttpsRequestPost(config)
@@ -82,13 +83,14 @@ const Collection: React.SFC = (props : any) => {
     }
 
     const onHttpsRequestPost = async(config : any) => {
-        const {productId, size, imageUrl, purpose, productName, Subtotal, Totalquantity, gender, status} = config;
+        const {uid, productId, size, imageUrl, purpose, productName, Subtotal, Totalquantity, gender, status} = config;
 
         await axios({
             method : 'POST',
             url : '/api/index?name=addCart',
             headers : {  'Access-Control-Allow-Origin': '*'},
             data : {
+                uid,
                 productId,
                 size,
                 imageUrl,

@@ -29,7 +29,7 @@ const CheckOut : React.SFC = () => {
     const [subTotal, setSubTotal] = useState(0);
     const pending = pendingItems(cartItems);
     const [message, setMessage] = useState({status : false, message: '', loading : false});
-    
+
     //**getting total accumilated amount in product */
     const totalAmount = () => {
         return new Promise((resolve, reject)=>{
@@ -72,12 +72,32 @@ const CheckOut : React.SFC = () => {
         setState({...itemsObject});
     }
 
+
+    // const [customerUid, setCustomerUid] = useState<object[]>([]);
+
+    // useEffect(() => {
+    //     const getCustomerUid = async() => {
+    //         const customerInfoArray : object[] = [];
+    //         // return new Promise((resolve, reject) => {
+    //         // })
+    //         pending.map((items : any) => {
+    //             customerInfoArray.push(items.uid);
+    //         });
+
+    //          customerInfoArray && await Promise.all(customerInfoArray).then((data) =>{
+    //             setCustomerUid(data);
+    //         });
+    //     }
+    //      getCustomerUid();
+    // },[])
+
     const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         //console.log({firstName, lastName, email, address, subTotal, activeRegion, province, zipcode , pending});
         loadSpinner();
 
+        //**getting owner customerInformation */
         axios({
            method : 'post', 
            url : '/api/index?name=checkOut',
