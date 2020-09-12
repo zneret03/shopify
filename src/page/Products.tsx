@@ -3,7 +3,7 @@ import {Table, Space, Tag, Input, Popconfirm} from 'antd';
 import {Edit3, Trash2} from 'react-feather';
 import {withRouter} from 'react-router-dom';
 import {app} from '../config/firebase';
-import {filteredProduct} from '../utils/FilteredItems';
+import {filteredProduct, onSearch} from '../utils/FilteredItems';
 import {ProductContext} from '../Context/ProductProvider';
 import {AuthContext} from '../auth/AuthProvider';
 import axios from 'axios';
@@ -138,7 +138,7 @@ const Products : React.SFC<Props> = ({history}) => {
 
     //** set spinner if data not arrives
     if(currentData.length <= 0){
-      return <div className="h-screen w-screen flex items-center justify-center">Empty</div>
+      return <div className="h-screen w-screen flex items-center justify-center">Please wait...</div>
     }
 
     return(
@@ -149,14 +149,11 @@ const Products : React.SFC<Props> = ({history}) => {
                 allowClear
                 className="max-w-xs" 
                 placeholder="Search by product name"
-                onSearch={nameSearch => (
-                      nameSearch ? (
-                        setSearchFilter(filtered.filter((item : any) => 
-                        item.product.includes(nameSearch)))
-                      ) : (
-                        setSearchFilter(null)
-                      )
-                  )}/>
+                onSearch={nameSearch => {
+                    const itemsSearch = onSearch(nameSearch, items)
+                    setSearchFilter(itemsSearch)
+                  }
+                }/>
               </div>
                 <div>
                       <Table 

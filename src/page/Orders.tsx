@@ -1,15 +1,20 @@
 import React, {useContext, useState} from 'react';
 import {OrderContext} from '../Context/OrderProvider';
-import {Table, Space, Popconfirm} from 'antd';
+import {Table, Space, Input,Popconfirm} from 'antd';
 import {ShoppingCart, Edit, Trash2} from 'react-feather';
 // import {AuthContext} from '../auth/AuthProvider';
 // import {filteredProduct} from '../utils/FilteredItems';
 import Headers from '../components/private/Header';
 import {MyPagination} from '../components/private/MyPagination';
+import {onSearch} from '../utils/FilteredItems';
 const Orders = () => {
+
     const {items} = useContext(OrderContext);
     // const currentUser : any = useContext(AuthContext);
     // const filtered = filteredProduct(items, currentUser);
+    const [searchFilter, setSearchFilter] = useState(null);
+     //** Reminders */
+     //* Show customer orders
 
     const columns = [
         {
@@ -84,6 +89,18 @@ const Orders = () => {
         },
       ];
 
+      // //**Returning match search value from server */
+      // const search = (value : any) => {
+      //   const filterTable = items.filter((customerInfo : any) => (
+      //     Object.keys(customerInfo).some(key => (
+      //       String(customerInfo[key]).toLowerCase().includes(value.toLowerCase())
+      //     ))
+      //   ))
+
+      //   setSearchFilter(filterTable);
+      // }
+
+
     //** Data showed to the client
     const dataShowed : number = 5;
 
@@ -102,10 +119,22 @@ const Orders = () => {
     return(
         <Headers pageName={'Customer Order'}>
             <div>
+              <div className="mb-3 text-right">
+                <Input.Search
+                  allowClear
+                  className="max-w-xs"
+                  placeholder="Search by firstname"
+                  onSearch={nameSearch => {
+                    const sea = onSearch(nameSearch, items)
+                    setSearchFilter(sea);
+                    }
+                  }
+                />
+              </div>
                 <Table 
                 className="overflow-auto"                                       
                     columns={columns} 
-                    dataSource={currentData}
+                    dataSource={searchFilter === null ? currentData : searchFilter}
                     pagination={false}
                 />
                 </div>
