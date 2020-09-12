@@ -19,3 +19,12 @@ export const filteredProduct = (productItems : any, currentUseriId : any) => {
         return obj.uid === currentUseriId.uid
     })
 }
+
+//**Returning match search value from server */
+export const onSearch = (value : any, items : any) => {
+    return items.filter((customerInfo : any) => {
+        return Object.keys(customerInfo).some((key : any) => {
+            return String(customerInfo[key]).toLowerCase().includes(value.toLowerCase())
+        })
+    })
+}
