@@ -47,7 +47,7 @@ const CustomerOrders : React.SFC = (props: any) => {
     const filterProduct = filteredProduct(filter, currentUser);
     return(
         <>
-            <Header pageName={`Customer Items`}>
+            <Header pageName={`Customer Order`}>
                 <Back path="/order"/>
                 <Card filteredItems={filterProduct}/>
             </Header>

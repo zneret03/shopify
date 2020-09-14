@@ -117,7 +117,7 @@ const Orders : React.SFC<onProps> = ({history}) => {
     }
 
     return(
-        <Headers pageName={'Customer Order'}>
+        <Headers pageName={'Information'}>
             <div>
               <div className="mb-3 text-right">
                 <Input.Search
