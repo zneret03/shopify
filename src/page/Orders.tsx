@@ -7,7 +7,12 @@ import {ShoppingCart, Edit, Trash2} from 'react-feather';
 import Headers from '../components/private/Header';
 import {MyPagination} from '../components/private/MyPagination';
 import {onSearch} from '../utils/FilteredItems';
-const Orders = () => {
+
+interface onProps {
+  history : any
+}
+
+const Orders : React.SFC<onProps> = ({history}) => {
 
     const {items} = useContext(OrderContext);
     // const currentUser : any = useContext(AuthContext);
@@ -15,6 +20,13 @@ const Orders = () => {
     const [searchFilter, setSearchFilter] = useState(null);
      //** Reminders */
      //* Show customer orders
+
+     const customerOrders = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, items : any) => {
+        event.preventDefault();
+        if(items){
+          history.push(`/order/customerOrders?id=${items.id}`);
+        }
+     }
 
     const columns = [
         {
@@ -80,7 +92,7 @@ const Orders = () => {
           render: (items : any) => (
             <Space size="middle" key="action">
                 <button ><Edit className="text-green-500" size="20"/></button>
-              <button ><ShoppingCart className="text-blue-700" size="20"/></button>
+              <button onClick={(event) => customerOrders(event, items)}><ShoppingCart className="text-blue-700" size="20"/></button>
               <Popconfirm title="Do you want to delete?">
               <button><Trash2 className="text-red-700" size="20"/></button>
               </Popconfirm>
@@ -88,18 +100,6 @@ const Orders = () => {
           ),
         },
       ];
-
-      // //**Returning match search value from server */
-      // const search = (value : any) => {
-      //   const filterTable = items.filter((customerInfo : any) => (
-      //     Object.keys(customerInfo).some(key => (
-      //       String(customerInfo[key]).toLowerCase().includes(value.toLowerCase())
-      //     ))
-      //   ))
-
-      //   setSearchFilter(filterTable);
-      // }
-
 
     //** Data showed to the client
     const dataShowed : number = 5;
@@ -131,7 +131,7 @@ const Orders = () => {
                   }
                 />
               </div>
-                <Table 
+                <Table key="table"
                 className="overflow-auto"                                       
                     columns={columns} 
                     dataSource={searchFilter === null ? currentData : searchFilter}

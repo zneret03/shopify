@@ -10,6 +10,7 @@ const checkOut = require('./cart/checkOut')
 const addCart = require('./cart/addCart');//**Collections */
 const callback = require('./callback')
 
+
 const httpRequest = {
    GET : "GET",
    POST : "POST",

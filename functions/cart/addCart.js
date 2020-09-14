@@ -46,9 +46,9 @@ module.exports = async(event) => {
             size : size,
             imageUrl : imageUrl,
             purpose : purpose,
-            productName : productName,
+            product : productName,
             Subtotal : total,
-            Totalquantity : quantity,
+            quantity : quantity,
             gender : gender,
             status : {color : status, itemStatus : 'pending'}
         }).then(() => {

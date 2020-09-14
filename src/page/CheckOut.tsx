@@ -53,7 +53,6 @@ const CheckOut : React.SFC = () => {
         console.log(error.message);
     });
 
-
     const [{firstName, lastName, email, address, zipcode}, setState] = useState(itemsObject);
     const [activeRegion, setActiveRegion] = useState('NCR');
     const [province, setProvince] = useState('Metro Manila');
@@ -71,25 +70,6 @@ const CheckOut : React.SFC = () => {
     const clearState = () => {
         setState({...itemsObject});
     }
-
-
-    // const [customerUid, setCustomerUid] = useState<object[]>([]);
-
-    // useEffect(() => {
-    //     const getCustomerUid = async() => {
-    //         const customerInfoArray : object[] = [];
-    //         // return new Promise((resolve, reject) => {
-    //         // })
-    //         pending.map((items : any) => {
-    //             customerInfoArray.push(items.uid);
-    //         });
-
-    //          customerInfoArray && await Promise.all(customerInfoArray).then((data) =>{
-    //             setCustomerUid(data);
-    //         });
-    //     }
-    //      getCustomerUid();
-    // },[])
 
     const onSubmit = (event : React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
