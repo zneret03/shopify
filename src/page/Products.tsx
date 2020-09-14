@@ -159,6 +159,7 @@ const Products : React.SFC<Props> = ({history}) => {
                       <Table 
                       className="overflow-auto"
                         columns={columns} 
+                        rowKey={currentData => currentData.id}
                         dataSource={searchFilter === null ? currentData : searchFilter}
                         pagination={false}
                       />

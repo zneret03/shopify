@@ -149,7 +149,7 @@ const Collection: React.SFC = (props : any) => {
        <>
        <div className="container mx-auto lg:px-20 px-5 py-10">
             <Back path="/shop"/>
-           {item && item.map((product : any, index) => (
+           {item && item.map((product : any, index : number) => (
                     <div className="lg:flex" key={index}>
                        <div className="lg:w-1/2">
                            <div>
@@ -181,7 +181,7 @@ const Collection: React.SFC = (props : any) => {
                              <span>Quantity</span>
                               <div className="flex">
                               <button id="decrement" className="border md:py-2 px-4 px-2"  onClick={(event) => counterHandle(event)}>-</button>
-                              <input type="text" value={counter.count} required className="border py-2 w-full mx-auto text-center"/>
+                              <input type="text" value={counter.count} readOnly required className="border py-2 w-full mx-auto text-center"/>
                               <button id="increment" className="border md:py-2 px-4 px-2" onClick={(event) => counterHandle(event)}>+</button>
                               </div>
                              </div>

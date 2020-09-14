@@ -15,11 +15,11 @@ interface onProps {
 const Orders : React.SFC<onProps> = ({history}) => {
 
     const {items} = useContext(OrderContext);
-    // const currentUser : any = useContext(AuthContext);
-    // const filtered = filteredProduct(items, currentUser);
+    //const currentUser : any = useContext(AuthContext);
+
     const [searchFilter, setSearchFilter] = useState(null);
      //** Reminders */
-     //* Show customer orders
+     //* customer Order authentication
 
      const customerOrders = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, items : any) => {
         event.preventDefault();
@@ -134,6 +134,7 @@ const Orders : React.SFC<onProps> = ({history}) => {
                 <Table key="table"
                 className="overflow-auto"                                       
                     columns={columns} 
+                    rowKey={currentData => currentData.id}                                                                                  
                     dataSource={searchFilter === null ? currentData : searchFilter}
                     pagination={false}
                 />

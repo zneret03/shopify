@@ -85,7 +85,7 @@ export const GetProvince : React.SFC<provincePropsTypes> = ({region, onChange, v
         <select className="border py-2 px-2 bg-white rounded w-full" onChange={onChange} value={province}>
             {province && province.map((province : any) => (
                 <>
-                <option value={province.name} key={province.key}>
+                <option value={province.key} key={province.key}>
                     {province.name}
                 </option>
                 </>
