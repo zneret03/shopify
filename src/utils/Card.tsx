@@ -2,33 +2,24 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 
 interface PropsType {
-    filteredItems : any,
-    history : any
+    filteredItems : object[],
+    onClick? : (event : React.MouseEvent<HTMLDivElement, MouseEvent>, id:string) => void
 }
 
-const Card :React.SFC<PropsType> = ({filteredItems, history}) => {
-
-
-    const getProductId = (event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => {
-        event.preventDefault();
-        if(id){
-            history.push(`/shop/collection/the_merch/item?id=${id}`);
-        }
-    }
+const Card :React.SFC<PropsType> = ({filteredItems, onClick}) => {
 
     if(filteredItems.length <= 0 ){
         return <div className="flex items-center justify-center mt-6 border bg-gray-200 py-2 px-4">
-                    There is no merch yet :(
+                    Empty Merch :(
                </div>
     }
 
     return(
         <div className="grid grid-rows md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredItems.map((item : any) => (
+        {filteredItems.map((item : any, index : number) => (
             item.quantity > 0 && (
-                <div className="border mt-5 mr-2 cursor-pointer" 
-                key={item.id} 
-                onClick={(event) => getProductId(event, item.id)}>
+                <div className="border mt-5 mr-2 cursor-pointer" key={index} 
+                onClick={(event) => onClick(event, item.id)}>
                     <div className="py-6 px-12 bg-gray-200">
                             <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={item.imageUrl} alt=""/>
                     </div>
@@ -39,7 +30,11 @@ const Card :React.SFC<PropsType> = ({filteredItems, history}) => {
                         </div>
                         <span className="block text-xs text-gray-600 uppercase tracking-wide mb-1">{item.product}</span>
                         <div className="flex items-center justify-between">
-                            <span className="text-black text-xs text-gray-800">₱{item.price.toLocaleString()}</span>
+                            <span className="text-black text-xs text-gray-800">₱
+                            {item.price === undefined ? 
+                            item.Subtotal.toLocaleString() : 
+                            item.Subtotal === undefined && 
+                            item.price.toLocaleString()}</span>
                             <span className="block text-xs text-gray-800 uppercase">{item.gender}</span>
                         </div>
                     </div>

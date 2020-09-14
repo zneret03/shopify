@@ -53,6 +53,13 @@ const Shop:React.SFC = (props : any) => {
 
     }
 
+    const getProductId = (event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => {
+        event.preventDefault();
+        if(id){
+            props.history.push(`/shop/collection/the_merch/item?id=${id}`);
+        }
+    }
+
     // **render if items and gender changes
     useEffect(getGenderParams ,[gender, items]);
 
@@ -85,14 +92,9 @@ const Shop:React.SFC = (props : any) => {
                             {gender}
                         </button>
                     </div> 
-                    {/* <input type="text" 
-                    value={search}
-                    onChange={(event) => setSearch(event.target.value)}
-                    className="border sm:mb-4 mb-2 py-2 sm:w-full lg:w-1/4 lg:py-1 px-4 rounded focus:outline-none focus:shadow-outline" 
-                    placeholder="Search Product Name"/> */}
                 </div>
                 <Filters />
-                <Card filteredItems={filter}/>
+                <Card filteredItems={filter} onClick={(event : any, id : string) => getProductId(event, id)}/>
                 </div>
         </div>
     )

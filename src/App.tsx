@@ -9,6 +9,7 @@ import NetworkDetection from './utils/NetworkDetection';
 const Home = lazy(() => import('./page/Home'));
 const Shop = lazy(() => import('./page/Shop'));
 const Cart = lazy(() => import('./page/Cart'));
+const CustomerOrders = lazy(() => import('./page/CustomerOrders'));
 const CheckOut = lazy(() => import('./page/CheckOut'));
 const Dashboard = lazy(() => import('./page/Dashboard'));
 const Inventory = lazy(() => import('./page/Inventory'));
@@ -34,6 +35,7 @@ const App:React.SFC = () => {
             <PublicRoute exact={true} path="/shop/collection/the_merch/item" component={Collection}/>
             <PrivateRoute exact={true}  path="/dashboard" component={Dashboard}/>
             <PrivateRoute exact={true}  path="/order" component={Order}/>
+            <PrivateRoute exact={true}  path="/order/customerOrders" component={CustomerOrders}/>
             <PrivateRoute exact={true}  path="/inventory" component={Inventory}/>
             <PrivateRoute exact={true} path="/dashboard/products/viewProducts" component={Products} />
             <PrivateRoute exact={true} path="/dashboard/products/addProducts" component={addProducts} />
