@@ -5,14 +5,14 @@ interface Props {
 }
 
 interface IContext {
-    items : object[]
+    customerInfo : object[]
 }
 
 const OrderContext = createContext({} as IContext);
 
 const OrderProvider: React.SFC<Props> = ({children}) => {
 
-    const [items, setItems] = useState<object[]>([]);
+    const [customerInfo, setCustomerInfo] = useState<object[]>([]);
 
     useEffect(() => {
         const document = app.firestore();
@@ -21,12 +21,12 @@ const OrderProvider: React.SFC<Props> = ({children}) => {
             onsnapshot.docs.forEach((item : any) => {
                 customerInformationData.push({...item.data(), id : item.id});
             })
-            setItems(customerInformationData);
+            setCustomerInfo(customerInformationData);
         });
     },[])
 
     return(
-        <OrderContext.Provider value={{items}}>
+        <OrderContext.Provider value={{customerInfo}}>
             {children}
         </OrderContext.Provider>
     )

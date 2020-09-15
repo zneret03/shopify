@@ -35,6 +35,7 @@ module.exports = async(event) => {
             const total = Number(subTotal);
 
             const itemsIdArray = [];
+            const ownerIdArray = [];
 
             //*Date 
             const date = new Date();
@@ -43,6 +44,7 @@ module.exports = async(event) => {
 
             pending.map((item) => {
                 itemsIdArray.push(item.id);
+                ownerIdArray.push({id : item.uid});
             })
             
             const document = firebaseDb.collection('customerInformation').doc();
@@ -57,6 +59,7 @@ module.exports = async(event) => {
                 province : province,
                 zipcode : zipcode,
                 items : itemsIdArray,
+                uid : ownerIdArray,
                 date_created : today
             }).then(async() => {
                 const config = {firstName, lastName, email, itemsIdArray}

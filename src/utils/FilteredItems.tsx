@@ -28,3 +28,14 @@ export const onSearch = (value : any, items : any) => {
         })
     })
 }
+
+//**Return new set of array according to current user id */
+export const newCustomerArray = (customerInfo : any, currentUser : any) => {
+    customerInfo.forEach((element : any) => {
+        element.uid = element.uid.filter((search : any) => search.id.includes(currentUser.uid))
+    });
+
+    let newArray = customerInfo.filter((element : any) => element.uid.length);
+
+    return newArray
+}

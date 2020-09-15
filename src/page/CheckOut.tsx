@@ -208,7 +208,7 @@ const CheckOut : React.SFC = () => {
                             <div className={`${items.status.color === "#ff4444" ? "block" : "hidden"}`}>
                             <div className="flex items-center justify-between overflow-auto">
                                 <div>
-                                    <span className="font-bold text-lg">{items.productName}</span>
+                                    <span className="font-bold text-lg">{items.product}</span>
                                     <span className="block">{items.purpose}</span>
                                 </div>
                                 <div>

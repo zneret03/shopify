@@ -2,11 +2,10 @@ import React, {useContext, useState} from 'react';
 import {OrderContext} from '../Context/OrderProvider';
 import {Table, Space, Input,Popconfirm} from 'antd';
 import {ShoppingCart, Edit, Trash2} from 'react-feather';
-// import {AuthContext} from '../auth/AuthProvider';
-// import {filteredProduct} from '../utils/FilteredItems';
+import {AuthContext} from '../auth/AuthProvider';
 import Headers from '../components/private/Header';
 import {MyPagination} from '../components/private/MyPagination';
-import {onSearch} from '../utils/FilteredItems';
+import {onSearch, newCustomerArray} from '../utils/FilteredItems';
 
 interface onProps {
   history : any
@@ -14,12 +13,13 @@ interface onProps {
 
 const Orders : React.SFC<onProps> = ({history}) => {
 
-    const {items} = useContext(OrderContext);
-    // const currentUser : any = useContext(AuthContext);
-    // const filtered = filteredProduct(items, currentUser);
+    const {customerInfo} = useContext(OrderContext);
+    const currentUser : any = useContext(AuthContext);
+    const filteredCustomerInfo = newCustomerArray(customerInfo, currentUser)
+
     const [searchFilter, setSearchFilter] = useState(null);
      //** Reminders */
-     //* Show customer orders
+     //* customer Order authentication
 
      const customerOrders = (event : React.MouseEvent<HTMLButtonElement, MouseEvent>, items : any) => {
         event.preventDefault();
@@ -89,10 +89,10 @@ const Orders : React.SFC<onProps> = ({history}) => {
         {
           title: 'Action Controls',
           key: 'action',
-          render: (items : any) => (
+          render: (customerInfo : any) => (
             <Space size="middle" key="action">
                 <button ><Edit className="text-green-500" size="20"/></button>
-              <button onClick={(event) => customerOrders(event, items)}><ShoppingCart className="text-blue-700" size="20"/></button>
+              <button onClick={(event) => customerOrders(event, customerInfo)}><ShoppingCart className="text-blue-700" size="20"/></button>
               <Popconfirm title="Do you want to delete?">
               <button><Trash2 className="text-red-700" size="20"/></button>
               </Popconfirm>
@@ -109,7 +109,7 @@ const Orders : React.SFC<onProps> = ({history}) => {
     //** get current data;
     const indexLastData = current * dataShowed;
     const indexOfFirstData = indexLastData - dataShowed; 
-    const currentData : object[] = items.slice(indexOfFirstData, indexLastData);
+    const currentData : object[] = filteredCustomerInfo.slice(indexOfFirstData, indexLastData);
 
     //** set spinner if data not arrives
     if(currentData.length <= 0){
@@ -117,7 +117,7 @@ const Orders : React.SFC<onProps> = ({history}) => {
     }
 
     return(
-        <Headers pageName={'Customer Order'}>
+        <Headers pageName={'Information'}>
             <div>
               <div className="mb-3 text-right">
                 <Input.Search
@@ -125,7 +125,7 @@ const Orders : React.SFC<onProps> = ({history}) => {
                   className="max-w-xs"
                   placeholder="Search by firstname"
                   onSearch={nameSearch => {
-                    const sea = onSearch(nameSearch, items)
+                    const sea = onSearch(nameSearch, customerInfo)
                     setSearchFilter(sea);
                     }
                   }
@@ -134,13 +134,14 @@ const Orders : React.SFC<onProps> = ({history}) => {
                 <Table key="table"
                 className="overflow-auto"                                       
                     columns={columns} 
+                    rowKey={currentData => currentData.id}                                                                                  
                     dataSource={searchFilter === null ? currentData : searchFilter}
                     pagination={false}
                 />
                 </div>
                 <div className="mt-2 flex justify-center">
                     <MyPagination 
-                        total={items.length}
+                        total={customerInfo.length}
                         current={current}
                         onChange={setCurrent}
                         pageSize={dataShowed}
