@@ -14,6 +14,11 @@ const CustomerOrders : React.SFC = (props: any) => {
     const [filter, setFilter] = useState<any[]>([])
     const currentUser : any = useContext(AuthContext);
 
+    const redirectRequest = (event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => {
+        event.preventDefault();
+        alert(id)
+    }   
+
     /**Get Items Data from server */
     const onFetchItems = async(items : any) => {
            if(items){
@@ -49,7 +54,7 @@ const CustomerOrders : React.SFC = (props: any) => {
         <>
             <Header pageName={`Customer Order`}>
                 <Back path="/order"/>
-                <Card filteredItems={filterProduct}/>
+                <Card filteredItems={filterProduct} onClick={(event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => redirectRequest(event, id)}/>
             </Header>
         </>
     )

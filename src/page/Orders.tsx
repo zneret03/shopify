@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {OrderContext} from '../Context/OrderProvider';
-import {Table, Space, Input,Popconfirm} from 'antd';
+import {Table, Space, Input,Popconfirm, Tag} from 'antd';
 import {ShoppingCart, Edit, Trash2} from 'react-feather';
 import {AuthContext} from '../auth/AuthProvider';
 import Headers from '../components/private/Header';
@@ -39,6 +39,14 @@ const Orders : React.SFC<onProps> = ({history}) => {
           title: 'Date',
           dataIndex: 'date_created',
           key: 'date_created',
+          render : (date_created : string ) => {
+            let color = 'geekblue';
+            return(
+              <Tag color={color} key={date_created}>
+                  {date_created}
+              </Tag>
+            )
+          }
         },
         {
           title: 'First Name',
@@ -77,9 +85,14 @@ const Orders : React.SFC<onProps> = ({history}) => {
           key: 'region'
         },
         {
-            title : 'Subtotal',
+            title : 'Total',
             dataIndex : 'subTotal',
-            key: 'subTotal'
+            key: 'subTotal',
+            render : (subTotal : number) => {
+              return(
+                <span>₱{subTotal.toLocaleString()}</span>
+              )
+            }
         },
         {
             title : 'Zipcode',

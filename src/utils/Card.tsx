@@ -21,6 +21,7 @@ const Card :React.SFC<PropsType> = ({filteredItems, onClick}) => {
             item.quantity > 0 && (
                 <div className="border mt-5 mr-2 cursor-pointer" key={index} 
                 onClick={(event) => onClick(event, item.id)}>
+                    <span>{item.id}</span>
                     <div className="py-6 px-12 bg-gray-200">
                         <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={item.imageUrl} alt=""/>
                     </div>

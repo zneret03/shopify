@@ -94,7 +94,7 @@ const Shop:React.SFC = (props : any) => {
                     </div> 
                 </div>
                 <Filters />
-                <Card filteredItems={filter} onClick={(event : any, id : string) => getProductId(event, id)}/>
+                <Card filteredItems={filter} onClick={(event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => getProductId(event, id)}/>
                 </div>
         </div>
     )

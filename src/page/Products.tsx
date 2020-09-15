@@ -89,6 +89,11 @@ const Products : React.SFC<Props> = ({history}) => {
             title: 'Price',
             dataIndex: 'price',
             key: 'price',
+            render : (price : number) => {
+              return(
+                <span>₱{price.toLocaleString()}</span>
+              )
+            }
         },
         {
           title : 'Quantity',

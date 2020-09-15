@@ -88,7 +88,7 @@ const Navbar:React.SFC = () =>{
 
 
     return(
-            <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 md:block hidden bg-white h-screen overflow-auto">
+            <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 md:block hidden bg-black h-screen overflow-auto">
                 <div className="px-6">
                     <div> 
                         <div className="pt-6 flex justify-center">
@@ -96,61 +96,61 @@ const Navbar:React.SFC = () =>{
                         </div>
                     {name  || currentUser.displayName ? (
                         <div  className="text-center mt-2">
-                            <span className="font-bold text-lg">{`${name || currentUser.displayName}`}</span>
+                            <span className="font-bold text-lg text-white">{`${name || currentUser.displayName}`}</span>
                         </div>
                      ) : (
                         <div  className="text-center mt-2">
-                            <span className="text-sm">Loading...</span>
+                            <span className="text-sm text-white">Loading...</span>
                         </div>
                      )}
                         <div className="text-center" key="currentUser">
-                                <span className="text-sm text-gray-600 block">{currentUser.email}</span>
+                                <span className="text-sm text-gray-200 block">{currentUser.email}</span>
                         </div>
                         <Divider />
                         <div className={`${menu ? 'text-gray-600' : ''} flex items-center justify-between px-1 cursor-pointer`} 
                         onClick={(event) => Menu(event)}>
-                                <span className="uppercase font-bold">Menu</span>
-                                <span>{menu ? <ChevronDown size="18"/> : <ChevronRight size="18"/>}</span>
+                                <span className="uppercase font-bold text-white">Menu</span>
+                                <span>{menu ? <ChevronDown size="18" color="#FFF"/> : <ChevronRight size="18" color="#FFF"/>}</span>
                         </div>
                         <div className={`${menu ? 'block' : 'hidden'} font-bold mt-4`}>
                             <ul>
                                 <li className="mb-5 cursor-pointer">
                                    <Link to="/dashboard" 
-                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-200 focus:bg-gray-200">
-                                   <span className="mr-2"><Home size="18"/></span>
-                                   <span>Home</span>
+                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-900 focus:bg-gray-900">
+                                   <span className="mr-2"><Home size="18" color="#FFF"/></span>
+                                   <span className="text-white">Home</span>
                                    </Link>
                                 </li>
                                 <li className="mb-5 cursor-pointer">
                                    <Link to="/inventory" 
-                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-200 focus:bg-gray-200">
-                                   <span className="mr-2"><Folder size="18"/></span>
-                                   <span>Inventory</span>
+                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-900 focus:bg-gray-900">
+                                   <span className="mr-2"><Folder size="18" color="#FFF"/></span>
+                                   <span className="text-white">Inventory</span>
                                    </Link>
                                 </li>
                                 <li className="mb-5 cursor-pointer">
                                     <Link to="/order" 
-                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-200 focus:bg-gray-200">
-                                    <span className="mr-2"><ShoppingCart size="18"/></span>
-                                   <span>Orders</span>
+                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-900 focus:bg-gray-900">
+                                    <span className="mr-2"><ShoppingCart size="18" color="#FFF"/></span>
+                                   <span className="text-white">Orders</span>
                                    </Link>
                                 </li>
                                 <li className="mb-5 cursor-pointer ml-2" onClick={(event) => openProducts(event)}>
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center">
-                                            <span className="mr-2"><Package size="18"/></span>
-                                            <span>Products</span>
+                                            <span className="mr-2"><Package size="18" color="#FFF"/></span>
+                                            <span className="text-white">Products</span>
                                         </div>
-                                        <span >{products ? <ChevronDown size="18"/> : <ChevronRight size="18"/>}</span>
+                                        <span >{products ? <ChevronDown size="18" color="#FFF"/> : <ChevronRight size="18" color="#FFF"/>}</span>
                                     </div>
                                    <div className={`${products ? 'block' : 'hidden'} ml-2 mt-2 font-normal`}>
                                        <ul>
                                            <Link to="/dashboard/products/addProducts" 
-                                           className="flex items-center justify-between hover:bg-gray-200 px-2 rounded py-1 text-gray-700">
-                                           <li className="hover:bg-gray-200 focus:bg-gray-200 ">Add Products</li>
+                                           className="flex items-center justify-between hover:bg-gray-900 px-2 rounded py-1 text-gray-700">
+                                           <li className="hover:bg-gray-900 focus:bg-gray-900 text-white">Add Products</li>
                                            </Link>
-                                           <Link to="/dashboard/products/viewProducts" className="flex items-center justify-between hover:bg-gray-200  px-2 rounded py-1 text-gray-700">
-                                           <li >View Products</li>
+                                           <Link to="/dashboard/products/viewProducts" className="flex items-center justify-between hover:bg-gray-900  px-2 rounded py-1 text-gray-700">
+                                           <li className="text-white">View Products</li>
                                            </Link>
                                        </ul>
                                    </div>
@@ -160,22 +160,22 @@ const Navbar:React.SFC = () =>{
                         <Divider />
                         <div className={`${sale ? 'text-gray-600' : ''} mt-5 flex items-center justify-between px-1 cursor-pointer`} 
                         onClick={(event) => saleChannel(event)}>
-                                <span className="uppercase font-bold">Sale Channel</span>
-                                <span>{sale ? <ChevronDown size="18"/> : <ChevronRight size="18"/>}</span>
+                                <span className="uppercase font-bold text-white">Sale Channel</span>
+                                <span>{sale ? <ChevronDown size="18" color="#FFF"/> : <ChevronRight size="18" color="#FFF"/>}</span>
                         </div>
                         <div className="mt-4 font-bold">
                             <ul className={`${sale ? 'block' : 'hidden'}`}>
-                                <li className="mb-5 hover:bg-gray-200 px-1 py-1 rounded flex items-center cursor-pointer">
-                                    <span className="mr-2"><Facebook size="18"/></span>
-                                    <span>Facebook</span>
+                                <li className="mb-5 hover:bg-gray-900 px-1 py-1 rounded flex items-center cursor-pointer">
+                                    <span className="mr-2"><Facebook size="18" color="#FFF"/></span>
+                                    <span className="text-white">Facebook</span>
                                     </li>
-                                    <li className="mb-5 hover:bg-gray-200 px-1 py-1 rounded flex items-center cursor-pointer">
-                                    <span className="mr-2"><Twitter size="18"/></span>
-                                    <span>Twitter</span>
+                                    <li className="mb-5 hover:bg-gray-900 px-1 py-1 rounded flex items-center cursor-pointer">
+                                    <span className="mr-2"><Twitter size="18" color="#FFF"/></span>
+                                    <span className="text-white">Twitter</span>
                                     </li>
-                                    <li className="mb-5 hover:bg-gray-200 px-1 py-1 rounded flex items-center cursor-pointer">
-                                    <span className="mr-2"><Instagram size="18"/></span>
-                                    <span>Instagram</span>
+                                    <li className="mb-5 hover:bg-gray-900 px-1 py-1 rounded flex items-center cursor-pointer">
+                                    <span className="mr-2"><Instagram size="18" color="#FFF"/></span>
+                                    <span className="text-white">Instagram</span>
                                     </li>
                             </ul>
                             <Divider />
@@ -183,15 +183,15 @@ const Navbar:React.SFC = () =>{
                             <li className="mb-5 px-1 py-1 rounded cursor-pointer">
                                     <div className="flex justify-between">
                                         <div className="flex items-center">
-                                            <span className="mr-2"><Settings size="18"/></span>
-                                            <span>Settings</span>
+                                            <span className="mr-2"><Settings size="18" color="#FFF"/></span>
+                                            <span className="text-white">Settings</span>
                                         </div>
                                         <span><ChevronRight size="18"/></span>
                                    </div>
                                 </li>
-                                <li onClick={(event) => signOut(event)} className="mb-5 hover:bg-gray-200 px-1 py-1 rounded flex items-center cursor-pointer">
-                                   <span className="mr-2"><LogOut size="18"/></span>
-                                   <span >Logout</span>
+                                <li onClick={(event) => signOut(event)} className="mb-5 hover:bg-gray-900 px-1 py-1 rounded flex items-center cursor-pointer">
+                                   <span className="mr-2"><LogOut size="18" color="#FFF"/></span>
+                                   <span className="text-white">Logout</span>
                                 </li>
                             </ul>
                         </div>
