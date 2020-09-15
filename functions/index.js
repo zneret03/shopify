@@ -1,5 +1,4 @@
 //**Products */
-const getProduct = require('./product/getProduct');
 const addProduct = require('./product/addProduct');
 const updateProduct = require('./product/updateProduct');
 const deleteProduct = require('./product/deleteProduct');
@@ -20,10 +19,6 @@ const httpRequest = {
 
 exports.handler = async(event) => {
    switch(event.queryStringParameters['name']){
-      case "getProduct":
-         if(event.httpMethod === httpRequest.GET){
-            return await getProduct(event);
-         } 
       case "addProduct":
          if(event.httpMethod === httpRequest.POST){
             return await addProduct(event);
