@@ -125,7 +125,7 @@ const Orders : React.SFC<onProps> = ({history}) => {
                   className="max-w-xs"
                   placeholder="Search by firstname"
                   onSearch={nameSearch => {
-                    const sea = onSearch(nameSearch, customerInfo)
+                    const sea = onSearch(nameSearch, filteredCustomerInfo)
                     setSearchFilter(sea);
                     }
                   }
