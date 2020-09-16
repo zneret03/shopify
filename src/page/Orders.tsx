@@ -126,7 +126,7 @@ const Orders : React.SFC<onProps> = ({history}) => {
 
     //** set spinner if data not arrives
     if(currentData.length <= 0){
-      return <div className="h-screen w-screen flex items-center justify-center">Please wait...</div>
+      return <div className="h-screen w-screen md:pl-64 flex items-center justify-center">Please wait...</div>
     }
 
     return(

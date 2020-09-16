@@ -48,6 +48,7 @@
     "@babel/polyfill": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
     "@babel/runtime": "^7.11.2",
+    "@tailwindui/react": "^0.1.1",
     "@types/aws-lambda": "^8.10.61",
     "@types/node": "^12.12.54",
     "antd": "^4.3.5",

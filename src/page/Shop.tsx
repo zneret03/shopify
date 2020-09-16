@@ -94,6 +94,7 @@ const Shop:React.SFC = (props : any) => {
                     </div> 
                 </div>
                 <Filters />
+                {filter.length <= 0 && <div className="flex items-center justify-center mt-6 border bg-gray-200 px-8 py-2">Empty Merch :(</div>}
                 <Card filteredItems={filter} onClick={(event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => getProductId(event, id)}/>
                 </div>
         </div>

@@ -21,7 +21,7 @@ export const signOut = (event : React.MouseEvent<HTMLSpanElement, MouseEvent>) =
     app.auth().signOut();
 }
 
-const Navbar:React.SFC = () =>{
+const Sidebar:React.SFC = () =>{
 
     const currentUser : any = useContext(AuthContext);
     // const data : object[] = []
@@ -86,9 +86,10 @@ const Navbar:React.SFC = () =>{
         console.log(error.message);
     })
 
-
     return(
-            <div className="shadow-lg sm:w-1/4 md:w-1/2 lg:w-1/4 md:block hidden bg-black h-screen overflow-auto">
+        <>
+        <div className="sm:w-1/4 md:w-1/4 lg:w-1/5 fixed">
+            <div className={`shadow-lg md:block bg-black h-screen overflow-auto`}>
                 <div className="px-6">
                     <div> 
                         <div className="pt-6 flex justify-center">
@@ -198,7 +199,9 @@ const Navbar:React.SFC = () =>{
                     </div>
                 </div>
             </div>
+        </div>
+    </>
     )
 }
 
-export default Navbar;
+export default Sidebar;

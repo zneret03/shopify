@@ -4,6 +4,7 @@ import {app} from '../config/firebase';
 import Card from '../utils/Card';
 import Back from '../utils/Back';
 import {AuthContext} from '../auth/AuthProvider';
+import {withRouter} from 'react-router-dom';
 import {filteredProduct} from '../utils/FilteredItems';
 
 const CustomerOrders : React.SFC = (props: any) => {
@@ -16,20 +17,21 @@ const CustomerOrders : React.SFC = (props: any) => {
 
     const redirectRequest = (event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => {
         event.preventDefault();
-        alert(id)
+        id && props.history.push(`/order/customerOrder/OrderInformation?id=${id}`);
     }   
 
     /**Get Items Data from server */
     const onFetchItems = async(items : any) => {
            if(items){
-                const data = await Promise.all(items.map(async(id : any) => {
-                    const fetchItems = document.collection('transaction').doc(id);
-                    const getDataItems = await fetchItems.get();
+            const arrayItems = items.map(async(id : any) => {
+                const fetchItems = document.collection('transaction').doc(id);
+                const getDataItems = await fetchItems.get();
                     if(getDataItems){
-                        return getDataItems.data()
+                        return {...getDataItems.data(), id: getDataItems.id}
                     }
-                    })
-                ) 
+                })
+
+                const data = await Promise.all(arrayItems) 
                 setFilter(data);
            }
     }
@@ -47,17 +49,19 @@ const CustomerOrders : React.SFC = (props: any) => {
 
     //*Render all id coming from URL query string*/
     useEffect(fetchItems,[getId])
+      
 
     //**Get products according to user owner ID */
     const filterProduct = filteredProduct(filter, currentUser);
+
     return(
-        <>
-            <Header pageName={`Customer Order`}>
-                <Back path="/order"/>
-                <Card filteredItems={filterProduct} onClick={(event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => redirectRequest(event, id)}/>
-            </Header>
-        </>
+        <Header pageName={`Customer Order`}>
+            <Back path="/order"/>
+            <Card 
+            filteredItems={filterProduct} 
+            onClick={(event : React.MouseEvent<HTMLDivElement, MouseEvent>, id : string) => redirectRequest(event, id)}/>
+        </Header>        
     )
 }
 
-export default CustomerOrders;
+export default withRouter(CustomerOrders);

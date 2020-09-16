@@ -6,22 +6,14 @@ interface PropsType {
     onClick? : (event : React.MouseEvent<HTMLDivElement, MouseEvent>, id:string) => void
 }
 
-const Card :React.SFC<PropsType> = ({filteredItems, onClick}) => {
+const Card :React.SFC<PropsType> = ({filteredItems,onClick}) => {
 
-    if(filteredItems.length <= 0 ){
-        return <div className="flex items-center justify-center mt-6 border bg-gray-200 py-2 px-4">
-                    Empty Merch :(
-               </div>
-    }
-
-    
     return(
         <div className="grid grid-rows md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredItems.map((item : any, index : number) => (
             item.quantity > 0 && (
                 <div className="border mt-5 mr-2 cursor-pointer" key={index} 
                 onClick={(event) => onClick(event, item.id)}>
-                    <span>{item.id}</span>
                     <div className="py-6 px-12 bg-gray-200">
                         <img className="sm:w-64 sm:h-64 object-contain mx-auto" src={item.imageUrl} alt=""/>
                     </div>

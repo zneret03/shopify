@@ -13,7 +13,7 @@ const CustomerOrders = lazy(() => import('./page/CustomerOrders'));
 const CheckOut = lazy(() => import('./page/CheckOut'));
 const Dashboard = lazy(() => import('./page/Dashboard'));
 const Inventory = lazy(() => import('./page/Inventory'));
-const OrderInformation = lazy(() => import('./page/Inventory'));
+const OrderInformation = lazy(() => import('./page/OrderInforation'));
 const Order = lazy(() => import('./page/Orders'));
 const PublicRoute = lazy(() => import('./layouts/public/PublicRoute'));
 const Collection = lazy(() => import('./page/Collection'));

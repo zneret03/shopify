@@ -12,8 +12,9 @@ const Front:React.SFC<Props> = ({children}) => {
     const [navbar, setNavbar] = useState<boolean>(false);
 
     const showNavbar = () => {
-        if(window.innerWidth > 734){
+        if(window.innerWidth > 1023){
             setNavbar(true);
+            console.log(window.innerWidth)
         }else{
             setNavbar(false);
         }
@@ -28,7 +29,7 @@ const Front:React.SFC<Props> = ({children}) => {
     return(
         <OrderProvider>
             <React.Fragment>
-            <div className={`font-sans ${navbar ? 'flex' : null} `}>
+            <div className={`font-sans ${navbar ? 'flex' : null}`}>
                 {navbar ? <Sidebar /> : <Navbar />}
                 {children}
             </div>
