@@ -117,21 +117,21 @@ const Sidebar:React.SFC = () =>{
                             <ul>
                                 <li className="mb-5 cursor-pointer">
                                    <Link to="/dashboard" 
-                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-900 focus:bg-gray-900">
+                                   className="flex items-center rounded px-2 py-1 hover:bg-blue-500 focus:bg-blue-500">
                                    <span className="mr-2"><Home size="18" color="#FFF"/></span>
                                    <span className="text-white">Home</span>
                                    </Link>
                                 </li>
                                 <li className="mb-5 cursor-pointer">
                                    <Link to="/inventory" 
-                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-900 focus:bg-gray-900">
+                                   className="flex items-center rounded px-2 py-1 hover:bg-blue-500 focus:bg-blue-500">
                                    <span className="mr-2"><Folder size="18" color="#FFF"/></span>
                                    <span className="text-white">Inventory</span>
                                    </Link>
                                 </li>
                                 <li className="mb-5 cursor-pointer">
                                     <Link to="/order" 
-                                   className="flex items-center rounded px-2 py-1 text-gray-700 hover:bg-gray-900 focus:bg-gray-900">
+                                   className="flex items-center rounded px-2 py-1 hover:bg-blue-500 focus:bg-blue-500">
                                     <span className="mr-2"><ShoppingCart size="18" color="#FFF"/></span>
                                    <span className="text-white">Orders</span>
                                    </Link>
@@ -147,10 +147,11 @@ const Sidebar:React.SFC = () =>{
                                    <div className={`${products ? 'block' : 'hidden'} ml-2 mt-2 font-normal`}>
                                        <ul>
                                            <Link to="/dashboard/products/addProducts" 
-                                           className="flex items-center justify-between hover:bg-gray-900 px-2 rounded py-1 text-gray-700">
-                                           <li className="hover:bg-gray-900 focus:bg-gray-900 text-white">Add Products</li>
+                                           className="flex items-center justify-between hover:bg-blue-500 px-2 rounded py-1">
+                                           <li className=" text-white">Add Products</li>
                                            </Link>
-                                           <Link to="/dashboard/products/viewProducts" className="flex items-center justify-between hover:bg-gray-900  px-2 rounded py-1 text-gray-700">
+                                           <Link to="/dashboard/products/viewProducts" 
+                                           className="flex items-center justify-between hover:bg-blue-500  px-2 rounded py-1">
                                            <li className="text-white">View Products</li>
                                            </Link>
                                        </ul>
@@ -166,15 +167,15 @@ const Sidebar:React.SFC = () =>{
                         </div>
                         <div className="mt-4 font-bold">
                             <ul className={`${sale ? 'block' : 'hidden'}`}>
-                                <li className="mb-5 hover:bg-gray-900 px-1 py-1 rounded flex items-center cursor-pointer">
+                                <li className="mb-5 hover:bg-blue-500 px-2 py-1 rounded flex items-center cursor-pointer">
                                     <span className="mr-2"><Facebook size="18" color="#FFF"/></span>
                                     <span className="text-white">Facebook</span>
                                     </li>
-                                    <li className="mb-5 hover:bg-gray-900 px-1 py-1 rounded flex items-center cursor-pointer">
+                                    <li className="mb-5 hover:bg-blue-500 px-2 py-1 rounded flex items-center cursor-pointer">
                                     <span className="mr-2"><Twitter size="18" color="#FFF"/></span>
                                     <span className="text-white">Twitter</span>
                                     </li>
-                                    <li className="mb-5 hover:bg-gray-900 px-1 py-1 rounded flex items-center cursor-pointer">
+                                    <li className="mb-5 hover:bg-blue-500 px-2 py-1 rounded flex items-center cursor-pointer">
                                     <span className="mr-2"><Instagram size="18" color="#FFF"/></span>
                                     <span className="text-white">Instagram</span>
                                     </li>

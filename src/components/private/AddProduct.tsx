@@ -192,7 +192,8 @@ const AddProduct: React.SFC = () => {
       const uploadeFileHttpsRequest = (config : any) => {
 
         const {date, imageUrl, data, file} = config;
-
+        const prod : string = product.toLowerCase();
+        const purp : string = purpose.toLowerCase();
         axios({
             method : 'POST',
             url : '/api/index?name=addProduct',
@@ -200,9 +201,9 @@ const AddProduct: React.SFC = () => {
             data : {
                 uid : data,
                 fileName : file,
-                product : product,
+                product : prod,
                 title : title,
-                purpose : purpose,
+                purpose : purp,
                 price : price, 
                 quantity : quantity,
                 imageUrl : imageUrl,

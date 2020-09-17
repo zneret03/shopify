@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 import {Badge} from 'antd'
 import {CartContext} from '../../Context/CartProvider';
 import {pendingItems} from '../../utils/FilteredItems'
-import { Transition } from '@tailwindui/react';
 // **Components 
 import SearchItem from '../public/SearchItem';
 import Login from '../Forms/Login';

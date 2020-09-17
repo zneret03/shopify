@@ -14,7 +14,7 @@ const Front:React.SFC<Props> = ({children}) => {
     const showNavbar = () => {
         if(window.innerWidth > 1023){
             setNavbar(true);
-            console.log(window.innerWidth)
+            //console.log(window.innerWidth)
         }else{
             setNavbar(false);
         }

@@ -42,58 +42,77 @@ const Navbar:React.SFC = () => {
         }
     }
 
+    const linkColor = "flex items-center rounded px-2 py-1 hover:bg-blue-500 focus:bg-blue-500"
+
     return(
         <div>
             <div className="w-full bg-black">
                 <div className="shadow">
                     <div className="container mx-auto px-3 py-4">
                         {responsive ? (
-                             <div className="flex items-center justify-end">
-                             <Link to="/dashboard" className="text-gray-700">
-                                 <span className="mr-5 cursor-pointer text-white">Home</span>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-center font-bold">
+                            <Link to="/dashboard" className={`${linkColor} mr-2`}>
+                                 <span className="text-white">Home</span>
                             </Link>
-                             <Link to="/inventory" className="text-gray-700">
-                                 <span className="mr-5 cursor-pointer text-white">Inventory</span>
+                             <Link to="/inventory" className={`${linkColor} mr-2`}>
+                                 <span className="text-white">Inventory</span>
                             </Link>
-                            <Link to="/order" className="text-gray-700">
-                                <span className="mr-5 cursor-pointer text-white">Orders</span>
+                            <Link to="/order" className={`${linkColor} mr-2`}>
+                                <span className="text-white">Orders</span>
                             </Link>
                              <div>
-                                 <span className="mr-5 cursor-pointe text-white" onClick={(event) => toggle(event)}>Product</span>
+                                 <span className="mr-2 cursor-pointer text-white" onClick={(event) => toggle(event)}>Product</span>
                                  <ul className={`${toggleProduct ? 'block' : 'hidden'} shadow absolute bg-gray-900 px-4 py-3 mt-3`}>
-                                     <Link to="/dashboard/products/addProducts" className="text-gray-700">
-                                         <li className="mb-2 cursor-pointer text-white">Add Products</li>
+                                     <Link to="/dashboard/products/addProducts">
+                                         <li onClick={() => setToggleProduct(!toggleProduct)} className="mb-2 font-normal text-white">Add Products</li>
                                      </Link>
-                                     <Link to="/dashboard/products/viewProducts" className="text-gray-700">
-                                         <li className="cursor-pointer text-white">View Products</li>
+                                     <Link to="/dashboard/products/viewProducts">
+                                         <li onClick={() => setToggleProduct(!toggleProduct)} className="font-normal text-white">View Products</li>
                                      </Link>
                                  </ul>
                              </div>
-                             <span className="mr-5 cursor-pointer text-white">Settings</span>
-                             <span className="mr-5 cursor-pointer text-white" onClick={signOut}>Logout </span>
+                             <Link to="" className={`${linkColor} mr-2 `}>
+                                <span className="text-white">Settings</span>
+                             </Link>
+                             <Link to="" className={`${linkColor}`}>
+                                <span className="text-white" onClick={signOut}>Logout </span>
+                             </Link>
+                            </div>
+                            <div>
+                                <img className="w-8 h-8 object-cover rounded-full" src={require('../../image/exampleProfile.jpg')} alt=""/>
+                            </div>
                          </div>
                         ) : (
                             <div>                                                                                                     
                                 <span className="cursor-pointer" onClick={(event) => toggleManu(event)}><Menu className="ml-2" color="#FFF"/></span>
                                 <div className={`${menu ? 'block' : 'hidden'}`}>
-                                <Link to="/dashboard" className="text-gray-700">
-                                    <span className="mr-5 cursor-pointer block mt-1 hover:bg-gray-900 rounded py-1 px-2 text-white">Home</span>
+                                <Link to="/dashboard" className={linkColor}>
+                                    <span className="text-white">Home</span>
                                 </Link>
-                                    <span className="mr-5 cursor-pointer block mt-1 hover:bg-gray-900 rounded py-1 px-2 text-white">Inventory</span>
-                                    <span className="mr-5 cursor-pointer block mt-1 hover:bg-gray-900 rounded py-1 px-2 text-white">Orders</span>
+                                <Link to="/inventory" className={linkColor}>
+                                    <span className="text-white">Inventory</span>
+                                </Link>
+                                <Link to="/order" className={linkColor}>
+                                    <span className="text-white">Orders</span>
+                                </Link>
                                     <div>
-                                        <span className="mr-5 cursor-pointer mt-1 block hover:bg-gray-900 rounded py-1 px-2 text-white" onClick={(event) => toggle(event)}>Product</span>
+                                        <span className="mr-5 mt-1 cursor-pointer block hover:bg-blue-500 rounded py-1 px-2 text-white" onClick={(event) => toggle(event)}>Product</span>
                                         <ul className={`${toggleProduct ? 'block' : 'hidden'} shadow absolute bg-gray-900 px-4 py-3 mt-3`}>
                                             <Link to="/dashboard/products/addProducts" className="text-gray-700">
-                                                <li className="mb-2 cursor-pointer text-white">Add Products</li>
+                                                <li onClick={() => setToggleProduct(!toggleProduct)} className="mb-2 cursor-pointer text-white">Add Products</li>
                                             </Link>
                                             <Link to="/dashboard/products/viewProducts" className="text-gray-700">
-                                                <li className="cursor-pointer text-white">View Products</li>
+                                                <li  onClick={() => setToggleProduct(!toggleProduct)} className="cursor-pointer text-white">View Products</li>
                                             </Link>
                                         </ul>
                                     </div>
-                                    <span className="mr-5 cursor-pointer block mt-1 hover:bg-gray-900 rounded py-1 px-2 text-white">Settings</span>
-                                    <span className="mr-5 cursor-pointer block mt-1 hover:bg-gray-900 rounded py-1 px-2 text-white">Logout </span>
+                                    <Link to="" className={linkColor}>
+                                        <span className="text-white">Settings</span>
+                                    </Link>
+                                    <Link to="" className={linkColor}>
+                                        <span className="text-white" onClick={() => signOut}>Logout </span>
+                                    </Link>
                                     </div>
                             </div>
                         )}

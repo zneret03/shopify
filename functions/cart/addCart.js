@@ -37,7 +37,6 @@ module.exports = async(event) => {
 
         const total = Number(Subtotal);
         const quantity = Number(Totalquantity);
-
         const document = firebaseDb.collection('transaction').doc();
 
         await document.set({

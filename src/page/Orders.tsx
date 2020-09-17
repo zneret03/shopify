@@ -17,6 +17,14 @@ const Orders : React.SFC<onProps> = ({history}) => {
     const currentUser : any = useContext(AuthContext);
     const filteredCustomerInfo = newCustomerArray(customerInfo, currentUser)
 
+    const [purchaseTotal, setPurchaseTotal] = useState(0);
+
+    const totalPurchase = Promise.resolve(
+      filteredCustomerInfo.reduce((a : any, b: any) => a + b.subTotal, 0)
+    );
+    
+    totalPurchase.then((data : any) => data !== 0 && setPurchaseTotal(data))
+      
     const [searchFilter, setSearchFilter] = useState(null);
      //** Reminders */
      //* customer Order authentication
@@ -132,7 +140,11 @@ const Orders : React.SFC<onProps> = ({history}) => {
     return(
         <Headers pageName={'Information'}>
             <div>
-              <div className="mb-3 text-right">
+              <div className="mb-3 flex items-center justify-between">
+              <div>
+              <span className="font-bold text-lg">Total : </span>
+              <span className="font-bold text-lg text-red-500">₱{purchaseTotal.toLocaleString()}</span>
+              </div>
                 <Input.Search
                   allowClear
                   className="max-w-xs"
