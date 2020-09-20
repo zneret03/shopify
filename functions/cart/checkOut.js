@@ -3,15 +3,12 @@ const { firebaseDb } = require('../firebaseAdmin');
 
 const onUpdateStatus = async(config) => {
     try {
-        const {firstName, lastName, email, itemsIdArray } = config;
+        const {customerId, itemsIdArray } = config;
 
         await itemsIdArray.map((item) => {
             firebaseDb.collection('transaction').doc(item).update({
                 status : {color : '#00C851', itemStatus : 'paid'},
-                customerInformation : { 
-                    customerName : `${firstName} ${lastName}`,
-                    customerEmail : email
-                }
+                customerId : customerId 
             });
         })
     } catch (error) {
@@ -27,12 +24,12 @@ module.exports = async(event) => {
             lastName, 
             email, 
             address, 
-            subTotal, 
+            total, 
             activeRegion, 
             province, 
             zipcode, 
             pending} = JSON.parse(event.body);
-            const total = Number(subTotal);
+            const totalSales = Number(total);
 
             const itemsIdArray = [];
             const ownerIdArray = [];
@@ -54,7 +51,7 @@ module.exports = async(event) => {
                 lastName : lastName,
                 email : email,
                 address : address,
-                subTotal : total,
+                subTotal : totalSales,
                 region : activeRegion,
                 province : province,
                 zipcode : zipcode,
@@ -62,7 +59,7 @@ module.exports = async(event) => {
                 uid : ownerIdArray,
                 date_created : today
             }).then(async() => {
-                const config = {firstName, lastName, email, itemsIdArray}
+                const config = {customerId : document.id, itemsIdArray}
                await onUpdateStatus(config);
             });
 

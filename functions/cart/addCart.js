@@ -29,13 +29,15 @@ module.exports = async(event) => {
             imageUrl, 
             purpose, 
             productName,
-            Subtotal, 
+            Subtotal,
+            vat, 
             Totalquantity,
             gender,
             status
         } = JSON.parse(event.body);
 
-        const total = Number(Subtotal);
+        const subtotal = Number(Subtotal);
+        const vatable = Number(vat);
         const quantity = Number(Totalquantity);
         const document = firebaseDb.collection('transaction').doc();
 
@@ -46,7 +48,8 @@ module.exports = async(event) => {
             imageUrl : imageUrl,
             purpose : purpose,
             product : productName,
-            Subtotal : total,
+            Subtotal : subtotal,
+            valueAddedTax : vatable,
             quantity : quantity,
             gender : gender,
             status : {color : status, itemStatus : 'pending'}
