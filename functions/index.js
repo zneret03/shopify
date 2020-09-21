@@ -1,15 +1,15 @@
 //**Products */
-const addProduct = require("./product/addProduct");
-const updateProduct = require("./product/updateProduct");
-const deleteProduct = require("./product/deleteProduct");
+const addProduct = require("./helpers/product/addProduct");
+const updateProduct = require("./helpers/product/updateProduct");
+const deleteProduct = require("./helpers/product/deleteProduct");
 //**Sign in */
-const signIn = require("./user/signIn");
+const signIn = require("./helpers/user/signIn");
 //**Cart */
-const checkOut = require("./cart/checkOut");
-const addCart = require("./cart/addCart"); //**Collections */
+const checkOut = require("./helpers/cart/checkOut");
+const addCart = require("./helpers/cart/addCart"); //**Collections */
 const callback = require("./callback");
 //**Customer Information */
-const updateCustomerInformation = require("./customerInformation/updateCustomerInformation");
+const updateCustomerInformation = require("./helpers/customerInformation/updateCustomerInformation");
 const httpRequest = {
   GET: "GET",
   POST: "POST",
