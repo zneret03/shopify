@@ -1,7 +1,7 @@
-import React, {useContext, ComponentType} from 'react';
-import {Route, Redirect} from 'react-router-dom';
-import {AuthContext} from '../../auth/AuthProvider';
-import Front from './Front';
+import React, { useContext, ComponentType } from "react";
+import { Route, Redirect } from "react-router-dom";
+import { AuthContext } from "../../auth/AuthProvider";
+import Front from "./Front";
 /* <Route 
 {...path}
 render={(routeProps : any) => 
@@ -13,24 +13,28 @@ render={(routeProps : any) =>
 /> */
 
 interface Props {
-    component: ComponentType<any>,
-    path : string,
-    exact? : boolean
+  component: ComponentType<any>;
+  path: string;
+  exact?: boolean;
 }
 
-const PrivateRoute:React.SFC<Props> = ({component : RouteComponent, path}) => {
+const PrivateRoute: React.SFC<Props> = ({
+  component: RouteComponent,
+  path,
+}) => {
+  const isAuthenticated: any = useContext(AuthContext);
 
-    const isAuthenticated : any = useContext(AuthContext)
-    
-    const routeComponent = (props : any) => {
-        return isAuthenticated ? 
-        <Front key='isAuthenticated'>
-            {React.createElement(RouteComponent, props)} 
-        </Front> 
-        : <Redirect to="/"/>  
-    }
-    
-    return <Route {...path} render={routeComponent}/>
-}
+  const routeComponent = (props: any) => {
+    return isAuthenticated ? (
+      <Front key="isAuthenticated">
+        {React.createElement(RouteComponent, props)}
+      </Front>
+    ) : (
+      <Redirect to="/" />
+    );
+  };
+
+  return <Route {...path} render={routeComponent} />;
+};
 
 export default PrivateRoute;

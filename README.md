@@ -1,6 +1,7 @@
 # Welcome to Shopify
 
-## Tasks 
+## Tasks
+
 - [x] Add products
 - [x] Edit products with realtime product preview
 - [x] Realtime product update from Table
@@ -15,6 +16,8 @@
 - [x] Social media authentication
 - [x] Fixing Region and province select element
 - [x] Fixing firebase issue
+- [ ] Manage Category
+- [ ] Critical Stocks
 - [ ] Email news paper
 - [ ] Customer Orders
 - [ ] Inventory
@@ -22,4 +25,3 @@
 - [ ] Sort by product name
 - [ ] Sort by price
 - [ ] Chart
-

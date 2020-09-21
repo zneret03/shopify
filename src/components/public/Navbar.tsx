@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 import {Badge} from 'antd'
 import {CartContext} from '../../Context/CartProvider';
 import {pendingItems} from '../../utils/FilteredItems'
-
 // **Components 
 import SearchItem from '../public/SearchItem';
 import Login from '../Forms/Login';
@@ -15,7 +14,7 @@ const Navbar: React.SFC = () => {
     const pending = pendingItems(cartItems);
 
     //** open login modal
-    const [login, setLogin] = useState(false);
+    const [login, setLogin] = useState(false);      
 
     const openLogin = (event: React.MouseEvent<SVGElement, MouseEvent> | React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         event.preventDefault();
@@ -73,6 +72,7 @@ const Navbar: React.SFC = () => {
     const NavbarCss : string = 'sm:mr-10 mr-5 border-b border-white hover:border-black focus:border-black';
     
     return(
+        <>
         <div className="shadow sticky top-0 bg-white z-20">
         {search && (<SearchItem close={(event : any) => closeSearch(event)}/>)}
         {login && <Login close={(event : any) => closeLogin(event)} />}
@@ -137,15 +137,16 @@ const Navbar: React.SFC = () => {
                     </div>
                 </div>
            </div>
-           <div className={`${toggle ? 'block' : 'hidden'} font-mono text-lg sm:font-bold sm:hidden block cursor-pointer px-2 py-1 tracking-wider`}>
+           <div className={`${toggle ? 'translate-x-0' : 'hidden'} font-mono text-lg sm:font-bold sm:hidden block cursor-pointer px-2 py-1 tracking-wider`}>
                 <Link to="/" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 rounded-xs hover:text-black text-black">HOME</Link>
-                <Link to="/mens" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 hover:text-black text-black">MEN</Link>
-                <Link to="/womens" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 hover:text-black text-black">WOMEN</Link>
-                <Link to="/kids" className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black">KIDS</Link>
+                <Link to="/shop?gender=men" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 hover:text-black text-black">MEN</Link>
+                <Link to="/shop?gender=women" className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 hover:text-black text-black">WOMEN</Link>
+                <Link to="shop?gender=kids" className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black">KIDS</Link>
                 <span onClick={(event) => openLogin(event)} className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black">LOGIN</span>
             </div>
             </div>
         </div>  
+        </>
     )
 }
 
