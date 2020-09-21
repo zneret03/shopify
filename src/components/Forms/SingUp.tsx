@@ -45,7 +45,7 @@ const SignUp: React.FC<Props> = ({ back }) => {
       .then((cred) => {
         if (cred.user) {
           axios
-            .post("/api/index?name=signIn", {
+            .post("/.netlify/functions/index?name=signIn", {
               id: cred.user.uid,
               email: email,
               firstname: firstname,

@@ -40,7 +40,7 @@ const Products: React.FC<Props> = ({ history }) => {
 
     axios({
       method: "delete",
-      url: `/api/index?name=deleteProduct&&productId=${id}`,
+      url: `/.netlify/functions/index?name=deleteProduct&&productId=${id}`,
       headers: { "Access-Control-Allow-Origin": "*" },
     })
       .then(() => {

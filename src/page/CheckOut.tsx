@@ -70,7 +70,7 @@ const CheckOut: React.FC = () => {
     //**getting owner customerInformation */
     axios({
       method: "post",
-      url: "/api/index?name=checkOut",
+      url: "/.netlify/functions/index?name=checkOut",
       headers: { "Access-Control-Allow-Origin": "*" },
       data: {
         firstName,
