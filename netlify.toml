@@ -7,6 +7,5 @@
     to= "/.netlify/functions/:splat"
     status = 200
     force = true
-[[plugins]]
-    package = "@netlify/plugin-local-install-core"
+
     
