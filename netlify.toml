@@ -1,7 +1,11 @@
 [build]
     functions = "functions"
+    command =  "npm run build"
 [[redirects]]
     from = "/api/*"
     to= "/.netlify/functions/:splat"
     status = 200
     force = true
+[[plugins]]
+    package = "@netlify/plugin-local-install-core"
+    
