@@ -16,16 +16,19 @@ const OrderInformation: React.FC = (props: any) => {
   const [getCustomerInfo, setGetCustomerInfo] = useState({ customerArr: [] });
 
   const getCustomerData = (id: string) => {
-    (async () => {
-      const customerArray = [];
-      const fetchCustomer = document.collection("customerInformation").doc(id);
-      const getCustomerData = await fetchCustomer.get();
-      customerArray.push({ ...getCustomerData.data(), id: getCustomerData.id });
+    const customerArray = [];
+    const fetchCustomer = document.collection("customerInformation").doc(id);
+    return fetchCustomer.onSnapshot((getCustomerData) => {
+      customerArray.push({
+        ...getCustomerData.data(),
+        id: getCustomerData.id,
+      });
 
       getCustomerData &&
         setGetCustomerInfo({ customerArr: [...customerArray] });
-      //console.log(getCustomerData.data());
-    })();
+    });
+
+    //console.log(getCustomerData.data());
   };
 
   const fetchProduct = () => {
@@ -59,11 +62,11 @@ const OrderInformation: React.FC = (props: any) => {
     <>
       <Header pageName={`Order Information`}>
         <Back path={`/order/customerOrders?id=${customerId}`} />
-        <div className="flex">
+        <div className="lg:flex">
           {/**Order Details */}
           {getOrder.orderArr && <OrderInfo getOrder={getOrder.orderArr} />}
           {/**Customer Information */}
-          <div className="w-1/2 rounded">
+          <div className="lg:w-1/2 w-full rounded lg:p-0 pt-4">
             {getCustomerInfo.customerArr && (
               <CustomerInfo getCustomerInfo={getCustomerInfo.customerArr} />
             )}

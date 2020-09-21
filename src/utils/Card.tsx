@@ -33,7 +33,7 @@ const Card: React.FC<PropsType> = ({ filteredItems, onClick }) => {
               </div>
               <div className="px-4 py-2 font-segoe-UI">
                 <div className="flex items-center justify-between">
-                  <span className="block text-xs text-gray-600 mb-4">
+                  <span className="block text-xs text-gray-600 mb-4 uppercase">
                     {item.purpose}
                   </span>
                   {item.status !== undefined ? (

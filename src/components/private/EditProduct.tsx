@@ -110,7 +110,7 @@ const EditProduct: React.FC = (props: any) => {
     }
   }, [id]);
 
-  //get all data and assign to each inputbox
+  //**get all data and assign to each inputbox
   item &&
     item.map((productState: any) => {
       return Object.assign(initialState, productState);

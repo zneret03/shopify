@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { OrderContext } from "../Context/OrderProvider";
 import { Table, Space, Input, Popconfirm, Tag } from "antd";
-import { ShoppingCart, Edit, Trash2 } from "react-feather";
+import { ShoppingCart, Trash2 } from "react-feather";
 import { AuthContext } from "../auth/AuthProvider";
 import Headers from "../components/private/Header";
 import { MyPagination } from "../components/private/MyPagination";
@@ -112,9 +112,6 @@ const Orders: React.FC<onProps> = ({ history }) => {
       key: "action",
       render: (customerInfo: any) => (
         <Space size="middle" key="action">
-          <button>
-            <Edit className="text-green-500" size="20" />
-          </button>
           <button onClick={(event) => customerOrders(event, customerInfo)}>
             <ShoppingCart className="text-blue-700" size="20" />
           </button>
