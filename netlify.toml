@@ -3,8 +3,8 @@
     command =  "npm run build"
     publish = "build"
 [[redirects]]
-    from = "/.netlify/functions/*"
-    to= "/.netlify/functions/:splat"
+    from = "/api/*"
+    to= "/api/:splat"
     status = 200
     force = true
 

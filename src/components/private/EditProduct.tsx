@@ -75,7 +75,7 @@ const EditProduct: React.FC = (props: any) => {
 
     axios({
       method: "put",
-      url: `/.netlify/functions/index?name=updateProduct&&productId=${id}`,
+      url: `/api/index?name=updateProduct&&productId=${id}`,
       headers: { "Access-Control-Allow-Origin": "*" },
       data: items,
     })

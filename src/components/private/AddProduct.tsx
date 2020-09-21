@@ -223,7 +223,7 @@ const AddProduct: React.FC = () => {
     const purp: string = purpose.toLowerCase();
     axios({
       method: "POST",
-      url: "/.netlify/functions/index?name=addProduct",
+      url: "/api/index?name=addProduct",
       headers: { "Access-Control-Allow-Origin": "*" },
       data: {
         uid: data,

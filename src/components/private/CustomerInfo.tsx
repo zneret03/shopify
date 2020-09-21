@@ -116,7 +116,7 @@ const CustomerInfo: React.FC<PropTypes> = ({ getCustomerInfo }) => {
     try {
       axios({
         method: "PUT",
-        url: "/.netlify/functions/index?name=updateCustomerInformation",
+        url: "/api/index?name=updateCustomerInformation",
         data: config,
       }).then((response) => {
         console.log(response.data);
