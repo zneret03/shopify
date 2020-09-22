@@ -1,4 +1,19 @@
 //*New arrival
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 const shoesInformation = [
   {
     id: 1,
@@ -68,4 +83,4 @@ const CategoryInformation = [
   },
 ];
 
-export { shoesInformation, shoes, CategoryInformation };
+export { shoesInformation, shoes, CategoryInformation, months };

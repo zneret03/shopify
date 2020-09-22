@@ -5,7 +5,13 @@ import { ShoppingCart, Trash2 } from "react-feather";
 import { AuthContext } from "../auth/AuthProvider";
 import Headers from "../components/private/Header";
 import { MyPagination } from "../components/private/MyPagination";
-import { onSearch, newCustomerArray } from "../utils/FilteredItems";
+import {
+  onSearch,
+  newCustomerArray,
+  sortTypes,
+  sortNumber,
+  sortString,
+} from "../utils/FilteredItems";
 
 interface onProps {
   history: any;
@@ -34,7 +40,7 @@ const Orders: React.FC<onProps> = ({ history }) => {
   ) => {
     event.preventDefault();
     if (items) {
-      history.push(`/order/customerOrders?id=${items.id}`);
+      history.push(`/dashboard/order/customerOrders?id=${items.id}`);
     }
   };
 
@@ -43,6 +49,8 @@ const Orders: React.FC<onProps> = ({ history }) => {
       title: "Unique identification",
       dataIndex: "id",
       key: "id",
+      setDirections: sortTypes,
+      sorter: sortString,
       render: (text: string) => <span className="text-blue-500">{text}</span>,
     },
     {
@@ -62,42 +70,36 @@ const Orders: React.FC<onProps> = ({ history }) => {
       title: "First Name",
       dataIndex: "firstName",
       key: "firstName",
+      setDirections: sortTypes,
+      sorter: sortString,
     },
-    // {
-    //     title : 'Gender',
-    //     dataIndex : 'gender',
-    //     key: 'gender',
-    //     render : (gender : string ) => {
-    //         let color = gender.length > 3 ?  'geekblue' : 'green'
-    //         if(gender === 'Kids'){
-    //           color = 'volcano'
-    //         }
-    //         return(
-    //            <Tag color={color} key={gender}>
-    //               {gender.toUpperCase()}
-    //            </Tag>
-    //         )
-    //     }
-    //   },
     {
       title: "Last Name",
       dataIndex: "lastName",
       key: "lastName",
+      setDirections: sortTypes,
+      sorter: sortString,
     },
     {
       title: "Province",
       dataIndex: "province",
       key: "province",
+      setDirections: sortTypes,
+      sorter: sortString,
     },
     {
       title: "Region",
       dataIndex: "region",
       key: "region",
+      setDirections: sortTypes,
+      sorter: sortString,
     },
     {
       title: "Total",
       dataIndex: "subTotal",
       key: "subTotal",
+      setDirections: sortTypes,
+      sorter: sortNumber,
       render: (subTotal: number) => {
         return <span>₱{subTotal.toLocaleString()}</span>;
       },
@@ -106,6 +108,8 @@ const Orders: React.FC<onProps> = ({ history }) => {
       title: "Zipcode",
       dataIndex: "zipcode",
       key: "zipcode",
+      setDirections: sortTypes,
+      sorter: sortNumber,
     },
     {
       title: "Action Controls",

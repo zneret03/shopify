@@ -5,7 +5,7 @@ import { AuthProvider } from "./auth/AuthProvider";
 import { ProductProvider } from "./Context/ProductProvider";
 import NetworkDetection from "./utils/NetworkDetection";
 
-//components
+//**components
 const Home = lazy(() => import("./page/Home"));
 const Shop = lazy(() => import("./page/Shop"));
 const Cart = lazy(() => import("./page/Cart"));
@@ -13,6 +13,7 @@ const CustomerOrders = lazy(() => import("./page/CustomerOrders"));
 const CheckOut = lazy(() => import("./page/CheckOut"));
 const Dashboard = lazy(() => import("./page/Dashboard"));
 const Inventory = lazy(() => import("./page/Inventory"));
+const ManageCategory = lazy(() => import("./page/ManageCategory"));
 const OrderInformation = lazy(() => import("./page/OrderInforation"));
 const Order = lazy(() => import("./page/Orders"));
 const PublicRoute = lazy(() => import("./layouts/public/PublicRoute"));
@@ -52,21 +53,30 @@ const App: React.FC = () => {
                 path="/dashboard"
                 component={Dashboard}
               />
-              <PrivateRoute exact={true} path="/order" component={Order} />
               <PrivateRoute
                 exact={true}
-                path="/order/customerOrder/OrderInformation"
+                path="/dashboard/order"
+                component={Order}
+              />
+              <PrivateRoute
+                exact={true}
+                path="/dashboard/order/customerOrder/OrderInformation"
                 component={OrderInformation}
               />
               <PrivateRoute
                 exact={true}
-                path="/order/customerOrders"
+                path="/dashboard/order/customerOrders"
                 component={CustomerOrders}
               />
               <PrivateRoute
                 exact={true}
-                path="/inventory"
+                path="/dashboard/inventory"
                 component={Inventory}
+              />
+              <PrivateRoute
+                exact={true}
+                path="/dashboard/manage-category"
+                component={ManageCategory}
               />
               <PrivateRoute
                 exact={true}

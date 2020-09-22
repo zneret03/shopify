@@ -2,12 +2,12 @@ import React from "react";
 import { X } from "react-feather";
 interface Props {
   children: React.ReactNode;
-  close?: (event: React.MouseEvent<SVGAElement, MouseEvent>) => void | boolean;
+  close: (event: React.MouseEvent<SVGAElement, MouseEvent>) => void | boolean;
 }
 
 const Modal: React.FC<Props> = ({ children, close }) => {
   return (
-    <div className="absolute w-full h-screen flex items-center justify-center bg-gray-900 bg-opacity-50 overflow-auto">
+    <div className="absolute w-full h-screen flex items-center justify-center bg-gray-900 bg-opacity-50 z-50 overflow-auto">
       <div className="shadow rounded md:max-w-sm max-w-xs w-full bg-white">
         <div className="p-2">
           <span className="float-right cursor-pointer">

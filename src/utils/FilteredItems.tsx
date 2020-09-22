@@ -1,3 +1,8 @@
+//**Table sorting */
+export const sortTypes = ["descend", "ascend"];
+export const sortString = (a: any, b: any) => (a.product < b.product ? 1 : -1);
+export const sortNumber = (a: any, b: any) => b.price - a.price;
+
 //**return all pending items
 export const pendingItems = (cartItems: any) => {
   return cartItems.filter((obj: any) => {
@@ -39,4 +44,17 @@ export const newCustomerArray = (customerInfo: any, currentUser: any) => {
   });
   let newArray = customerInfo.filter((element: any) => element.uid.length);
   return newArray;
+};
+
+//**Get current user full name */
+export const getuserUid = (currentUser: any, app: any) => {
+  return new Promise(async (resolve, reject) => {
+    if (currentUser) {
+      const document = app.firestore().collection("user").doc(currentUser.uid);
+      const uid = await document.get();
+      return resolve(`${uid.data().firstname} ${uid.data().lastname}`);
+    } else {
+      reject("array is empty");
+    }
+  });
 };

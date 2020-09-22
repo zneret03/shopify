@@ -1,6 +1,7 @@
 import React from "react";
 import { Divider } from "antd";
 import Zoom from "react-medium-image-zoom";
+import { months } from "../../utils/mockData";
 
 interface PropTypes {
   getOrder: any[];
@@ -8,20 +9,6 @@ interface PropTypes {
 
 const OrderInfo: React.FC<PropTypes> = ({ getOrder }) => {
   const today = new Date();
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   return (
     <>

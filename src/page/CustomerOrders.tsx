@@ -25,7 +25,7 @@ const CustomerOrders: React.FC = (props: any) => {
     event.preventDefault();
     id &&
       props.history.push(
-        `/order/customerOrder/OrderInformation?id=${id}&customerId=${getId}`
+        `/dashboard/order/customerOrder/OrderInformation?id=${id}&customerId=${getId}`
       );
   };
 

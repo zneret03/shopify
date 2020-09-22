@@ -3,7 +3,13 @@ import { Table, Space, Tag, Input, Popconfirm } from "antd";
 import { Edit3, Trash2 } from "react-feather";
 import { withRouter } from "react-router-dom";
 import { app } from "../config/firebase";
-import { filteredProduct, onSearch } from "../utils/FilteredItems";
+import {
+  filteredProduct,
+  onSearch,
+  sortTypes,
+  sortString,
+  sortNumber,
+} from "../utils/FilteredItems";
 import { ProductContext } from "../Context/ProductProvider";
 import { AuthContext } from "../auth/AuthProvider";
 import axios from "axios";
@@ -80,27 +86,37 @@ const Products: React.FC<Props> = ({ history }) => {
       title: "Unique identification",
       dataIndex: "id",
       key: "id",
+      setDirections: sortTypes,
+      sorter: sortString,
       render: (text: string) => <span className="text-blue-500">{text}</span>,
     },
     {
       title: "Title",
       dataIndex: "title",
       key: "title",
+      setDirections: sortTypes,
+      sorter: sortString,
     },
     {
       title: "Product Name",
       dataIndex: "product",
       key: "product",
+      setDirections: sortTypes,
+      sorter: sortString,
     },
     {
       title: "Purpose",
       dataIndex: "purpose",
       key: "purpose",
+      setDirections: sortTypes,
+      sorter: sortString,
     },
     {
       title: "Price",
       dataIndex: "price",
       key: "price",
+      setDirections: sortTypes,
+      sorter: sortNumber,
       render: (price: number) => {
         return <span>₱{price.toLocaleString()}</span>;
       },
@@ -109,6 +125,8 @@ const Products: React.FC<Props> = ({ history }) => {
       title: "Quantity",
       dataIndex: "quantity",
       key: "quantity",
+      setDirections: sortTypes,
+      sorter: sortNumber,
     },
     {
       title: "Gender",

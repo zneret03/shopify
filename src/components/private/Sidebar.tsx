@@ -16,6 +16,7 @@ import {
 } from "react-feather";
 import { Divider } from "antd";
 import { Link } from "react-router-dom";
+import { getuserUid } from "../../utils/FilteredItems";
 
 export const signOut = (
   event: React.MouseEvent<HTMLSpanElement, MouseEvent>
@@ -55,7 +56,7 @@ const Sidebar: React.FC = () => {
     }
   };
 
-  //Products Toggle
+  //**Toggle products */
   const [products, setProducts] = useState(false);
 
   const openProducts = (
@@ -69,33 +70,27 @@ const Sidebar: React.FC = () => {
     }
   };
 
+  //**Toggle inventory */
+  const [inventory, setInventory] = useState(false);
+
+  const openInventory = (
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    if (!inventory) {
+      return setInventory(true);
+    } else {
+      return setInventory(false);
+    }
+  };
+
   const [name, setName] = useState(null);
 
   //**Get username */
-  const getuserUid = () => {
-    return new Promise(async (resolve, reject) => {
-      if (currentUser) {
-        const document = app
-          .firestore()
-          .collection("user")
-          .doc(currentUser.uid);
-        const uid = await document.get();
-        return resolve(`${uid.data().firstname} ${uid.data().lastname}`);
-      } else {
-        reject("array is empty");
-      }
-    });
-  };
-
-  getuserUid()
-    .then((data: any) => {
-      if (data) {
-        setName(data);
-      }
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
+  getuserUid(currentUser, app).then((data: any) => {
+    if (data) {
+      setName(data);
+    }
+  });
 
   return (
     <>
@@ -155,20 +150,49 @@ const Sidebar: React.FC = () => {
                       <span className="text-white">Home</span>
                     </Link>
                   </li>
-                  <li className="mb-5 cursor-pointer">
-                    <Link
-                      to="/inventory"
-                      className="flex items-center rounded px-2 py-1 hover:bg-blue-500 focus:bg-blue-500"
-                    >
-                      <span className="mr-2">
-                        <Folder size="18" color="#FFF" />
+                  <li
+                    className="mb-5 cursor-pointer ml-2"
+                    onClick={(event) => openInventory(event)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <span className="mr-2">
+                          <Folder size="18" color="#FFF" />
+                        </span>
+                        <span className="text-white">Inventory</span>
+                      </div>
+                      <span>
+                        {inventory ? (
+                          <ChevronDown size="18" color="#FFF" />
+                        ) : (
+                          <ChevronRight size="18" color="#FFF" />
+                        )}
                       </span>
-                      <span className="text-white">Inventory</span>
-                    </Link>
+                    </div>
+                    <div
+                      className={`${
+                        inventory ? "block" : "hidden"
+                      } ml-2 mt-2 font-normal`}
+                    >
+                      <ul>
+                        <Link
+                          to="/dashboard/manage-category"
+                          className="flex items-center justify-between hover:bg-blue-500 px-2 rounded py-1"
+                        >
+                          <li className=" text-white">Manager Category</li>
+                        </Link>
+                        <Link
+                          to="/dashboard/inventory"
+                          className="flex items-center justify-between hover:bg-blue-500  px-2 rounded py-1"
+                        >
+                          <li className="text-white">Reports</li>
+                        </Link>
+                      </ul>
+                    </div>
                   </li>
                   <li className="mb-5 cursor-pointer">
                     <Link
-                      to="/order"
+                      to="/dashboard/order"
                       className="flex items-center rounded px-2 py-1 hover:bg-blue-500 focus:bg-blue-500"
                     >
                       <span className="mr-2">
@@ -206,13 +230,13 @@ const Sidebar: React.FC = () => {
                           to="/dashboard/products/addProducts"
                           className="flex items-center justify-between hover:bg-blue-500 px-2 rounded py-1"
                         >
-                          <li className=" text-white">Add Products</li>
+                          <li className=" text-white">Add Product</li>
                         </Link>
                         <Link
                           to="/dashboard/products/viewProducts"
                           className="flex items-center justify-between hover:bg-blue-500  px-2 rounded py-1"
                         >
-                          <li className="text-white">View Products</li>
+                          <li className="text-white">View Product</li>
                         </Link>
                       </ul>
                     </div>
