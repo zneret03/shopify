@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../components/private/Header";
 import { Input, Divider } from "antd";
-import { Edit3, Trash2 } from "react-feather";
+//import { Edit3, Trash2 } from "react-feather";
 import { months } from "../utils/mockData";
 //** Components */
 import Modal from "../components/Forms/Modal";
