@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../components/private/Header";
-import { Tag, Space, Popconfirm, Table, Input, Divider } from "antd";
+import { Input, Divider } from "antd";
 import { Edit3, Trash2 } from "react-feather";
 import { months } from "../utils/mockData";
 //** Components */
@@ -8,64 +8,65 @@ import Modal from "../components/Forms/Modal";
 //import { MyPagination } from "../components/private/MyPagination";
 const ManageCategory: React.FC = () => {
   const today = new Date();
-  const column = [
-    {
-      title: "Unique Identification",
-      dataIndex: "id",
-      key: "id",
-      render: (text: string) => {
-        return <span className="text-blue-500">{text}</span>;
-      },
-    },
-    {
-      title: "Category Name",
-      dataIndex: "categoryName",
-      key: "categoryName",
-    },
-    {
-      title: "Date Created",
-      dataIndex: "date_created",
-      key: "date_created",
-      render: (date_created: string) => {
-        return (
-          <Tag color="geekblue" key={date_created}>
-            {date_created}
-          </Tag>
-        );
-      },
-    },
-    {
-      title: "Date Updated",
-      dataIndex: "date_updated",
-      key: "date_updated",
-      render: (date_updated: string) => {
-        return (
-          <Tag color="volcano" key={date_updated}>
-            {date_updated}
-          </Tag>
-        );
-      },
-    },
-    {
-      title: "Action",
-      dataIndex: "action",
-      key: "action",
-      render: (category: any) => {
-        return (
-          <Space>
-            <button type="button">
-              <Edit3 className="text-blue-700" size="20" />
-            </button>
-            <Popconfirm title="Do you want to delete?">
-              <button>
-                <Trash2 className="text-red-700" size="20" />
-              </button>
-            </Popconfirm>
-          </Space>
-        );
-      },
-    },
-  ];
+  // Tag, Space, Popconfirm, Table,
+  //   const column = [
+  //     {
+  //       title: "Unique Identification",
+  //       dataIndex: "id",
+  //       key: "id",
+  //       render: (text: string) => {
+  //         return <span className="text-blue-500">{text}</span>;
+  //       },
+  //     },
+  //     {
+  //       title: "Category Name",
+  //       dataIndex: "categoryName",
+  //       key: "categoryName",
+  //     },
+  //     {
+  //       title: "Date Created",
+  //       dataIndex: "date_created",
+  //       key: "date_created",
+  //       render: (date_created: string) => {
+  //         return (
+  //           <Tag color="geekblue" key={date_created}>
+  //             {date_created}
+  //           </Tag>
+  //         );
+  //       },
+  //     },
+  //     {
+  //       title: "Date Updated",
+  //       dataIndex: "date_updated",
+  //       key: "date_updated",
+  //       render: (date_updated: string) => {
+  //         return (
+  //           <Tag color="volcano" key={date_updated}>
+  //             {date_updated}
+  //           </Tag>
+  //         );
+  //       },
+  //     },
+  //     {
+  //       title: "Action",
+  //       dataIndex: "action",
+  //       key: "action",
+  //       render: (category: any) => {
+  //         return (
+  //           <Space>
+  //             <button type="button">
+  //               <Edit3 className="text-blue-700" size="20" />
+  //             </button>
+  //             <Popconfirm title="Do you want to delete?">
+  //               <button>
+  //                 <Trash2 className="text-red-700" size="20" />
+  //               </button>
+  //             </Popconfirm>
+  //           </Space>
+  //         );
+  //       },
+  //     },
+  //   ];
 
   const [modal, setModal] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("");
