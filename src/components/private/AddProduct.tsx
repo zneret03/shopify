@@ -2,10 +2,11 @@ import React, { useState, useContext, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Header from "./Header";
 import { app } from "../../config/firebase";
-import { AuthContext } from "../../auth/AuthProvider";
 import Loading from "./Loading";
 import axios from "axios";
 import { Trash } from "react-feather";
+import { AuthContext } from "../../auth/AuthProvider";
+import { CategoryContext } from "../../Context/CategoryProvider";
 
 interface productStateTypes {
   product: string;
@@ -15,6 +16,7 @@ interface productStateTypes {
   quantity: number;
   gender: string;
   description: string;
+  category: string;
 }
 
 const initialState: productStateTypes = {
@@ -25,10 +27,12 @@ const initialState: productStateTypes = {
   quantity: 0,
   gender: "",
   description: "",
+  category: "",
 };
 
 const AddProduct: React.FC = () => {
   const context = useContext(AuthContext);
+  const { fetchCategory } = useContext(CategoryContext);
   const data: object[] = [];
   data.push(context);
 
@@ -96,7 +100,7 @@ const AddProduct: React.FC = () => {
 
   //*input onChange
   const [
-    { product, title, purpose, price, quantity, gender, description },
+    { product, title, purpose, price, quantity, gender, description, category },
     setState,
   ] = useState(initialState);
 
@@ -315,7 +319,7 @@ const AddProduct: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 <div className="mb-3">
                   <span>Price</span>
                   <input
@@ -339,6 +343,24 @@ const AddProduct: React.FC = () => {
                     className="border w-full py-1 px-3  rounded"
                     type="number"
                   />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="mb-3">
+                  <span>Category</span>
+                  <select
+                    name="gender"
+                    className="border w-full py-2 px-3 bg-white rounded"
+                    value={category}
+                    onChange={(event) => onChange(event)}
+                  >
+                    <option value=""></option>
+                    {fetchCategory.map((category: any) => (
+                      <option value={category.category}>
+                        {category.category}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="mb-3">
                   <span>Gender</span>

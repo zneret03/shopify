@@ -49,7 +49,7 @@ export const newCustomerArray = (customerInfo: any, currentUser: any) => {
 //**Get current user full name */
 export const getuserUid = (currentUser: any, app: any) => {
   return new Promise(async (resolve, reject) => {
-    if (currentUser) {
+    if (currentUser.uid) {
       const document = app.firestore().collection("user").doc(currentUser.uid);
       const uid = await document.get();
       return resolve(`${uid.data().firstname} ${uid.data().lastname}`);

@@ -108,6 +108,10 @@ const EditProduct: React.FC = (props: any) => {
         }
       });
     }
+
+    return () => {
+      setItem([]);
+    };
   }, [id]);
 
   //**get all data and assign to each inputbox
@@ -116,9 +120,11 @@ const EditProduct: React.FC = (props: any) => {
       return Object.assign(initialState, productState);
     });
 
-  if (product && item.length <= 0) {
+  console.log(item);
+
+  if (item.length <= 0) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center">
+      <div className="h-screen w-screen md:pl-64 flex items-center justify-center">
         Loading
       </div>
     );
@@ -251,7 +257,7 @@ const EditProduct: React.FC = (props: any) => {
                     </span>
                     <div className="flex items-center justify-between">
                       <span className="text-black text-xs text-gray-800">
-                        ₱{product.price}
+                        ₱{product.price.toLocaleString()}
                       </span>
                       <span className="block text-xs text-gray-600 uppercase">
                         {product.gender}
