@@ -61,7 +61,7 @@ const OrderInformation: React.FC = (props: any) => {
   return (
     <>
       <Header pageName={`Order Information`}>
-        <Back path={`/order/customerOrders?id=${customerId}`} />
+        <Back path={`/dashboard/order/customerOrders?id=${customerId}`} />
         <div className="lg:flex">
           {/**Order Details */}
           {getOrder.orderArr && <OrderInfo getOrder={getOrder.orderArr} />}
