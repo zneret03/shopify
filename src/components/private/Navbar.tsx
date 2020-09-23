@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "react-feather";
 import { signOut } from "./Sidebar";
+import NavbarDropdown from "../private/NavbarDropdown";
 const Navbar: React.FC = () => {
   const [responsive, setResponsive] = useState<boolean>(false);
 
@@ -19,13 +20,28 @@ const Navbar: React.FC = () => {
   }, []);
 
   const [toggleProduct, setToggleProduct] = useState<boolean>(false);
+  const [toggleInventory, setToggleInventory] = useState<boolean>(false);
 
-  const toggle = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const toggle = (event: any) => {
     event.preventDefault();
-    if (toggleProduct !== true) {
-      setToggleProduct(true);
-    } else {
-      setToggleProduct(false);
+    const product: boolean = event.target.id === "product";
+    const inventory: boolean = event.target.id === "inventory";
+    if (product) {
+      if (!toggleProduct) {
+        setToggleProduct(true);
+        setToggleInventory(false);
+      } else {
+        setToggleProduct(false);
+      }
+    }
+
+    if (inventory) {
+      if (!toggleInventory) {
+        setToggleInventory(true);
+        setToggleProduct(false);
+      } else {
+        setToggleInventory(false);
+      }
     }
   };
 
@@ -56,41 +72,42 @@ const Navbar: React.FC = () => {
                   <Link to="/dashboard" className={`${linkColor} mr-2`}>
                     <span className="text-white">Home</span>
                   </Link>
-                  <Link to="/inventory" className={`${linkColor} mr-2`}>
-                    <span className="text-white">Inventory</span>
-                  </Link>
-                  <Link to="/order" className={`${linkColor} mr-2`}>
+                  <div>
+                    <span
+                      className="mr-2 cursor-pointer text-white"
+                      id="inventory"
+                      onClick={(event) => toggle(event)}
+                    >
+                      Inventory
+                    </span>
+                    <NavbarDropdown
+                      toggle={toggleInventory}
+                      setToggle={() => setToggleInventory(!toggleInventory)}
+                      path1="/dashboard/manage-category"
+                      path2="/dashboard/inventory"
+                      text1="Manage Category"
+                      text2="Reports"
+                    />
+                  </div>
+                  <Link to="/dashboard/order" className={`${linkColor} mr-2`}>
                     <span className="text-white">Orders</span>
                   </Link>
                   <div>
                     <span
                       className="mr-2 cursor-pointer text-white"
+                      id="product"
                       onClick={(event) => toggle(event)}
                     >
                       Product
                     </span>
-                    <ul
-                      className={`${
-                        toggleProduct ? "block" : "hidden"
-                      } shadow absolute bg-gray-900 px-4 py-3 mt-3`}
-                    >
-                      <Link to="/dashboard/products/addProducts">
-                        <li
-                          onClick={() => setToggleProduct(!toggleProduct)}
-                          className="mb-2 font-normal text-white"
-                        >
-                          Add Products
-                        </li>
-                      </Link>
-                      <Link to="/dashboard/products/viewProducts">
-                        <li
-                          onClick={() => setToggleProduct(!toggleProduct)}
-                          className="font-normal text-white"
-                        >
-                          View Products
-                        </li>
-                      </Link>
-                    </ul>
+                    <NavbarDropdown
+                      toggle={toggleProduct}
+                      setToggle={() => setToggleProduct(!toggleProduct)}
+                      path1="/dashboard/products/addProducts"
+                      path2="/dashboard/products/viewProducts"
+                      text1="Add Product"
+                      text2="View Product"
+                    />
                   </div>
                   <Link to="" className={`${linkColor} mr-2 `}>
                     <span className="text-white">Settings</span>
@@ -121,9 +138,21 @@ const Navbar: React.FC = () => {
                   <Link to="/dashboard" className={linkColor}>
                     <span className="text-white">Home</span>
                   </Link>
-                  <Link to="/inventory" className={linkColor}>
-                    <span className="text-white">Inventory</span>
-                  </Link>
+                  <span
+                    className="mr-2 cursor-pointer text-white"
+                    id="inventory"
+                    onClick={(event) => toggle(event)}
+                  >
+                    Inventory
+                  </span>
+                  <NavbarDropdown
+                    toggle={toggleInventory}
+                    setToggle={() => setToggleInventory(!toggleInventory)}
+                    path1="/dashboard/manage-category"
+                    path2="/dashboard/inventory"
+                    text1="Manage Category"
+                    text2="Reports"
+                  />
                   <Link to="/order" className={linkColor}>
                     <span className="text-white">Orders</span>
                   </Link>
@@ -131,37 +160,18 @@ const Navbar: React.FC = () => {
                     <span
                       className="mr-5 mt-1 cursor-pointer block hover:bg-blue-500 rounded py-1 px-2 text-white"
                       onClick={(event) => toggle(event)}
+                      id="product"
                     >
                       Product
                     </span>
-                    <ul
-                      className={`${
-                        toggleProduct ? "block" : "hidden"
-                      } shadow absolute bg-gray-900 px-4 py-3 mt-3`}
-                    >
-                      <Link
-                        to="/dashboard/products/addProducts"
-                        className="text-gray-700"
-                      >
-                        <li
-                          onClick={() => setToggleProduct(!toggleProduct)}
-                          className="mb-2 cursor-pointer text-white"
-                        >
-                          Add Products
-                        </li>
-                      </Link>
-                      <Link
-                        to="/dashboard/products/viewProducts"
-                        className="text-gray-700"
-                      >
-                        <li
-                          onClick={() => setToggleProduct(!toggleProduct)}
-                          className="cursor-pointer text-white"
-                        >
-                          View Products
-                        </li>
-                      </Link>
-                    </ul>
+                    <NavbarDropdown
+                      toggle={toggleProduct}
+                      setToggle={() => setToggleProduct(!toggleProduct)}
+                      path1="/dashboard/products/addProducts"
+                      path2="/dashboard/products/viewProducts"
+                      text1="Add Product"
+                      text2="View Product"
+                    />
                   </div>
                   <Link to="" className={linkColor}>
                     <span className="text-white">Settings</span>

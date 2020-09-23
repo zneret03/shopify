@@ -78,14 +78,14 @@ const AddProduct: React.FC = () => {
     );
   });
 
-  //delete specific product item
+  //*delete specific product item
   const handleDeleteFile = (file: any) => {
     const specific_file = [...file];
     specific_file.length > 0 && specific_file.splice(file, 1);
     setMyFile(specific_file);
   };
 
-  //remove file from state
+  //*remove file from state
   const removeFile = () => {
     if (myFile) {
       const newFiles = [...myFile];
@@ -94,7 +94,7 @@ const AddProduct: React.FC = () => {
     }
   };
 
-  //input onChange
+  //*input onChange
   const [
     { product, title, purpose, price, quantity, gender, description },
     setState,
@@ -112,15 +112,15 @@ const AddProduct: React.FC = () => {
     setSize([]);
   };
 
-  //removing and adding input fields dynamically
+  //*removing and adding input fields dynamically
   const buttonEventHandle = (event: any) => {
     event.preventDefault();
 
-    //get all the data in array
+    //*get all the data in array
     const sizeArr = [...size];
     if (event.target.id === "decrementInputs") {
       if (size.length !== 0) {
-        //remove data 1 by 1
+        //*remove data 1 by 1
         sizeArr.splice(size, 1);
         setMessage({ status: false, message: "", loading: false });
         setSize(sizeArr);
@@ -158,7 +158,7 @@ const AddProduct: React.FC = () => {
   ) => {
     event.preventDefault();
     size[index] = event.target.value;
-    //setting all the change event from input
+    //*setting all the change event from input
     setSize([...size]);
   };
 
@@ -183,9 +183,9 @@ const AddProduct: React.FC = () => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // console.log({product, title, purpose, price, quantity, gender, description, size});
+    //*console.log({product, title, purpose, price, quantity, gender, description, size});
 
-    //Load Spinner
+    //*Load Spinner
     loadSpinner();
 
     getUserUId()

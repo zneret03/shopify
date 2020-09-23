@@ -17,7 +17,7 @@ const OrderInfo: React.FC<PropTypes> = ({ getOrder }) => {
           <div className="shadow px-5 py-5">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mx-auto font-bold ">
               <span className="text-lg text-sm font-bold">Product Details</span>
-              <span className="md:text-xl sm:text-lg text-sm md:mr-3 mr-0 sm:bg-gray-200 rounded-full max-w-xs sm:px-6 py-1">
+              <span className="md:text-lg sm:text-sm text-sm md:mr-3 mr-0 sm:bg-gray-200 rounded-full max-w-xs sm:px-6 py-1">
                 #{item.id}
               </span>
             </div>

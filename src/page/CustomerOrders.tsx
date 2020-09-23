@@ -6,7 +6,7 @@ import Back from "../utils/Back";
 import { HelpCircle } from "react-feather";
 import { AuthContext } from "../auth/AuthProvider";
 import { withRouter } from "react-router-dom";
-import { filteredProduct } from "../utils/FilteredItems";
+import { filtered } from "../utils/FilteredItems";
 import { Popover } from "antd";
 import DropdownComponent from "../components/Forms/DropdownComponent";
 
@@ -61,7 +61,7 @@ const CustomerOrders: React.FC = (props: any) => {
   useEffect(fetchItems, [getId]);
 
   //**Get products according to user owner ID */
-  const filterProduct: any = filteredProduct(filter, currentUser);
+  const filterProduct: any = filtered(filter, currentUser);
 
   const tax_total = filterProduct.reduce(
     (a: any, b: any) => a + b.Subtotal * b.valueAddedTax,

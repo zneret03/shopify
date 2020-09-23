@@ -5,6 +5,7 @@ import { ShoppingCart, Trash2 } from "react-feather";
 import { AuthContext } from "../auth/AuthProvider";
 import Headers from "../components/private/Header";
 import { MyPagination } from "../components/private/MyPagination";
+import { months } from "../utils/mockData";
 import {
   onSearch,
   newCustomerArray,
@@ -23,6 +24,13 @@ const Orders: React.FC<onProps> = ({ history }) => {
   const filteredCustomerInfo = newCustomerArray(customerInfo, currentUser);
 
   const [purchaseTotal, setPurchaseTotal] = useState(0);
+  //** Data showed to the client
+  const dataShowed: number = 5;
+
+  const today = new Date();
+  const dateToday = `${
+    months[today.getMonth()]
+  } ${today.getDate()}, ${today.getFullYear()}`;
 
   const totalPurchase = Promise.resolve(
     filteredCustomerInfo.reduce((a: any, b: any) => a + b.subTotal, 0)
@@ -43,6 +51,16 @@ const Orders: React.FC<onProps> = ({ history }) => {
       history.push(`/dashboard/order/customerOrders?id=${items.id}`);
     }
   };
+
+  const [current, setCurrent] = useState<number>(1);
+
+  //** get current data;
+  const indexLastData = current * dataShowed;
+  const indexOfFirstData = indexLastData - dataShowed;
+  const currentData: object[] = filteredCustomerInfo.slice(
+    indexOfFirstData,
+    indexLastData
+  );
 
   const columns = [
     {
@@ -129,19 +147,6 @@ const Orders: React.FC<onProps> = ({ history }) => {
     },
   ];
 
-  //** Data showed to the client
-  const dataShowed: number = 5;
-
-  const [current, setCurrent] = useState<number>(1);
-
-  //** get current data;
-  const indexLastData = current * dataShowed;
-  const indexOfFirstData = indexLastData - dataShowed;
-  const currentData: object[] = filteredCustomerInfo.slice(
-    indexOfFirstData,
-    indexLastData
-  );
-
   //** set spinner if data not arrives
   if (currentData.length <= 0) {
     return (
@@ -154,7 +159,7 @@ const Orders: React.FC<onProps> = ({ history }) => {
   return (
     <Headers pageName={"Information"}>
       <div>
-        <div className="mb-3 flex items-center justify-between">
+        <div className="mb-3 sm:flex sm:items-center sm:justify-between">
           <div>
             <span className="font-bold text-lg">Total : </span>
             <span className="font-bold text-lg text-red-500">
@@ -170,6 +175,11 @@ const Orders: React.FC<onProps> = ({ history }) => {
               setSearchFilter(sea);
             }}
           />
+        </div>
+        <div>
+          <span className="text-sm text-gray-500 block">
+            Date : {dateToday}
+          </span>
         </div>
         <Table
           key="table"
