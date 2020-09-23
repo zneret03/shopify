@@ -116,7 +116,7 @@ const EditProduct: React.FC = (props: any) => {
       return Object.assign(initialState, productState);
     });
 
-  if (item.length <= 0) {
+  if (product && item.length <= 0) {
     return (
       <div className="h-screen w-screen flex items-center justify-center">
         Loading
