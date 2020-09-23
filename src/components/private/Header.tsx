@@ -20,7 +20,12 @@ const Header: React.SFC<Props> = ({ children, pageName }) => {
     <div className="container mx-auto sm:px-1 px-8 lg:pl-64 py-6">
       <div className="flex sm:items-center sm:justify-between sm:flex-row flex-col">
         <span className="font-bold text-2xl">{pageName}</span>
-        <span className="text-xl font-segoe-UI">Welcome to Shopify {name}</span>
+        <div className="text-xl font-segoe-UI">
+          <span>Welcome to Shopify </span>
+          <span className="py-1 px-2 bg-black text-white rounded-sm">
+            {name}
+          </span>
+        </div>
       </div>
       <Divider />
       <div>

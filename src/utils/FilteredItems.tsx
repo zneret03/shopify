@@ -48,13 +48,13 @@ export const newCustomerArray = (customerInfo: any, currentUser: any) => {
 
 //**Get current user full name */
 export const getuserUid = (currentUser: any, app: any) => {
-  return new Promise(async (resolve, reject) => {
-    if (currentUser.uid) {
+  return new Promise(async (resolve) => {
+    if (Object.keys(currentUser).length > 0) {
       const document = app.firestore().collection("user").doc(currentUser.uid);
-      const uid = await document.get();
-      return resolve(`${uid.data().firstname} ${uid.data().lastname}`);
-    } else {
-      reject("array is empty");
+      const userInformation = await document.get();
+      return resolve(
+        `${userInformation.data().firstname} ${userInformation.data().lastname}`
+      );
     }
   });
 };

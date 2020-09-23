@@ -31,10 +31,8 @@ const initialState: productStateTypes = {
 };
 
 const AddProduct: React.FC = () => {
-  const context = useContext(AuthContext);
+  const currentUser: any = useContext(AuthContext);
   const { fetchCategory } = useContext(CategoryContext);
-  const data: object[] = [];
-  data.push(context);
 
   const [myFile, setMyFile] = useState<any[]>([]);
 
@@ -167,62 +165,47 @@ const AddProduct: React.FC = () => {
   };
 
   //**get UserUid
-  const getUserUId = () => {
-    return new Promise((resolve, reject) => {
-      if (data.length > 0) {
-        data.forEach((user: any) => {
-          resolve(user.uid);
-        });
-      } else {
-        reject({
-          message: "empty array",
-        });
-      }
-    });
-  };
-
   const loadSpinner = () => {
     setMessage({ status: false, message: "", loading: true });
   };
 
+  //*Submit data
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     //*console.log({product, title, purpose, price, quantity, gender, description, size});
 
     //*Load Spinner
     loadSpinner();
+    acceptedFiles.map(async (file) => {
+      if (file) {
+        let today = new Date();
+        let date = `${today.getMonth()} ${today.getDay()}, ${today.getFullYear()}`;
 
-    getUserUId()
-      .then((data) => {
-        acceptedFiles.map(async (file) => {
-          if (file) {
-            let today = new Date();
-            let date = `${today.getMonth()} ${today.getDay()}, ${today.getFullYear()}`;
-
-            const storageRef = app.storage().ref();
-            const fileRef = storageRef.child(`Product/${file.name}`);
-            await fileRef.put(file);
-            await fileRef
-              .getDownloadURL()
-              .then((imageUrl) => {
-                if (imageUrl) {
-                  const config = { date, imageUrl, data, file: file.name };
-                  uploadeFileHttpsRequest(config);
-                }
-              })
-              .catch((error) => {
-                console.log(error.message);
-              });
-          }
-        });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+        const storageRef = app.storage().ref();
+        const fileRef = storageRef.child(`Product/${file.name}`);
+        await fileRef.put(file);
+        await fileRef
+          .getDownloadURL()
+          .then((imageUrl) => {
+            if (imageUrl) {
+              const config = {
+                date,
+                imageUrl,
+                uid: currentUser.uid,
+                file: file.name,
+              };
+              uploadeFileHttpsRequest(config);
+            }
+          })
+          .catch((error) => {
+            console.log(error.message);
+          });
+      }
+    });
   };
 
   const uploadeFileHttpsRequest = (config: any) => {
-    const { date, imageUrl, data, file } = config;
+    const { date, imageUrl, uid, file } = config;
     const prod: string = product.toLowerCase();
     const purp: string = purpose.toLowerCase();
     axios({
@@ -230,12 +213,13 @@ const AddProduct: React.FC = () => {
       url: "/api/index?name=addProduct",
       headers: { "Access-Control-Allow-Origin": "*" },
       data: {
-        uid: data,
+        uid: uid,
         fileName: file,
         product: prod,
         title: title,
         purpose: purp,
         price: price,
+        category: category,
         quantity: quantity,
         imageUrl: imageUrl,
         date: date,
@@ -306,7 +290,6 @@ const AddProduct: React.FC = () => {
                     type="text"
                   />
                 </div>
-
                 <div className="mb-3">
                   <span>Purpose</span>
                   <input
@@ -349,7 +332,7 @@ const AddProduct: React.FC = () => {
                 <div className="mb-3">
                   <span>Category</span>
                   <select
-                    name="gender"
+                    name="category"
                     className="border w-full py-2 px-3 bg-white rounded"
                     value={category}
                     onChange={(event) => onChange(event)}

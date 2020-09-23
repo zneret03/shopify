@@ -113,7 +113,7 @@ const CustomerOrders: React.FC = (props: any) => {
 
   return (
     <Header pageName={`Customer Order`}>
-      <Back path="/order" />
+      <Back path="/dashboard/order" />
       <div className="flex items-center">
         <span className="text-lg mr-2">
           <strong>Total</strong> :{" "}
