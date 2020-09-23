@@ -1,5 +1,7 @@
 //**Products */
 const addProduct = require("./product/addProduct");
+const updateCategory = require("./product/updateCategory");
+const addCategory = require("./product/addCategory");
 const updateProduct = require("./product/updateProduct");
 const deleteProduct = require("./product/deleteProduct");
 //**Sign in */
@@ -23,6 +25,10 @@ exports.handler = async (event) => {
       if (event.httpMethod === httpRequest.POST) {
         return await addProduct(event);
       }
+    case "addCategory":
+      if (event.httpMethod === httpRequest.POST) {
+        return await addCategory(event);
+      }
     case "addCart":
       if (event.httpMethod === httpRequest.POST) {
         return await addCart(event);
@@ -42,6 +48,10 @@ exports.handler = async (event) => {
     case "updateCustomerInformation":
       if (event.httpMethod === httpRequest.PUT) {
         return await updateCustomerInformation(event);
+      }
+    case "updateCategory":
+      if (event.httpMethod === httpRequest.PUT) {
+        return await updateCategory(event);
       }
     case "deleteProduct":
       if (event.httpMethod === httpRequest.DELETE) {

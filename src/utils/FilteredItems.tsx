@@ -18,7 +18,7 @@ export const filterItems = (items: any, gender: string) => {
 };
 
 //**filtered items according to user authentication */
-export const filteredProduct = (productItems: any, currentUseriId: any) => {
+export const filtered = (productItems: any, currentUseriId: any) => {
   return productItems.filter((obj: any) => {
     return obj.uid === currentUseriId.uid;
   });

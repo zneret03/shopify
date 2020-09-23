@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/private/Sidebar";
 import Navbar from "../../components/private/Navbar";
 import { OrderProvider } from "../../Context/OrderProvider";
+import { CategoryProvider } from "../../Context/CategoryProvider";
 interface Props {
   children: React.ReactNode;
 }
@@ -25,14 +26,16 @@ const Front: React.FC<Props> = ({ children }) => {
   }, []);
 
   return (
-    <OrderProvider>
-      <React.Fragment>
-        <div className={`font-sans ${navbar ? "flex" : null}`}>
-          {navbar ? <Sidebar /> : <Navbar />}
-          {children}
-        </div>
-      </React.Fragment>
-    </OrderProvider>
+    <CategoryProvider>
+      <OrderProvider>
+        <React.Fragment>
+          <div className={`font-sans ${navbar ? "flex" : null}`}>
+            {navbar ? <Sidebar /> : <Navbar />}
+            {children}
+          </div>
+        </React.Fragment>
+      </OrderProvider>
+    </CategoryProvider>
   );
 };
 

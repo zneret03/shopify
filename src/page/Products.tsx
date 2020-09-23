@@ -4,12 +4,13 @@ import { Edit3, Trash2 } from "react-feather";
 import { withRouter } from "react-router-dom";
 import { app } from "../config/firebase";
 import {
-  filteredProduct,
+  filtered,
   onSearch,
   sortTypes,
   sortString,
   sortNumber,
 } from "../utils/FilteredItems";
+import { months } from "../utils/mockData";
 import { ProductContext } from "../Context/ProductProvider";
 import { AuthContext } from "../auth/AuthProvider";
 import axios from "axios";
@@ -23,12 +24,17 @@ interface Props {
 }
 
 const Products: React.FC<Props> = ({ history }) => {
+  const today = new Date();
+  const dateToday = `${
+    months[today.getMonth()]
+  } ${today.getDate()}, ${today.getFullYear()}`;
+
   const { items } = useContext(ProductContext);
   const currentUser: any = useContext(AuthContext);
   const [searchFilter, setSearchFilter] = useState(null);
 
   //**return current user product posted */
-  const filtered = filteredProduct(items, currentUser);
+  const filteredProduct = filtered(items, currentUser);
 
   const getUdateId = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -175,12 +181,15 @@ const Products: React.FC<Props> = ({ history }) => {
   //** get current data;
   const indexLastData = current * dataShowed;
   const indexOfFirstData = indexLastData - dataShowed;
-  const currentData: object[] = filtered.slice(indexOfFirstData, indexLastData);
+  const currentData: object[] = filteredProduct.slice(
+    indexOfFirstData,
+    indexLastData
+  );
 
   //** set spinner if data not arrives
   if (currentData.length <= 0) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center">
+      <div className="h-screen w-screen md:pl-64 flex items-center justify-center">
         Please wait...
       </div>
     );
@@ -189,7 +198,12 @@ const Products: React.FC<Props> = ({ history }) => {
   return (
     <>
       <Header pageName={"Products"}>
-        <div className="mb-3 text-right">
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <span className="text-sm text-gray-500 block py-4">
+              Date : {dateToday}
+            </span>
+          </div>
           <Input.Search
             allowClear
             className="max-w-xs"
@@ -211,7 +225,7 @@ const Products: React.FC<Props> = ({ history }) => {
         </div>
         <div className="mt-2 flex justify-center">
           <MyPagination
-            total={filtered.length}
+            total={filteredProduct.length}
             current={current}
             onChange={setCurrent}
             pageSize={dataShowed}
