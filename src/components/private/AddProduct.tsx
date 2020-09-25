@@ -258,7 +258,7 @@ const AddProduct: React.FC = () => {
         >
           {message.message}
         </p>
-        <div>
+        <div className="py-6">
           <form className="lg:flex" onSubmit={(event) => onSubmit(event)}>
             {/**Start */}
             <div className="lg:w-1/2 mr-5">
