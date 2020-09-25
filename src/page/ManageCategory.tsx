@@ -11,9 +11,10 @@ import {
   sortTypes,
   sortString,
 } from "../utils/FilteredItems";
-import axios from "axios";
+import httpRequest from "../api/httpRequest";
 
 //** Components */
+import Loading from "../components/private/Loading";
 import CategoryModal from "../components/private/CategoryModal";
 import { MyPagination } from "../components/private/MyPagination";
 
@@ -33,7 +34,11 @@ const ManageCategory: React.FC = () => {
   //*Get category id
   const [categoryId, setCategoryId] = useState("");
 
-  const [message, setMessage] = useState({ status: false, message: "" });
+  const [message, setMessage] = useState({
+    status: false,
+    message: "",
+    loading: false,
+  });
   const [buttonStatus, setButtonStatus] = useState({
     add: false,
   });
@@ -94,7 +99,10 @@ const ManageCategory: React.FC = () => {
               id="update"
               onClick={(event) => openModal(event, fetchCategory)}
             />
-            <Popconfirm title="Do you want to delete?">
+            <Popconfirm
+              title="Do you want to delete?"
+              onConfirm={(event) => onDeleteCategory(event, fetchCategory.id)}
+            >
               <Trash2 className="text-red-700 cursor-pointer" size="20" />
             </Popconfirm>
           </Space>
@@ -139,6 +147,22 @@ const ManageCategory: React.FC = () => {
     }
   };
 
+  const loadingSpinner = () => {
+    setMessage({ status: false, message: "", loading: true });
+  };
+
+  const onDeleteCategory = (
+    event: React.MouseEvent<HTMLOrSVGElement>,
+    categoryId: string
+  ) => {
+    event.preventDefault();
+    loadingSpinner();
+    categoryId &&
+      httpRequest
+        .delete("/api/index?name=deleteCategory", { id: categoryId })
+        .then(() => setMessage({ status: false, message: "", loading: false }));
+  };
+
   const onSubmit = (event: any) => {
     event.preventDefault();
 
@@ -146,53 +170,58 @@ const ManageCategory: React.FC = () => {
     const add = event.target.id === "addCategory";
     const update = event.target.id === "updateCategory";
 
+    if (addCategory === "") {
+      return setMessage({
+        status: false,
+        message: "Input is empty",
+        loading: false,
+      });
+    }
+
+    loadingSpinner();
+
     if (add) {
-      const config = {
-        type: "POST",
-        url: "/api/index?name=addCategory",
-        addCategory,
-      };
-      httpRequest(config);
+      httpRequest
+        .post("/api/index?name=addCategory", {
+          id: categoryId,
+          uid: currentUser.uid,
+          category: addCategory,
+          dateToday,
+        })
+        .then(() => {
+          setMessage({
+            status: true,
+            message: "Successfully Added",
+            loading: false,
+          });
+          setTimeout(() => {
+            setCategory({ categoryName: "" });
+            setMessage({ status: false, message: "", loading: false });
+          }, 4000);
+        });
+
+      // httpRequest(config);
     }
 
     if (update) {
-      const config = {
-        id: categoryId,
-        type: "PUT",
-        url: "/api/index?name=updateCategory",
-        addCategory,
-      };
-      httpRequest(config);
-    }
-  };
-
-  const httpRequest = (config: any) => {
-    const { id, type, addCategory, url } = config;
-    axios({
-      method: type,
-      url: url,
-      headers: { "Access-Control-Allow-Origin": "*" },
-      data: {
-        id: id,
-        uid: currentUser.uid,
-        category: addCategory,
-        dateToday,
-      },
-    })
-      .then((response: any) => {
-        setMessage({ status: true, message: response.data });
-        setTimeout(() => {
-          setCategory({ categoryName: "" });
-          setMessage({ status: false, message: "" });
-        }, 4000);
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setMessage({
-          status: false,
-          message: "I'm sorry, i cant process right now :(",
+      httpRequest
+        .put("/api/index?name=updateCategory", {
+          id: categoryId,
+          category: addCategory,
+          dateToday,
+        })
+        .then(() => {
+          setMessage({
+            status: true,
+            message: "Successfully updated",
+            loading: false,
+          });
+          setTimeout(() => {
+            setCategory({ categoryName: "" });
+            setMessage({ status: false, message: "", loading: false });
+          }, 4000);
         });
-      });
+    }
   };
 
   //** Data showed to the client
@@ -209,57 +238,68 @@ const ManageCategory: React.FC = () => {
   );
 
   //** set spinner if data not arrives
-  if (currentData.length <= 0) {
-    return (
-      <div className="h-screen w-screen md:pl-64 flex items-center justify-center">
-        Please wait...
-      </div>
-    );
-  }
-
+  const spin = currentData.length <= 0;
   return (
     <>
+      {message.loading && <Loading />}
       <Header pageName={"Manage Category"}>
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <button
-            type="button"
-            id="add"
-            className="px-3 py-1 md:mb-0 mb-2 bg-green-500 hover:bg-green-400 rounded-sm text-white "
-            onClick={(event) => openModal(event)}
-          >
-            Add Category
-          </button>
-          <Input.Search
-            allowClear
-            className="max-w-xs"
-            placeholder="Search by firstname"
-            onSearch={(nameSearch) => {
-              const sea = onSearch(nameSearch, filteredCategory);
-              setSearchFilter(sea);
-            }}
-          />
-        </div>
-        <div>
-          <span className="text-sm text-gray-500 block py-4">
-            Date : {dateToday}
-          </span>
-        </div>
-        <Table
-          key="table"
-          className="overflow-auto"
-          columns={columns}
-          rowKey={(currentData) => currentData.id}
-          dataSource={searchFilter === null ? currentData : searchFilter}
-          pagination={false}
-        />
-        <div className="mt-2 flex justify-center">
-          <MyPagination
-            total={filteredCategory.length}
-            current={current}
-            onChange={setCurrent}
-            pageSize={dataShowed}
-          />
-        </div>
+        {spin ? (
+          <div className="flex justify-center">
+            <div className="text-center">
+              <span className="block">Empty order information</span>
+              <button
+                id="add"
+                onClick={(event) => openModal(event)}
+                className="uppercase tracking-wide font-bold border py-1 px-6 mt-2 bg-gray-900 text-white hover:text-white hover:bg-gray-700 rounded"
+              >
+                add product category
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="sm:flex sm:items-center sm:justify-between">
+              <button
+                type="button"
+                id="add"
+                className="px-3 py-1 md:mb-0 mb-2 bg-green-500 hover:bg-green-400 rounded-sm text-white "
+                onClick={(event) => openModal(event)}
+              >
+                Add Category
+              </button>
+              <Input.Search
+                allowClear
+                className="max-w-xs"
+                placeholder="Search by firstname"
+                onSearch={(nameSearch) => {
+                  const sea = onSearch(nameSearch, filteredCategory);
+                  setSearchFilter(sea);
+                }}
+              />
+            </div>
+            <div>
+              <span className="text-sm text-gray-500 block py-4">
+                Date : {dateToday}
+              </span>
+            </div>
+            <Table
+              key="table"
+              className="overflow-auto"
+              columns={columns}
+              rowKey={(currentData) => currentData.id}
+              dataSource={searchFilter === null ? currentData : searchFilter}
+              pagination={false}
+            />
+            <div className="mt-2 flex justify-center">
+              <MyPagination
+                total={filteredCategory.length}
+                current={current}
+                onChange={setCurrent}
+                pageSize={dataShowed}
+              />
+            </div>
+          </div>
+        )}
       </Header>
       {modal ? (
         buttonStatus.add ? (
@@ -274,6 +314,7 @@ const ManageCategory: React.FC = () => {
             category={category.categoryName}
             id="addCategory"
             buttonText="Submit"
+            loading={message.loading}
           />
         ) : (
           <CategoryModal
@@ -287,6 +328,7 @@ const ManageCategory: React.FC = () => {
             category={category.categoryName}
             buttonText="Update"
             id="updateCategory"
+            loading={message.loading}
           />
         )
       ) : null}

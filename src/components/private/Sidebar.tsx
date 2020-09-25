@@ -105,18 +105,14 @@ const Sidebar: React.FC = () => {
                   alt=""
                 />
               </div>
-              {name || currentUser.displayName ? (
-                <div className="text-center mt-2">
-                  <span className="font-bold text-lg text-white">{`${
-                    name || currentUser.displayName
-                  }`}</span>
-                </div>
-              ) : (
-                <div className="text-center mt-2">
-                  <span className="text-sm text-white">Loading...</span>
-                </div>
-              )}
-              <div className="text-center" key="currentUser">
+              <div className="text-center mt-2">
+                <span className="font-bold text-lg text-white">
+                  {name || currentUser.displayName ? (
+                    <span>{`${name || currentUser.displayName}`} </span>
+                  ) : (
+                    "Loading..."
+                  )}
+                </span>
                 <span className="text-sm text-gray-200 block">
                   {currentUser.email}
                 </span>

@@ -7,19 +7,20 @@ module.exports = async (event) => {
 
     const customerEmail = { email };
     const customerAddress = { address, province, region };
-
     const document = firebaseDb.collection("customerInformation").doc(id);
 
-    if (customerEmail.email !== undefined) {
-      await document.update({ email: email });
-    }
+    const queryString = event.queryStringParameters["parameters"];
 
-    if (customerAddress.address !== undefined) {
-      await document.update({
-        address: address,
-        province: province,
-        region: region,
-      });
+    switch (queryString) {
+      case "email":
+        customerEmail.email && (await document.update({ email: email }));
+      case "address":
+        customerAddress.address &&
+          (await document.update({
+            address: address,
+            province: province,
+            region: region,
+          }));
     }
 
     return callback(200, "Successfully Updated");

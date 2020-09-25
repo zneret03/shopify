@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Divider } from "antd";
+import { Divider, Spin } from "antd";
 import { ShoppingBag, Check } from "react-feather";
-import axios from "axios";
+import httpRequest from "../../api/httpRequest";
 
 //**customerInfo types */
 interface PropTypes {
@@ -59,6 +59,10 @@ const Input: React.FC<PropsInput> = ({
 const CustomerInfo: React.FC<PropTypes> = ({ getCustomerInfo }) => {
   const [editEmailButton, setEditEmailButton] = useState(false);
   const [editAddressButton, setAddressButton] = useState(false);
+  const [spinner, setSpinner] = useState({
+    email: false,
+    address: false,
+  });
 
   //**Show and hide inputs */
   const showInput = (event: any) => {
@@ -95,34 +99,32 @@ const CustomerInfo: React.FC<PropTypes> = ({ getCustomerInfo }) => {
     const addressButton = event.target.id === "addressButton";
 
     if (emailButton) {
+      setSpinner({ email: true, address: false });
       const config = { id, email };
-      httpRequest(config);
+      httpRequest
+        .put(
+          "/api/index?name=updateCustomerInformation&&parameters=email",
+          config
+        )
+        .then(() => setSpinner({ email: false, address: false }));
       setEditEmailButton(!editEmailButton);
     }
 
     if (addressButton) {
+      setSpinner({ email: false, address: true });
       const config = {
         id,
         address,
         province,
         region,
       };
-      httpRequest(config);
+      httpRequest
+        .put(
+          "/api/index?name=updateCustomerInformation&&parameters=address",
+          config
+        )
+        .then(() => setSpinner({ email: false, address: false }));
       setAddressButton(!addressButton);
-    }
-  };
-
-  const httpRequest = (config: any) => {
-    try {
-      axios({
-        method: "PUT",
-        url: "/api/index?name=updateCustomerInformation",
-        data: config,
-      }).then((response) => {
-        console.log(response.data);
-      });
-    } catch (error) {
-      console.log(error.message);
     }
   };
 
@@ -180,7 +182,13 @@ const CustomerInfo: React.FC<PropTypes> = ({ getCustomerInfo }) => {
                   />
                 </div>
               ) : (
-                <span className="text-blue-500">{email}</span>
+                <>
+                  {
+                    <Spin spinning={spinner.email}>
+                      <span className="text-blue-500">{email}</span>
+                    </Spin>
+                  }
+                </>
               )}
             </div>
           </div>
@@ -235,9 +243,11 @@ const CustomerInfo: React.FC<PropTypes> = ({ getCustomerInfo }) => {
                 </div>
               ) : (
                 <>
-                  <span className="text-blue-500 block">{address}</span>
-                  <span className="text-blue-500 block">{province}</span>
-                  <span className="text-blue-500 block">{region}</span>
+                  <Spin spinning={spinner.address}>
+                    <span className="text-blue-500 block">{address}</span>
+                    <span className="text-blue-500 block">{province}</span>
+                    <span className="text-blue-500 block">{region}</span>
+                  </Spin>
                 </>
               )}
             </div>

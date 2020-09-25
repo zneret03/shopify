@@ -1,17 +1,23 @@
 //**Products */
 const addProduct = require("./product/addProduct");
 const updateCategory = require("./product/updateCategory");
+const deleteCategory = require("./product/deleteCategory");
 const addCategory = require("./product/addCategory");
 const updateProduct = require("./product/updateProduct");
 const deleteProduct = require("./product/deleteProduct");
+
 //**Sign in */
 const signIn = require("./user/signIn");
+
 //**Cart */
 const checkOut = require("./cart/checkOut");
 const addCart = require("./cart/addCart"); //**Collections */
 const callback = require("./callback");
+
 //**Customer Information */
 const updateCustomerInformation = require("./customerInformation/updateCustomerInformation");
+const deleteCustomerInformation = require("./customerInformation/deleteCustomerInformation");
+
 const httpRequest = {
   GET: "GET",
   POST: "POST",
@@ -56,6 +62,14 @@ exports.handler = async (event) => {
     case "deleteProduct":
       if (event.httpMethod === httpRequest.DELETE) {
         return await deleteProduct(event);
+      }
+    case "deleteCategory":
+      if (event.httpMethod === httpRequest.DELETE) {
+        return await deleteCategory(event);
+      }
+    case "deleteCustomer":
+      if (event.httpMethod === httpRequest.DELETE) {
+        return await deleteCustomerInformation(event);
       }
     default:
       return callback(405, {});

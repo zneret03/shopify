@@ -1,11 +1,8 @@
 import React, { useContext, useState } from "react";
-import { OrderContext } from "../Context/OrderProvider";
-import { Table, Space, Input, Popconfirm, Tag } from "antd";
+import { Table, Space, Input, Popconfirm, Tag, Spin } from "antd";
 import { ShoppingCart, Trash2 } from "react-feather";
-import { AuthContext } from "../auth/AuthProvider";
 import Headers from "../components/private/Header";
 import { MyPagination } from "../components/private/MyPagination";
-import { months } from "../utils/mockData";
 import {
   onSearch,
   newCustomerArray,
@@ -14,6 +11,13 @@ import {
   sortString,
 } from "../utils/FilteredItems";
 
+//*Components
+import Loading from "../components/private/Loading";
+import httpRequest from "../api/httpRequest";
+import Button from "../utils/Button";
+import { months } from "../utils/mockData";
+import { AuthContext } from "../auth/AuthProvider";
+import { OrderContext } from "../Context/OrderProvider";
 interface onProps {
   history: any;
 }
@@ -24,6 +28,7 @@ const Orders: React.FC<onProps> = ({ history }) => {
   const filteredCustomerInfo = newCustomerArray(customerInfo, currentUser);
 
   const [purchaseTotal, setPurchaseTotal] = useState(0);
+  const [spinner, setSpinner] = useState(false);
   //** Data showed to the client
   const dataShowed: number = 5;
 
@@ -47,9 +52,26 @@ const Orders: React.FC<onProps> = ({ history }) => {
     items: any
   ) => {
     event.preventDefault();
+
     if (items) {
       history.push(`/dashboard/order/customerOrders?id=${items.id}`);
     }
+  };
+
+  const loadSpinner = () => setSpinner(true);
+
+  const onDeleteCustomer = (
+    event: React.MouseEvent<HTMLOrSVGElement>,
+    customer: any
+  ) => {
+    event.preventDefault();
+    loadSpinner();
+    customer &&
+      httpRequest
+        .delete(`/api/index?name=deleteCustomer&&customerId=${customer.id}`, {
+          items: customer.items,
+        })
+        .then(() => setSpinner(false));
   };
 
   const [current, setCurrent] = useState<number>(1);
@@ -137,7 +159,10 @@ const Orders: React.FC<onProps> = ({ history }) => {
           <button onClick={(event) => customerOrders(event, customerInfo)}>
             <ShoppingCart className="text-blue-700" size="20" />
           </button>
-          <Popconfirm title="Do you want to delete?">
+          <Popconfirm
+            title="Do you want to delete?"
+            onConfirm={(event) => onDeleteCustomer(event, customerInfo)}
+          >
             <button>
               <Trash2 className="text-red-700" size="20" />
             </button>
@@ -147,58 +172,65 @@ const Orders: React.FC<onProps> = ({ history }) => {
     },
   ];
 
-  //** set spinner if data not arrives
-  if (currentData.length <= 0) {
-    return (
-      <div className="h-screen w-screen md:pl-64 flex items-center justify-center">
-        Please wait...
-      </div>
-    );
-  }
+  const spin = filteredCustomerInfo.length <= 0;
 
   return (
-    <Headers pageName={"Information"}>
-      <div>
-        <div className="mb-3 sm:flex sm:items-center sm:justify-between">
-          <div>
-            <span className="font-bold text-lg">Total : </span>
-            <span className="font-bold text-lg text-red-500">
-              ₱{purchaseTotal.toLocaleString()}
-            </span>
-          </div>
-          <Input.Search
-            allowClear
-            className="max-w-xs"
-            placeholder="Search by firstname"
-            onSearch={(nameSearch) => {
-              const sea = onSearch(nameSearch, filteredCustomerInfo);
-              setSearchFilter(sea);
-            }}
+    <>
+      {spinner && <Loading />}
+      <Headers pageName={"Information"}>
+        {spin ? (
+          <Button
+            title="Empty order information"
+            path="/dashboard/products/addProducts"
+            text="go to add Products"
+            className="flex justify-center"
           />
-        </div>
-        <div>
-          <span className="text-sm text-gray-500 block">
-            Date : {dateToday}
-          </span>
-        </div>
-        <Table
-          key="table"
-          className="overflow-auto"
-          columns={columns}
-          rowKey={(currentData) => currentData.id}
-          dataSource={searchFilter === null ? currentData : searchFilter}
-          pagination={false}
-        />
-      </div>
-      <div className="mt-2 flex justify-center">
-        <MyPagination
-          total={customerInfo.length}
-          current={current}
-          onChange={setCurrent}
-          pageSize={dataShowed}
-        />
-      </div>
-    </Headers>
+        ) : (
+          <div>
+            <div className="mb-3 sm:flex sm:items-center sm:justify-between">
+              <div>
+                <span className="font-bold text-lg">Total : </span>
+                <span className="font-bold text-lg text-red-500">
+                  ₱{purchaseTotal.toLocaleString()}
+                </span>
+              </div>
+              <Input.Search
+                allowClear
+                className="max-w-xs"
+                placeholder="Search by firstname"
+                onSearch={(nameSearch) => {
+                  const sea = onSearch(nameSearch, filteredCustomerInfo);
+                  setSearchFilter(sea);
+                }}
+              />
+            </div>
+            <div>
+              <span className="text-sm text-gray-500 block">
+                Date : {dateToday}
+              </span>
+            </div>
+            <Spin spinning={spin}>
+              <Table
+                key="table"
+                className="overflow-auto"
+                columns={columns}
+                rowKey={(currentData) => currentData.id}
+                dataSource={searchFilter === null ? currentData : searchFilter}
+                pagination={false}
+              />
+            </Spin>
+            <div className="mt-2 flex justify-center">
+              <MyPagination
+                total={customerInfo.length}
+                current={current}
+                onChange={setCurrent}
+                pageSize={dataShowed}
+              />
+            </div>
+          </div>
+        )}
+      </Headers>
+    </>
   );
 };
 

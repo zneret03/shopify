@@ -23,7 +23,11 @@ const Header: React.SFC<Props> = ({ children, pageName }) => {
         <div className="text-xl font-segoe-UI">
           <span>Welcome to Shopify </span>
           <span className="py-1 px-2 bg-black text-white rounded-sm">
-            {name}
+            {name || currentUser.displayName ? (
+              <span>{name || currentUser.displayName}</span>
+            ) : (
+              "loading"
+            )}
           </span>
         </div>
       </div>

@@ -2,11 +2,13 @@ import React, { useState, useContext, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Header from "./Header";
 import { app } from "../../config/firebase";
-import Loading from "./Loading";
-import axios from "axios";
 import { Trash } from "react-feather";
 import { AuthContext } from "../../auth/AuthProvider";
 import { CategoryContext } from "../../Context/CategoryProvider";
+
+//*Components
+import Loading from "./Loading";
+import httpRequest from "../../api/httpRequest";
 
 interface productStateTypes {
   product: string;
@@ -176,6 +178,7 @@ const AddProduct: React.FC = () => {
 
     //*Load Spinner
     loadSpinner();
+
     acceptedFiles.map(async (file) => {
       if (file) {
         let today = new Date();
@@ -208,48 +211,40 @@ const AddProduct: React.FC = () => {
     const { date, imageUrl, uid, file } = config;
     const prod: string = product.toLowerCase();
     const purp: string = purpose.toLowerCase();
-    axios({
-      method: "POST",
-      url: "/api/index?name=addProduct",
-      headers: { "Access-Control-Allow-Origin": "*" },
-      data: {
-        uid: uid,
-        fileName: file,
-        product: prod,
-        title: title,
-        purpose: purp,
-        price: price,
-        category: category,
-        quantity: quantity,
-        imageUrl: imageUrl,
-        date: date,
-        gender: gender,
-        description,
-        size,
-      },
-    })
-      .then((response: any) => {
-        if (response) {
-          setMessage({
-            status: true,
-            message: response.data.message,
-            loading: false,
-          });
-          setMessage({
-            status: false,
-            message: "Successfully Inserted",
-            loading: false,
-          });
-          setTimeout(() => {
-            clearState();
-            removeFile();
-            setMessage({ status: false, message: "", loading: false });
-          }, 2000);
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
+
+    const data = {
+      uid: uid,
+      fileName: file,
+      product: prod,
+      title: title,
+      purpose: purp,
+      price: price,
+      category: category,
+      quantity: quantity,
+      imageUrl: imageUrl,
+      date: date,
+      gender: gender,
+      description,
+      size,
+    };
+
+    httpRequest.post("/api/index?name=addProduct", data).then(() => {
+      setMessage({
+        status: true,
+        message: "Successfully added",
+        loading: false,
       });
+      setMessage({
+        status: false,
+        message: "Successfully Inserted",
+        loading: false,
+      });
+      setTimeout(() => {
+        clearState();
+        removeFile();
+        setMessage({ status: false, message: "", loading: false });
+      }, 2000);
+    });
   };
 
   return (

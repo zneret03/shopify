@@ -4,8 +4,10 @@ import Header from "./Header";
 import { app } from "../../config/firebase";
 import { ArrowLeft } from "react-feather";
 import { Link } from "react-router-dom";
+
+//*Components
+import httpRequest from "../../api/httpRequest";
 import Loading from "./Loading";
-import axios from "axios";
 
 interface productStateTypes {
   product: string;
@@ -73,12 +75,8 @@ const EditProduct: React.FC = (props: any) => {
 
     loadSpinner();
 
-    axios({
-      method: "put",
-      url: `/api/index?name=updateProduct&&productId=${id}`,
-      headers: { "Access-Control-Allow-Origin": "*" },
-      data: items,
-    })
+    httpRequest
+      .put(`/api/index?name=updateProduct&&productId=${id}`, items)
       .then(() => {
         setMessage({
           status: true,
@@ -89,9 +87,6 @@ const EditProduct: React.FC = (props: any) => {
         setTimeout(() => {
           setMessage({ status: false, message: "", loading: false });
         }, 5000);
-      })
-      .catch((error) => {
-        setMessage({ status: false, message: error.message, loading: false });
       });
   };
 

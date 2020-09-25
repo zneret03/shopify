@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import { Divider } from "antd";
-import Back from "../utils/Back";
-import { CartContext } from "../Context/CartProvider";
 import { withRouter } from "react-router-dom";
-import { pendingItems } from "../utils/FilteredItems";
 import { app } from "../config/firebase";
-import { Link } from "react-router-dom";
+
+//*Components
+import { pendingItems } from "../utils/FilteredItems";
+import { CartContext } from "../Context/CartProvider";
+import Back from "../utils/Back";
+import Button from "../utils/Button";
 
 interface PropsType {
   history: any;
@@ -104,15 +106,12 @@ const Cart: React.FC<PropsType> = ({ history }) => {
               </div>
             </div>
             {pending.length <= 0 && (
-              <div className="text-center md:absolute md:inset-x-0">
-                <span className="block mb-4">Your Shopping bag is empty</span>
-                <Link
-                  to="/shop"
-                  className="uppercase tracking-wide font-bold border py-2 px-8 mt-2 bg-gray-900 text-white hover:text-white hover:bg-gray-700 rounded"
-                >
-                  Continue Shopping
-                </Link>
-              </div>
+              <Button
+                text="ontinue Shopping"
+                title="Your Shopping bag is empty"
+                path="/shop"
+                className="text-center md:absolute md:inset-x-0"
+              />
             )}
           </div>
           <div className="md:w-1/4 w-full md:ml-4 md:mt-0 mt-6 sm:mt-6">

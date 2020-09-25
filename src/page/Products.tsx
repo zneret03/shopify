@@ -10,14 +10,16 @@ import {
   sortString,
   sortNumber,
 } from "../utils/FilteredItems";
+import httpRequest from "../api/httpRequest";
+
+//**Component
+import Header from "../components/private/Header";
+import Button from "../utils/Button";
+import Loading from "../components/private/Loading";
+import { MyPagination } from "../components/private/MyPagination";
 import { months } from "../utils/mockData";
 import { ProductContext } from "../Context/ProductProvider";
 import { AuthContext } from "../auth/AuthProvider";
-import axios from "axios";
-
-//Component
-import Header from "../components/private/Header";
-import { MyPagination } from "../components/private/MyPagination";
 
 interface Props {
   history: any;
@@ -32,6 +34,7 @@ const Products: React.FC<Props> = ({ history }) => {
   const { items } = useContext(ProductContext);
   const currentUser: any = useContext(AuthContext);
   const [searchFilter, setSearchFilter] = useState(null);
+  const [spinner, setSpinner] = useState<boolean>(false);
 
   //**return current user product posted */
   const filteredProduct = filtered(items, currentUser);
@@ -46,32 +49,7 @@ const Products: React.FC<Props> = ({ history }) => {
     }
   };
 
-  //** send request to back end for deleting products
-  const httpRequest = (config: any) => {
-    const { id, imageUrl, file } = config;
-
-    axios({
-      method: "delete",
-      url: `/api/index?name=deleteProduct&&productId=${id}`,
-      headers: { "Access-Control-Allow-Origin": "*" },
-    })
-      .then(() => {
-        const storageRef = app.storage().refFromURL(imageUrl);
-        storageRef
-          .delete()
-          .then(() => {
-            const storageRef = app.storage().ref();
-            const deleteRef = storageRef.child("/" + file);
-            deleteRef.delete();
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
+  const loadSpinner = () => setSpinner(true);
 
   //** Delete Table Data
   const getDeleteId = async (
@@ -81,9 +59,26 @@ const Products: React.FC<Props> = ({ history }) => {
     file: string
   ) => {
     event.preventDefault();
+
+    loadSpinner();
+
     if (file) {
-      const config: any = { id, imageUrl, file };
-      httpRequest(config);
+      httpRequest
+        .delete(`/api/index?name=deleteProduct&&productId=${id}`, { id })
+        .then(() => {
+          const storageRef = app.storage().refFromURL(imageUrl);
+          storageRef
+            .delete()
+            .then(() => {
+              setSpinner(false);
+              const storageRef = app.storage().ref();
+              const deleteRef = storageRef.child("/" + file);
+              deleteRef.delete();
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+        });
     }
   };
 
@@ -133,6 +128,7 @@ const Products: React.FC<Props> = ({ history }) => {
       key: "quantity",
       setDirections: sortTypes,
       sorter: sortNumber,
+      render: (quantity: number) => <span>{quantity.toLocaleString()}</span>,
     },
     {
       title: "Gender",
@@ -187,50 +183,55 @@ const Products: React.FC<Props> = ({ history }) => {
   );
 
   //** set spinner if data not arrives
-  if (currentData.length <= 0) {
-    return (
-      <div className="h-screen w-screen md:pl-64 flex items-center justify-center">
-        Please wait...
-      </div>
-    );
-  }
-
+  const spin = currentData.length <= 0;
   return (
     <>
+      {spinner && <Loading />}
       <Header pageName={"Products"}>
-        <div className="mb-3 flex items-center justify-between">
+        {spin ? (
+          <Button
+            className="flex justify-center"
+            path="/dashboard/products/addProducts"
+            text="go to add Products"
+            title="Empty Product"
+          />
+        ) : (
           <div>
-            <span className="text-sm text-gray-500 block py-4">
-              Date : {dateToday}
-            </span>
+            <div className="mb-3 flex items-center justify-between">
+              <div>
+                <span className="text-sm text-gray-500 block py-4">
+                  Date : {dateToday}
+                </span>
+              </div>
+              <Input.Search
+                allowClear
+                className="max-w-xs"
+                placeholder="Search by product name"
+                onSearch={(nameSearch) => {
+                  const itemsSearch = onSearch(nameSearch, items);
+                  setSearchFilter(itemsSearch);
+                }}
+              />
+            </div>
+            <div>
+              <Table
+                className="overflow-auto"
+                columns={columns}
+                rowKey={(currentData) => currentData.id}
+                dataSource={searchFilter === null ? currentData : searchFilter}
+                pagination={false}
+              />
+            </div>
+            <div className="mt-2 flex justify-center">
+              <MyPagination
+                total={filteredProduct.length}
+                current={current}
+                onChange={setCurrent}
+                pageSize={dataShowed}
+              />
+            </div>
           </div>
-          <Input.Search
-            allowClear
-            className="max-w-xs"
-            placeholder="Search by product name"
-            onSearch={(nameSearch) => {
-              const itemsSearch = onSearch(nameSearch, items);
-              setSearchFilter(itemsSearch);
-            }}
-          />
-        </div>
-        <div>
-          <Table
-            className="overflow-auto"
-            columns={columns}
-            rowKey={(currentData) => currentData.id}
-            dataSource={searchFilter === null ? currentData : searchFilter}
-            pagination={false}
-          />
-        </div>
-        <div className="mt-2 flex justify-center">
-          <MyPagination
-            total={filteredProduct.length}
-            current={current}
-            onChange={setCurrent}
-            pageSize={dataShowed}
-          />
-        </div>
+        )}
       </Header>
     </>
   );
