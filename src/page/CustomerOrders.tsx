@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
-import Header from "../components/private/Header";
 import { app } from "../config/firebase";
+import { HelpCircle } from "react-feather";
+import { Popover } from "antd";
+
+//*Components
+import Header from "../components/private/Header";
 import Card from "../utils/Card";
 import Back from "../utils/Back";
-import { HelpCircle } from "react-feather";
 import { AuthContext } from "../auth/AuthProvider";
 import { withRouter } from "react-router-dom";
-import { filtered } from "../utils/FilteredItems";
-import { Popover } from "antd";
+import { filtered, sorted } from "../utils/FilteredItems";
 import DropdownComponent from "../components/Forms/DropdownComponent";
 
 const CustomerOrders: React.FC = (props: any) => {
@@ -77,6 +79,7 @@ const CustomerOrders: React.FC = (props: any) => {
     event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
     type: string
   ) => {
+    event.preventDefault();
     const map = {
       price: "Subtotal",
       product: "product",
@@ -84,21 +87,8 @@ const CustomerOrders: React.FC = (props: any) => {
     };
     const sortTypes = map[type];
 
-    const sorted = filterProduct.sort((a: any, b: any) => {
-      if (sortTypes === "product" || sortTypes === "purpose") {
-        if (a[sortTypes] < b[sortTypes]) {
-          return -1;
-        }
-        if (a[sortTypes] > b[sortTypes]) {
-          return 1;
-        }
-        return 0;
-      } else {
-        return b[sortTypes] - a[sortTypes];
-      }
-    });
-
-    setSortingTypes(sorted);
+    const sortedData = sorted(filterProduct, sortTypes);
+    sortedData && setSortingTypes(sortedData);
   };
 
   const sortTypes = ["price", "product", "purpose"];

@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
-import { ProductContext } from "../Context/ProductProvider";
-import { filterItems } from "../utils/FilteredItems";
-import Card from "../utils/Card";
 import { withRouter } from "react-router-dom";
 import ReactTypingEffect from "react-typing-effect";
 
 //** components
 import Back from "../utils/Back";
 import Filters from "../components/public/Filters";
+import { ProductContext } from "../Context/ProductProvider";
+import { filterItems, sorted } from "../utils/FilteredItems";
+import Card from "../utils/Card";
 
 const Shop: React.FC = (props: any) => {
   const { items } = useContext(ProductContext);
@@ -44,6 +44,39 @@ const Shop: React.FC = (props: any) => {
     }
 
     return setBadge(true);
+  };
+
+  const [sortedData, setSortedData] = useState([]);
+
+  //*getting sorted data
+  const getSortData = (
+    event?: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    category?: string,
+    element?: string
+  ) => {
+    event.preventDefault();
+
+    const map = {
+      price: "price",
+      product: "product",
+      purpose: "purpose",
+    };
+    const sortType = map[element];
+
+    //*Sort by price, product and category
+    if (category === undefined) {
+      const sortedData = sorted(filteredItems, sortType);
+      setSortedData(sortedData);
+    }
+
+    //*Sort by category
+    if (element !== undefined && category !== undefined) {
+      const sortedCategory = filteredItems.filter((obj: any) => {
+        return obj.category.toLowerCase() === category.toLowerCase();
+      });
+
+      setSortedData(sortedCategory);
+    }
   };
 
   const getGenderParams = () => {
@@ -104,14 +137,18 @@ const Shop: React.FC = (props: any) => {
             </button>
           </div>
         </div>
-        <Filters />
+        <Filters
+          getSortData={(event, category, element) =>
+            getSortData(event, category, element)
+          }
+        />
         {filter.length <= 0 && (
           <div className="flex items-center justify-center mt-6 border bg-gray-200 px-8 py-2">
             Empty Merch :(
           </div>
         )}
         <Card
-          filteredItems={filter}
+          filteredItems={sortedData.length <= 0 ? filter : sortedData}
           onClick={(
             event: React.MouseEvent<HTMLDivElement, MouseEvent>,
             id: string

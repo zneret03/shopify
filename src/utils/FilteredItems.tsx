@@ -58,3 +58,20 @@ export const getuserUid = (currentUser: any, app: any) => {
     }
   });
 };
+
+//* return numerica and alphabetical sorted data
+export const sorted = (filterProduct: any, sortTypes: any) => {
+  const sortedData = filterProduct.sort((a: any, b: any) => {
+    if (sortTypes === "product" || sortTypes === "purpose") {
+      return a[sortTypes] === b[sortTypes]
+        ? 0
+        : a[sortTypes] > b[sortTypes]
+        ? 1
+        : -1;
+    } else {
+      return b[sortTypes] - a[sortTypes];
+    }
+  });
+
+  return sortedData;
+};
