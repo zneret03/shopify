@@ -38,11 +38,6 @@ module.exports = async (event) => {
     const itemsIdArray = [];
     const ownerIdArray = [];
 
-    //*Date
-    const date = new Date();
-    //const time = `${date.getHours()}:${date.getMinutes}:${date.getMilliseconds}`
-    const today = `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`;
-
     pending.map((item) => {
       itemsIdArray.push(item.id);
       ownerIdArray.push({ id: item.uid });
@@ -62,7 +57,6 @@ module.exports = async (event) => {
         zipcode: zipcode,
         items: itemsIdArray,
         uid: ownerIdArray,
-        date_created: today,
       })
       .then(async () => {
         const config = { customerId: document.id, itemsIdArray };

@@ -1,6 +1,27 @@
 const { firebaseDb } = require("../firebaseAdmin");
 const callback = require("../callback");
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+//*Date
+const today = new Date();
+const dateToday = `${
+  months[today.getMonth()]
+} ${today.getDate()}, ${today.getFullYear()}`;
+
 const onSubtractQuantity = async (config) => {
   try {
     const { Totalquantity, productId } = config;
@@ -54,6 +75,7 @@ module.exports = async (event) => {
         valueAddedTax: vatable,
         quantity: quantity,
         gender: gender,
+        date_created: dateToday,
         status: { color: status, itemStatus: "pending" },
       })
       .then(() => {
