@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Divider } from "antd";
+import React, { useContext, useEffect } from "react";
+import { Divider, notification } from "antd";
 import { withRouter } from "react-router-dom";
 import { app } from "../config/firebase";
 
@@ -8,6 +8,8 @@ import { pendingItems } from "../utils/FilteredItems";
 import { CartContext } from "../Context/CartProvider";
 import Back from "../utils/Back";
 import Button from "../utils/Button";
+import { months } from "../utils/mockData";
+import { Smile } from "react-feather";
 
 interface PropsType {
   history: any;
@@ -32,6 +34,18 @@ const Cart: React.FC<PropsType> = ({ history }) => {
     }
   };
 
+  //*Pop up notification
+  const openNotification = () => {
+    notification.open({
+      message: "Notice",
+      description:
+        "If you dont checkout your item, this will disappear after 24hrs",
+      icon: <Smile size="25" color="#ADD8E6" />,
+    });
+  };
+
+  useEffect(openNotification, []);
+
   //*Delete items
   const deleteCartItems = async (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -49,13 +63,24 @@ const Cart: React.FC<PropsType> = ({ history }) => {
     }
   };
 
+  //*Date
+  const today = new Date();
+  const dateToday = `${
+    months[today.getMonth()]
+  } ${today.getDate()}, ${today.getFullYear()}`;
+
   return (
     <>
       <div className="container mx-auto px-3">
         <div className="md:flex md:justify-between py-8">
           <div>
             <Back path="/shop" />
-            <span className="text-2xl text-black">Shopping Bag</span>
+            <div className="flex items-center">
+              <span className="text-2xl mr-5 text-black">Shopping Bag</span>
+              <span className="text-sm text-gray-500 text-black">
+                {dateToday}
+              </span>
+            </div>
             <div className="mt-6">
               <div className="grid grid-rows gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {pending.map((items: any, index: number) => (
