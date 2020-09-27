@@ -16,12 +16,13 @@
 - [x] Social media authentication
 - [x] Fixing Region and province select element
 - [x] Fixing firebase issue
-- [ ] Manage Category
+- [x] Manage Category
+- [ ] unfulfilled products
 - [ ] Critical Stocks
 - [ ] Email news paper
-- [ ] Customer Orders
+- [x] Customer Orders
 - [ ] Inventory
 - [ ] Manage Sales
-- [ ] Sort by product name
-- [ ] Sort by price
+- [x] Sort by product name
+- [x] Sort by price
 - [ ] Chart
