@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Table, Space, Tag, Input, Popconfirm } from "antd";
+import { Space, Tag, Input, Popconfirm } from "antd";
 import { Edit3, Trash2 } from "react-feather";
 import { withRouter } from "react-router-dom";
 import { app } from "../config/firebase";
@@ -9,6 +9,7 @@ import {
   sortTypes,
   sortString,
   sortNumber,
+  arraySlice,
 } from "../utils/FilteredItems";
 import httpRequest from "../api/httpRequest";
 
@@ -16,11 +17,10 @@ import httpRequest from "../api/httpRequest";
 import Header from "../components/private/Header";
 import Button from "../utils/Button";
 import Loading from "../components/private/Loading";
-import { MyPagination } from "../components/private/MyPagination";
 import { months } from "../utils/mockData";
 import { ProductContext } from "../Context/ProductProvider";
 import { AuthContext } from "../auth/AuthProvider";
-
+import AdminTable from "../components/private/AdminTable";
 interface Props {
   history: any;
 }
@@ -32,6 +32,7 @@ const Products: React.FC<Props> = ({ history }) => {
   } ${today.getDate()}, ${today.getFullYear()}`;
 
   const { items } = useContext(ProductContext);
+
   const currentUser: any = useContext(AuthContext);
   const [searchFilter, setSearchFilter] = useState(null);
   const [spinner, setSpinner] = useState<boolean>(false);
@@ -128,7 +129,17 @@ const Products: React.FC<Props> = ({ history }) => {
       key: "quantity",
       setDirections: sortTypes,
       sorter: sortNumber,
-      render: (quantity: number) => <span>{quantity.toLocaleString()}</span>,
+      render: (quantity: number) => {
+        return (
+          <div
+            className={`${
+              quantity < 10 ? "bg-red-500" : "bg-orange-500"
+            } max-w-xs w-6 text-center rounded-full`}
+          >
+            <span className="text-white">{quantity.toLocaleString()}</span>
+          </div>
+        );
+      },
     },
     {
       title: "Gender",
@@ -175,12 +186,7 @@ const Products: React.FC<Props> = ({ history }) => {
   const [current, setCurrent] = useState<number>(1);
 
   //** get current data;
-  const indexLastData = current * dataShowed;
-  const indexOfFirstData = indexLastData - dataShowed;
-  const currentData: object[] = filteredProduct.slice(
-    indexOfFirstData,
-    indexLastData
-  );
+  const currentData = arraySlice(filteredProduct, current, dataShowed);
 
   //** set spinner if data not arrives
   const spin = currentData.length <= 0;
@@ -208,28 +214,21 @@ const Products: React.FC<Props> = ({ history }) => {
                 className="max-w-xs"
                 placeholder="Search by product name"
                 onSearch={(nameSearch) => {
-                  const itemsSearch = onSearch(nameSearch, items);
+                  const itemsSearch = onSearch(nameSearch, filteredProduct);
                   setSearchFilter(itemsSearch);
                 }}
               />
             </div>
-            <div>
-              <Table
-                className="overflow-auto"
-                columns={columns}
-                rowKey={(currentData) => currentData.id}
-                dataSource={searchFilter === null ? currentData : searchFilter}
-                pagination={false}
-              />
-            </div>
-            <div className="mt-2 flex justify-center">
-              <MyPagination
-                total={filteredProduct.length}
-                current={current}
-                onChange={setCurrent}
-                pageSize={dataShowed}
-              />
-            </div>
+            <AdminTable
+              spin={spin}
+              columns={columns}
+              currentData={currentData}
+              searchFilter={searchFilter}
+              DataArray={filteredProduct}
+              current={current}
+              setCurrent={setCurrent}
+              dataShowed={dataShowed}
+            />
           </div>
         )}
       </Header>

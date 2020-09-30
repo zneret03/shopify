@@ -75,3 +75,19 @@ export const sorted = (filterProduct: any, sortTypes: any) => {
 
   return sortedData;
 };
+
+//* getData slice with by 5 on each row
+export const arraySlice = (
+  filteredProduct: any,
+  current: number,
+  dataShowed: number
+) => {
+  const indexLastData = current * dataShowed;
+  const indexOfFirstData = indexLastData - dataShowed;
+  const currentData: object[] = filteredProduct.slice(
+    indexOfFirstData,
+    indexLastData
+  );
+
+  return currentData;
+};

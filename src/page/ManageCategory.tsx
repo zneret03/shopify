@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import Header from "../components/private/Header";
-import { Tag, Space, Popconfirm, Table, Input } from "antd";
+import { Tag, Space, Popconfirm, Input } from "antd";
 import { Edit3, Trash2 } from "react-feather";
 import { months } from "../utils/mockData";
 import { CategoryContext } from "../Context/CategoryProvider";
@@ -10,14 +10,14 @@ import {
   onSearch,
   sortTypes,
   sortString,
+  arraySlice,
 } from "../utils/FilteredItems";
 import httpRequest from "../api/httpRequest";
 
 //** Components */
 import Loading from "../components/private/Loading";
 import CategoryModal from "../components/private/CategoryModal";
-import { MyPagination } from "../components/private/MyPagination";
-
+import AdminTable from "../components/private/AdminTable";
 const ManageCategory: React.FC = () => {
   const today = new Date();
   const dateToday = `${
@@ -147,6 +147,7 @@ const ManageCategory: React.FC = () => {
     }
   };
 
+  //*Loading
   const loadingSpinner = () => {
     setMessage({ status: false, message: "", loading: true });
   };
@@ -163,6 +164,7 @@ const ManageCategory: React.FC = () => {
         .then(() => setMessage({ status: false, message: "", loading: false }));
   };
 
+  //*Submit data
   const onSubmit = (event: any) => {
     event.preventDefault();
 
@@ -228,14 +230,7 @@ const ManageCategory: React.FC = () => {
   const dataShowed: number = 5;
 
   const [current, setCurrent] = useState<number>(1);
-
-  //** get current data;
-  const indexLastData = current * dataShowed;
-  const indexOfFirstData = indexLastData - dataShowed;
-  const currentData: object[] = filteredCategory.slice(
-    indexOfFirstData,
-    indexLastData
-  );
+  const currentData = arraySlice(filteredCategory, current, dataShowed);
 
   //** set spinner if data not arrives
   const spin = currentData.length <= 0;
@@ -282,22 +277,16 @@ const ManageCategory: React.FC = () => {
                 Date : {dateToday}
               </span>
             </div>
-            <Table
-              key="table"
-              className="overflow-auto"
+            <AdminTable
+              spin={spin}
               columns={columns}
-              rowKey={(currentData) => currentData.id}
-              dataSource={searchFilter === null ? currentData : searchFilter}
-              pagination={false}
+              currentData={currentData}
+              searchFilter={searchFilter}
+              DataArray={filteredCategory}
+              current={current}
+              setCurrent={setCurrent}
+              dataShowed={dataShowed}
             />
-            <div className="mt-2 flex justify-center">
-              <MyPagination
-                total={filteredCategory.length}
-                current={current}
-                onChange={setCurrent}
-                pageSize={dataShowed}
-              />
-            </div>
           </div>
         )}
       </Header>

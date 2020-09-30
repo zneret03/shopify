@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
-import { Table, Space, Input, Popconfirm, Tag, Spin } from "antd";
+import { Space, Input, Popconfirm, Tag } from "antd";
 import { ShoppingCart, Trash2 } from "react-feather";
 import Headers from "../components/private/Header";
-import { MyPagination } from "../components/private/MyPagination";
 import {
   onSearch,
   newCustomerArray,
   sortTypes,
   sortNumber,
   sortString,
+  arraySlice,
 } from "../utils/FilteredItems";
 
 //*Components
@@ -18,6 +18,7 @@ import Button from "../utils/Button";
 import { months } from "../utils/mockData";
 import { AuthContext } from "../auth/AuthProvider";
 import { OrderContext } from "../Context/OrderProvider";
+import AdminTable from "../components/private/AdminTable";
 
 interface onProps {
   history: any;
@@ -31,7 +32,6 @@ const Orders: React.FC<onProps> = ({ history }) => {
   const [purchaseTotal, setPurchaseTotal] = useState(0);
   const [spinner, setSpinner] = useState(false);
   //** Data showed to the client
-  const dataShowed: number = 5;
 
   const today = new Date();
   const dateToday = `${
@@ -75,15 +75,11 @@ const Orders: React.FC<onProps> = ({ history }) => {
         .then(() => setSpinner(false));
   };
 
+  const dataShowed: number = 5;
   const [current, setCurrent] = useState<number>(1);
 
   //** get current data;
-  const indexLastData = current * dataShowed;
-  const indexOfFirstData = indexLastData - dataShowed;
-  const currentData: object[] = filteredCustomerInfo.slice(
-    indexOfFirstData,
-    indexLastData
-  );
+  const currentData = arraySlice(filteredCustomerInfo, current, dataShowed);
 
   const columns = [
     {
@@ -210,24 +206,16 @@ const Orders: React.FC<onProps> = ({ history }) => {
                 Date : {dateToday}
               </span>
             </div>
-            <Spin spinning={spin}>
-              <Table
-                key="table"
-                className="overflow-auto"
-                columns={columns}
-                rowKey={(currentData) => currentData.id}
-                dataSource={searchFilter === null ? currentData : searchFilter}
-                pagination={false}
-              />
-            </Spin>
-            <div className="mt-2 flex justify-center">
-              <MyPagination
-                total={customerInfo.length}
-                current={current}
-                onChange={setCurrent}
-                pageSize={dataShowed}
-              />
-            </div>
+            <AdminTable
+              spin={spin}
+              columns={columns}
+              currentData={currentData}
+              searchFilter={searchFilter}
+              DataArray={filteredCustomerInfo}
+              current={current}
+              setCurrent={setCurrent}
+              dataShowed={dataShowed}
+            />
           </div>
         )}
       </Headers>
