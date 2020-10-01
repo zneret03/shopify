@@ -25,7 +25,7 @@ const Inventory: React.FC = () => {
   return (
     <>
       <Header pageName={"Inventory"}>
-        <div className="flex items-center">
+        <div className="flex items-center mb-5">
           {inventoryNavigation.map((nav: any, index: number) => (
             <Menu mode="horizontal" selectedKeys={[current]} key={index}>
               <Menu.Item

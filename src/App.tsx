@@ -4,10 +4,12 @@ import { Spin } from "antd";
 import { AuthProvider } from "./auth/AuthProvider";
 import { ProductProvider } from "./Context/ProductProvider";
 import { CategoryProvider } from "./Context/CategoryProvider";
+import { CartProvider } from "./Context/CartProvider";
 import NetworkDetection from "./utils/NetworkDetection";
 
 //**components
 const Home = lazy(() => import("./page/Home"));
+const Policy = lazy(() => import("./page/Policy"));
 const Shop = lazy(() => import("./page/Shop"));
 const Cart = lazy(() => import("./page/Cart"));
 const CustomerOrders = lazy(() => import("./page/CustomerOrders"));
@@ -33,72 +35,79 @@ const App: React.FC = () => {
       }
     >
       <AuthProvider>
-        <CategoryProvider>
-          <ProductProvider>
-            <Router>
-              <Switch>
-                <PublicRoute exact={true} path="/" component={Home} />
-                <PublicRoute exact={true} path="/shop" component={Shop} />
-                <PublicRoute exact={true} path="/cart" component={Cart} />
-                <PublicRoute
-                  exact={true}
-                  path="/cart/checkOut"
-                  component={CheckOut}
-                />
-                <PublicRoute
-                  exact={true}
-                  path="/shop/collection/the_merch/item"
-                  component={Collection}
-                />
-                <PrivateRoute
-                  exact={true}
-                  path="/dashboard"
-                  component={Dashboard}
-                />
-                <PrivateRoute
-                  exact={true}
-                  path="/dashboard/order"
-                  component={Order}
-                />
-                <PrivateRoute
-                  exact={true}
-                  path="/dashboard/order/customerOrder/OrderInformation"
-                  component={OrderInformation}
-                />
-                <PrivateRoute
-                  exact={true}
-                  path="/dashboard/order/customerOrders"
-                  component={CustomerOrders}
-                />
-                <PrivateRoute
-                  exact={true}
-                  path="/dashboard/inventory"
-                  component={Inventory}
-                />
-                <PrivateRoute
-                  exact={true}
-                  path="/dashboard/manage-category"
-                  component={ManageCategory}
-                />
-                <PrivateRoute
-                  exact={true}
-                  path="/dashboard/products/viewProducts"
-                  component={Products}
-                />
-                <PrivateRoute
-                  exact={true}
-                  path="/dashboard/products/addProducts"
-                  component={addProducts}
-                />
-                <PrivateRoute
-                  exact={true}
-                  path="/dashboard/products/EditProducts"
-                  component={EditProduct}
-                />
-              </Switch>
-            </Router>
-          </ProductProvider>
-        </CategoryProvider>
+        <CartProvider>
+          <CategoryProvider>
+            <ProductProvider>
+              <Router>
+                <Switch>
+                  <PublicRoute exact={true} path="/" component={Home} />
+                  <PublicRoute
+                    exact={true}
+                    path="/policies/refund-policy"
+                    component={Policy}
+                  />
+                  <PublicRoute exact={true} path="/shop" component={Shop} />
+                  <PublicRoute exact={true} path="/cart" component={Cart} />
+                  <PublicRoute
+                    exact={true}
+                    path="/cart/checkOut"
+                    component={CheckOut}
+                  />
+                  <PublicRoute
+                    exact={true}
+                    path="/shop/collection/the_merch/item"
+                    component={Collection}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard"
+                    component={Dashboard}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/order"
+                    component={Order}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/order/customerOrder/OrderInformation"
+                    component={OrderInformation}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/order/customerOrders"
+                    component={CustomerOrders}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/inventory"
+                    component={Inventory}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/manage-category"
+                    component={ManageCategory}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/products/viewProducts"
+                    component={Products}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/products/addProducts"
+                    component={addProducts}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/products/EditProducts"
+                    component={EditProduct}
+                  />
+                </Switch>
+              </Router>
+            </ProductProvider>
+          </CategoryProvider>
+        </CartProvider>
       </AuthProvider>
     </Suspense>
   );

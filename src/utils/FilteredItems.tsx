@@ -11,11 +11,18 @@ export const pendingItems = (cartItems: any) => {
 };
 
 //**return filtered items according to gender in shop */
-export const filterItems = (items: any, gender: string) => {
-  return items.filter((obj: any) => {
-    return obj.gender.toLowerCase() === gender.toLowerCase();
-  });
-};
+// export const filterGender = (items: any, gender: string) => {
+//   return items.filter((obj: any) => {
+//     return obj.gender.toLowerCase() === gender.toLowerCase();
+//   });
+// };
+
+//**return filtered items according to gender in shop */
+// export const filterTitle = (items: any, title: string) => {
+//   return items.filter((obj: any) => {
+//     return obj.title.toLowerCase() === title.toLowerCase();
+//   });
+// };
 
 //**filtered items according to user authentication */
 export const filtered = (productItems: any, currentUseriId: any) => {
@@ -26,11 +33,9 @@ export const filtered = (productItems: any, currentUseriId: any) => {
 
 //**Returning match search value from server */
 export const onSearch = (value: any, items: any) => {
-  return items.filter((customerInfo: any) => {
-    return Object.keys(customerInfo).some((key: any) => {
-      return String(customerInfo[key])
-        .toLowerCase()
-        .includes(value.toLowerCase());
+  return items.filter((data: any) => {
+    return Object.keys(data).some((key: any) => {
+      return String(data[key]).toLowerCase().includes(value.toLowerCase());
     });
   });
 };

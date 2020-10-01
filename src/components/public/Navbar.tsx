@@ -74,12 +74,10 @@ const Navbar: React.FC = () => {
 
   //*Tailwind Css for html elements
   const theme = "#000";
-  const NavbarCss: string =
-    "sm:mr-10 mr-5 border-b-2 py-4 border-white hover:border-black focus:border-black no-underline uppercase";
 
   return (
     <>
-      <nav className="shadow sticky top-0 bg-white z-20">
+      <nav className="shadow-sm border-b sticky top-0 bg-white z-20">
         {search && <SearchItem close={(event: any) => closeSearch(event)} />}
         {login && <Login close={(event: any) => closeLogin(event)} />}
         <div className="text-black">
@@ -135,12 +133,13 @@ const Navbar: React.FC = () => {
                       fill="black"
                     />
                   </svg>
-                  <div className="font-mono sm:font-bold cursor-pointer text-lg sm:flex tracking-widest">
-                    {publicNavigation.map((nav: any) => (
+                  <div className="cursor-pointer text-sm sm:flex tracking-widest">
+                    {publicNavigation.map((nav: any, index: number) => (
                       <Link
+                        key={index}
                         to={nav.path}
                         style={{ color: theme }}
-                        className={NavbarCss}
+                        className={nav.className}
                       >
                         {nav.name}
                       </Link>
@@ -179,8 +178,9 @@ const Navbar: React.FC = () => {
               toggle ? "translate-x-0" : "hidden"
             } font-mono text-lg sm:font-bold sm:hidden block cursor-pointer px-2 py-1 tracking-wider`}
           >
-            {publicNavigation.map((nav: any) => (
+            {publicNavigation.map((nav: any, index: number) => (
               <Link
+                key={index}
                 to={nav.path}
                 className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 rounded-xs hover:text-black text-black uppercase"
               >

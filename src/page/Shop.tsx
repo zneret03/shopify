@@ -6,7 +6,7 @@ import ReactTypingEffect from "react-typing-effect";
 import Back from "../utils/Back";
 import Filters from "../components/public/Filters";
 import { ProductContext } from "../Context/ProductProvider";
-import { filterItems, sorted } from "../utils/FilteredItems";
+import { onSearch, sorted } from "../utils/FilteredItems";
 import Card from "../utils/Card";
 
 const Shop: React.FC = (props: any) => {
@@ -18,6 +18,7 @@ const Shop: React.FC = (props: any) => {
   const params: any = new URLSearchParams(props.location.search);
   const gender: string | null = params.get("gender");
   const productName: string | null = params.get("productName");
+  const title: string | null = params.get("item");
 
   // **filter items return if product name is null
   let filteredItems = items.filter((item: any) => {
@@ -79,14 +80,21 @@ const Shop: React.FC = (props: any) => {
     }
   };
 
-  const getGenderParams = () => {
+  //*fetch data when it match to the given query string
+  const onQueryString = () => {
     if (gender) {
-      const filterGender = filterItems(items, gender);
-      setFilter(filterGender);
+      const filteredGender = onSearch(gender, items);
+      setFilter(filteredGender);
+    } else if (title) {
+      const filteredTitle = onSearch(title, items);
+      setFilter(filteredTitle);
     } else {
       setFilter(filteredItems);
     }
   };
+
+  // **render if items and queryString value changes
+  useEffect(onQueryString, [gender || title, items]);
 
   const getProductId = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -97,9 +105,6 @@ const Shop: React.FC = (props: any) => {
       props.history.push(`/shop/collection/the_merch/item?id=${id}`);
     }
   };
-
-  // **render if items and gender changes
-  useEffect(getGenderParams, [gender, items]);
 
   //** get latest product Name each render
   const getProductNameParams = () => {
@@ -120,7 +125,11 @@ const Shop: React.FC = (props: any) => {
               speed={100}
               eraseDelay={500}
               typingDelay={200}
-              text={gender ? `$~${gender} Merch` : "$~all products"}
+              text={
+                gender || title
+                  ? `$~${gender || title} Merch`
+                  : "$~all products"
+              }
             />
           </span>
           <span className="ml-3 text-gray-500">[{filter.length}]</span>
@@ -133,7 +142,7 @@ const Shop: React.FC = (props: any) => {
                 badge ? "block" : "hidden"
               } px-5 block bg-gray-300 rounded-sm text-sm hover:bg-red-500 hover:text-white`}
             >
-              {gender}
+              {gender || title}
             </button>
           </div>
         </div>
