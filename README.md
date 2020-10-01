@@ -22,7 +22,7 @@
 - [x] Critical Stocks
 - [ ] Email news paper
 - [x] Customer Orders
-- [ ] Inventory
+- [x] Inventory
 - [ ] Manage Sales
 - [x] Sort by product name
 - [x] Sort by price
