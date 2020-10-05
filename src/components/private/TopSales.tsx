@@ -23,16 +23,12 @@ interface dateType {
   end: string;
 }
 
-interface PropTypes {
-  history: any;
-}
-
 const dateObj: dateType = {
   start: today,
   end: today,
 };
 
-const TopSales: React.FC<PropTypes> = ({ history }) => {
+const TopSales: React.FC = () => {
   const currentUser = useContext(AuthContext);
 
   const [searchFilter, setSearchFilter] = useState(null);
