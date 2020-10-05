@@ -1,6 +1,13 @@
 const { firebaseDb } = require("../firebaseAdmin");
 const callback = require("../callback");
 
+/**
+ * This function will receive
+ * all the information from register
+ * and save to the cloud
+ * @param {Object} event
+ */
+
 module.exports = async (event) => {
   try {
     const { id, email, firstname, lastname } = JSON.parse(event.body);
