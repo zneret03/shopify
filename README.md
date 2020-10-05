@@ -17,11 +17,12 @@
 - [x] Fixing Region and province select element
 - [x] Fixing firebase issue
 - [x] Manage Category
+- [ ] Top Sales
 - [ ] unfulfilled products
-- [ ] Critical Stocks
+- [x] Critical Stocks
 - [ ] Email news paper
 - [x] Customer Orders
-- [ ] Inventory
+- [x] Inventory
 - [ ] Manage Sales
 - [x] Sort by product name
 - [x] Sort by price
