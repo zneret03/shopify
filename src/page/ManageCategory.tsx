@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import Header from "../components/private/Header";
 import { Tag, Space, Popconfirm, Input } from "antd";
 import { Edit3, Trash2 } from "react-feather";
-import { months } from "../utils/mockData";
+import { months, MyDateString } from "../utils/mockData";
 import { CategoryContext } from "../Context/CategoryProvider";
 import { AuthContext } from "../auth/AuthProvider";
 import {
@@ -188,7 +188,7 @@ const ManageCategory: React.FC = () => {
           id: categoryId,
           uid: currentUser.uid,
           category: addCategory,
-          dateToday,
+          dateToday: MyDateString,
         })
         .then(() => {
           setMessage({
@@ -210,7 +210,7 @@ const ManageCategory: React.FC = () => {
         .put("/api/index?name=updateCategory", {
           id: categoryId,
           category: addCategory,
-          dateToday,
+          dateToday: MyDateString,
         })
         .then(() => {
           setMessage({

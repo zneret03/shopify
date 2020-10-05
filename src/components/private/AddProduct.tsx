@@ -1,14 +1,16 @@
 import React, { useState, useContext, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import Header from "./Header";
-import { app } from "../../config/firebase";
+
 import { Trash } from "react-feather";
-import { AuthContext } from "../../auth/AuthProvider";
-import { CategoryContext } from "../../Context/CategoryProvider";
 
 //*Components
 import Loading from "./Loading";
 import httpRequest from "../../api/httpRequest";
+import { MyDateString } from "../../utils/mockData";
+import { AuthContext } from "../../auth/AuthProvider";
+import { CategoryContext } from "../../Context/CategoryProvider";
+import Header from "./Header";
+import { app } from "../../config/firebase";
 
 interface productStateTypes {
   product: string;
@@ -181,9 +183,6 @@ const AddProduct: React.FC = () => {
 
     acceptedFiles.map(async (file) => {
       if (file) {
-        let today = new Date();
-        let date = `${today.getMonth()} ${today.getDay()}, ${today.getFullYear()}`;
-
         const storageRef = app.storage().ref();
         const fileRef = storageRef.child(`Product/${file.name}`);
         await fileRef.put(file);
@@ -192,7 +191,7 @@ const AddProduct: React.FC = () => {
           .then((imageUrl) => {
             if (imageUrl) {
               const config = {
-                date,
+                MyDateString,
                 imageUrl,
                 uid: currentUser.uid,
                 file: file.name,
@@ -208,7 +207,7 @@ const AddProduct: React.FC = () => {
   };
 
   const uploadeFileHttpsRequest = (config: any) => {
-    const { date, imageUrl, uid, file } = config;
+    const { MyDateString, imageUrl, uid, file } = config;
     const prod: string = product.toLowerCase();
     const purp: string = purpose.toLowerCase();
 
@@ -222,7 +221,7 @@ const AddProduct: React.FC = () => {
       category: category,
       quantity: quantity,
       imageUrl: imageUrl,
-      date: date,
+      date: MyDateString,
       gender: gender,
       description,
       size,

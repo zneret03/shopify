@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Spin } from "antd";
+import { Table } from "antd";
 import { MyPagination } from "./MyPagination";
 
 interface PropsType {
@@ -26,15 +26,13 @@ const AdminTable: React.FC<PropsType> = ({
   return (
     <>
       <div>
-        <Spin spinning={spin}>
-          <Table
-            className="overflow-auto"
-            columns={columns}
-            rowKey={(currentData) => currentData.id}
-            dataSource={searchFilter === null ? currentData : searchFilter}
-            pagination={false}
-          />
-        </Spin>
+        <Table
+          className="overflow-auto"
+          columns={columns}
+          rowKey={(currentData) => currentData.id}
+          dataSource={searchFilter === null ? currentData : searchFilter}
+          pagination={false}
+        />
       </div>
       <div className="mt-2 flex justify-center">
         <MyPagination

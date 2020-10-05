@@ -1,26 +1,16 @@
 const { firebaseDb } = require("../firebaseAdmin");
 const callback = require("../callback");
 
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+var MyDate = new Date();
 
-//*Date
-const today = new Date();
-const dateToday = `${
-  months[today.getMonth()]
-} ${today.getDate()}, ${today.getFullYear()}`;
+MyDate.setMonth(MyDate.getMonth() + 1);
+
+const MyDateString =
+  MyDate.getFullYear() +
+  "-" +
+  ("0" + MyDate.getMonth()).slice(-2) +
+  "-" +
+  ("0" + MyDate.getDate()).slice(-2);
 
 const onSubtractQuantity = async (config) => {
   try {
@@ -77,7 +67,7 @@ module.exports = async (event) => {
         valueAddedTax: vatable,
         quantity: quantity,
         gender: gender,
-        date_created: dateToday,
+        date_created: MyDateString,
         status: { color: status, itemStatus: "pending" },
       })
       .then(() => {

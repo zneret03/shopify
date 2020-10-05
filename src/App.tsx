@@ -24,7 +24,9 @@ const Collection = lazy(() => import("./page/Collection"));
 const PrivateRoute = lazy(() => import("./layouts/private/PrivateRoute"));
 const Products = lazy(() => import("./page/Products"));
 const addProducts = lazy(() => import("./components/private/AddProduct"));
+const Analytics = lazy(() => import("./page/Analytics"));
 const EditProduct = lazy(() => import("./components/private/EditProduct"));
+
 const App: React.FC = () => {
   return (
     <Suspense
@@ -82,6 +84,11 @@ const App: React.FC = () => {
                     exact={true}
                     path="/dashboard/inventory"
                     component={Inventory}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/inventory/analytics"
+                    component={Analytics}
                   />
                   <PrivateRoute
                     exact={true}

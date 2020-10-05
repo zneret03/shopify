@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
         {login && <Login close={(event: any) => closeLogin(event)} />}
         <div className="text-black">
           <div className="container mx-auto px-5">
-            <div className="flex items-center justify-between">
+            <section className="flex items-center justify-between">
               {Hamburger ? (
                 <>
                   <button onClick={(event) => openToggle(event)}>
@@ -171,9 +171,9 @@ const Navbar: React.FC = () => {
                   </Link>
                 </Badge>
               </div>
-            </div>
+            </section>
           </div>
-          <div
+          <section
             className={`${
               toggle ? "translate-x-0" : "hidden"
             } font-mono text-lg sm:font-bold sm:hidden block cursor-pointer px-2 py-1 tracking-wider`}
@@ -194,7 +194,7 @@ const Navbar: React.FC = () => {
             >
               LOGIN
             </span>
-          </div>
+          </section>
         </div>
       </nav>
     </>

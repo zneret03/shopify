@@ -14,6 +14,17 @@ const months = [
   "December",
 ];
 
+var MyDate = new Date();
+
+MyDate.setMonth(MyDate.getMonth() + 1);
+
+const MyDateString =
+  MyDate.getFullYear() +
+  "-" +
+  ("0" + MyDate.getMonth()).slice(-2) +
+  "-" +
+  ("0" + MyDate.getDate()).slice(-2);
+
 const pharagraph = [
   {
     paragraph:
@@ -132,4 +143,11 @@ const CategoryInformation = [
   },
 ];
 
-export { shoesInformation, shoes, CategoryInformation, months, pharagraph };
+export {
+  shoesInformation,
+  shoes,
+  CategoryInformation,
+  months,
+  pharagraph,
+  MyDateString,
+};

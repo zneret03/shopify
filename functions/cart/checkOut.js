@@ -1,5 +1,15 @@
 const callback = require("../callback");
 const { firebaseDb } = require("../firebaseAdmin");
+var MyDate = new Date();
+
+MyDate.setMonth(MyDate.getMonth() + 1);
+
+const MyDateString =
+  MyDate.getFullYear() +
+  "-" +
+  ("0" + MyDate.getMonth()).slice(-2) +
+  "-" +
+  ("0" + MyDate.getDate()).slice(-2);
 
 const onUpdateStatus = async (config) => {
   try {
@@ -57,6 +67,7 @@ module.exports = async (event) => {
         zipcode: zipcode,
         items: itemsIdArray,
         uid: ownerIdArray,
+        date_created: MyDateString,
       })
       .then(async () => {
         const config = { customerId: document.id, itemsIdArray };
