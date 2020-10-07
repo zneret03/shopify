@@ -17,6 +17,7 @@
 - [x] Fixing Region and province select element
 - [x] Fixing firebase issue
 - [x] Manage Category
+- [x] Top Sales
 - [ ] unfulfilled products
 - [ ] Critical Stocks
 - [ ] Email news paper
