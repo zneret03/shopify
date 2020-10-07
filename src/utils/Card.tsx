@@ -20,7 +20,7 @@ const Card: React.FC<PropsType> = ({ filteredItems, onClick }) => {
         (item: any) =>
           item.quantity > 0 && (
             <li
-              className="border mt-5 mr-2 cursor-pointer"
+              className="border mt-5 mr-2 cursor-pointer hover:bg-gray-900 hover:text-gray-200 text-gray-600"
               key={item.id}
               onClick={(event) => onClick(event, item.id)}
             >
@@ -33,34 +33,30 @@ const Card: React.FC<PropsType> = ({ filteredItems, onClick }) => {
               </div>
               <div className="px-4 py-2 font-segoe-UI">
                 <div className="flex items-center justify-between">
-                  <span className="block text-xs text-gray-600 mb-4 uppercase">
+                  <span className="block text-xs mb-4 uppercase">
                     {item.purpose}
                   </span>
                   {item.status !== undefined ? (
                     <span
-                      className="rounded-full bg-gray-500 h-2 w-2 mb-3"
+                      className="rounded-full h-2 w-2 mb-3"
                       style={{ backgroundColor: item.status["color"] }}
                     ></span>
                   ) : (
-                    <span className="block text-xs text-gray-600 mb-4">
-                      {item.quantity}
-                    </span>
+                    <span className="block text-xs mb-4">{item.quantity}</span>
                   )}
                 </div>
-                <span className="block text-xs text-gray-600 uppercase tracking-wide mb-1">
+                <span className="block text-xs uppercase tracking-wide mb-1">
                   {item.product}
                 </span>
                 <div className="flex items-center justify-between">
-                  <span className="text-black text-xs text-gray-800">
+                  <span className="text-xs">
                     ₱
                     {item.price === undefined
                       ? item.Subtotal.toLocaleString()
                       : item.Subtotal === undefined &&
                         item.price.toLocaleString()}
                   </span>
-                  <span className="block text-xs text-gray-800 uppercase">
-                    {item.gender}
-                  </span>
+                  <span className="block text-xs uppercase">{item.gender}</span>
                 </div>
               </div>
             </li>

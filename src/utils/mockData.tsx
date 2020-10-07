@@ -126,7 +126,7 @@ const CategoryInformation = [
   {
     id: 1,
     image: "Mens.jpg",
-    buttonName: "mens",
+    buttonName: "men",
     redirect: "shop?gender=men",
   },
   {

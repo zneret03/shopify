@@ -10,6 +10,8 @@ import {
   filtered,
   onSearch,
   arraySlice,
+  filterTotal,
+  paidItems,
 } from "../../utils/FilteredItems";
 import AdminTable from "../private/AdminTable";
 import { AuthContext } from "../../auth/AuthProvider";
@@ -33,18 +35,14 @@ const TopSales: React.FC = () => {
 
   const [searchFilter, setSearchFilter] = useState(null);
   const [topSales, setTopSales] = useState([]);
-  const [totalPurchase, setTotalPurchase] = useState<number>(0);
 
   //**return current user product posted */
   const filteredProduct = filtered(topSales, currentUser);
+  //** Return paid items only */
+  const paidOrders = paidItems(filteredProduct);
 
   //*returning total purchase
-  const totalSales = () =>
-    Promise.resolve(
-      filteredProduct.reduce((a: any, b: any) => a + b.Subtotal, 0)
-    );
-
-  totalSales().then((response: any) => setTotalPurchase(response));
+  const totalPurchase = filterTotal(paidOrders);
 
   const columns = [
     {
@@ -125,7 +123,7 @@ const TopSales: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    filteredProduct.length > 0 && setToggleAnalytics(true);
+    paidOrders.length > 0 && setToggleAnalytics(true);
   };
 
   useEffect(() => {
@@ -158,7 +156,7 @@ const TopSales: React.FC = () => {
   const [current, setCurrent] = useState<number>(1);
 
   //** get current data;
-  const currentData = arraySlice(filteredProduct, current, dataShowed);
+  const currentData = arraySlice(paidOrders, current, dataShowed);
 
   const spin = currentData.length <= 0;
 
@@ -197,7 +195,7 @@ const TopSales: React.FC = () => {
             className="sm:max-w-xs w-full"
             placeholder="Search by..."
             onSearch={(nameSearch) => {
-              const itemsSearch = onSearch(nameSearch, filteredProduct);
+              const itemsSearch = onSearch(nameSearch, paidOrders);
               setSearchFilter(itemsSearch);
             }}
           />
@@ -208,16 +206,13 @@ const TopSales: React.FC = () => {
         columns={columns}
         currentData={currentData}
         searchFilter={searchFilter}
-        DataArray={filteredProduct}
+        DataArray={paidOrders}
         current={current}
         setCurrent={setCurrent}
         dataShowed={dataShowed}
       />
       {toggleAnalytics ? (
-        <Analytics
-          totalPurchase={totalPurchase}
-          topSalesData={filteredProduct}
-        />
+        <Analytics totalPurchase={totalPurchase} topSalesData={paidOrders} />
       ) : (
         <div className="text-center mt-5">
           <h1 className="text-sm text-gray-400">

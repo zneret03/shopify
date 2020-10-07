@@ -7,7 +7,7 @@ const deleteCategory = require("./product/deleteCategory");
 const addCategory = require("./product/addCategory");
 const updateProduct = require("./product/updateProduct");
 const deleteProduct = require("./product/deleteProduct");
-
+const deleteUnfulfilled = require("./product/deleteUnfulfilled");
 /**
  * Userfiles
  */
@@ -87,6 +87,10 @@ exports.handler = async (event) => {
     case "deleteCustomer":
       if (event.httpMethod === httpRequest.DELETE) {
         return await deleteCustomerInformation(event);
+      }
+    case "deleteUnfulfilled":
+      if (event.httpMethod === httpRequest.DELETE) {
+        return await deleteUnfulfilled(event);
       }
     default:
       /**return 405 if the queryStringParameters fails*/
