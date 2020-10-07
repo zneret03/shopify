@@ -1,4 +1,6 @@
-//**Products */
+/**
+ * Product files
+ */
 const addProduct = require("./product/addProduct");
 const updateCategory = require("./product/updateCategory");
 const deleteCategory = require("./product/deleteCategory");
@@ -6,24 +8,39 @@ const addCategory = require("./product/addCategory");
 const updateProduct = require("./product/updateProduct");
 const deleteProduct = require("./product/deleteProduct");
 
-//**Sign in */
+/**
+ * Userfiles
+ */
 const signIn = require("./user/signIn");
 
-//**Cart */
+/**
+ * Cart files
+ */
 const checkOut = require("./cart/checkOut");
 const addCart = require("./cart/addCart"); //**Collections */
 const callback = require("./callback");
 
-//**Customer Information */
+/**
+ * Customer Information files
+ */
 const updateCustomerInformation = require("./customerInformation/updateCustomerInformation");
 const deleteCustomerInformation = require("./customerInformation/deleteCustomerInformation");
 
+/**
+ * This object will handle all the HTTP types
+ */
 const httpRequest = {
   GET: "GET",
   POST: "POST",
   PUT: "PUT",
   DELETE: "DELETE",
 };
+
+/**
+ * This event will handle all the necessary
+ * function that will be exported to specific files
+ * @event queryStringParameters
+ */
 
 exports.handler = async (event) => {
   switch (event.queryStringParameters["name"]) {
@@ -72,7 +89,7 @@ exports.handler = async (event) => {
         return await deleteCustomerInformation(event);
       }
     default:
+      /**return 405 if the queryStringParameters fails*/
       return callback(405, {});
   }
-  //return callback(200, event.queryStringParameters.name);
 };
