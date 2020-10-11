@@ -24,7 +24,7 @@ const Collection = lazy(() => import("./page/Collection"));
 const PrivateRoute = lazy(() => import("./layouts/private/PrivateRoute"));
 const Products = lazy(() => import("./page/Products"));
 const addProducts = lazy(() => import("./components/private/AddProduct"));
-const Analytics = lazy(() => import("./page/Analytics"));
+const Analytics = lazy(() => import("./components/private/BarChart"));
 const EditProduct = lazy(() => import("./components/private/EditProduct"));
 
 const App: React.FC = () => {

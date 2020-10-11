@@ -1,4 +1,6 @@
 import buildChart from "./buildChart";
+import { months } from "./mockData";
+import MontColor from "./MonthColor";
 const backgroundColor = [
   "rgba(255, 99, 132, 0.7)",
   "rgba(54, 162, 235, 0.7)",
@@ -17,4 +19,4 @@ const borderColor = [
   "rgba(255, 159, 64, 1)",
 ];
 
-export { buildChart, backgroundColor, borderColor };
+export { buildChart, backgroundColor, borderColor, months, MontColor };

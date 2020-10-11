@@ -278,7 +278,6 @@ const ManageCategory: React.FC = () => {
               </span>
             </div>
             <AdminTable
-              spin={spin}
               columns={columns}
               currentData={currentData}
               searchFilter={searchFilter}

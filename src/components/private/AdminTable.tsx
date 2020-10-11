@@ -3,7 +3,6 @@ import { Table } from "antd";
 import { MyPagination } from "./MyPagination";
 
 interface PropsType {
-  spin: boolean;
   columns: Object[];
   currentData: any;
   searchFilter: Object[];
@@ -14,7 +13,6 @@ interface PropsType {
 }
 
 const AdminTable: React.FC<PropsType> = ({
-  spin,
   columns,
   currentData,
   searchFilter,

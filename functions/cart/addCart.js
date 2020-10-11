@@ -127,6 +127,7 @@ module.exports = async (event) => {
         quantity: quantity,
         gender: gender,
         date_created: MyDateString,
+        timestamp: Date.now(),
         status: { color: status, itemStatus: "pending" },
       })
       .then(() => {

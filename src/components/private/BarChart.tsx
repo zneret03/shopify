@@ -1,12 +1,25 @@
 import React, { useRef, useEffect } from "react";
-import { buildChart, backgroundColor, borderColor } from "../utils/index";
+import { buildChart, backgroundColor, borderColor } from "../../utils/index";
 
 interface PropTypes {
   topSalesData: any;
-  totalPurchase: number;
+  totalPurchase?: number;
+  width: string;
+  height: string;
+  axes: boolean;
+  legend: boolean;
+  chartType: string;
 }
 
-const Analytics: React.FC<PropTypes> = ({ topSalesData, totalPurchase }) => {
+const Analytics: React.FC<PropTypes> = ({
+  topSalesData,
+  totalPurchase,
+  width,
+  height,
+  axes,
+  legend,
+  chartType,
+}) => {
   const topSalesChart = useRef(null);
 
   const initSalesChart = () => {
@@ -22,9 +35,6 @@ const Analytics: React.FC<PropTypes> = ({ topSalesData, totalPurchase }) => {
     const data = sortedData.map((data: any) => data[sortTypes]);
 
     if (data.length > 0) {
-      const chartType = "bar";
-      const axes = true;
-      const legend = false;
       const textTitle = "Top Sales Analytics";
       const config = {
         ctx,
@@ -42,20 +52,22 @@ const Analytics: React.FC<PropTypes> = ({ topSalesData, totalPurchase }) => {
     }
   };
 
-  useEffect(initSalesChart, []);
+  useEffect(initSalesChart, [topSalesData]);
 
   return (
-    <div className="container mx-auto px-8 mt-4 sm:block hidden">
+    <div className="container mx-auto px-8 py-4 mt-4 sm:block hidden">
       <div className="mb-4 flex items-center">
-        <section>
-          <span className="font-bold md:text-xl text-lg">Total : </span>
-          <span className="font-bold md:text-xl text-lg text-red-500">
-            ₱{totalPurchase.toLocaleString()}
-          </span>
-        </section>
+        {totalPurchase && (
+          <section>
+            <span className="font-bold md:text-xl text-lg">Total : </span>
+            <span className="font-bold md:text-xl text-lg text-red-500">
+              ₱{totalPurchase.toLocaleString()}
+            </span>
+          </section>
+        )}
       </div>
       <div className="">
-        <canvas ref={topSalesChart} height="40vh" width="80vw" />
+        <canvas ref={topSalesChart} height={width} width={height} />
       </div>
     </div>
   );
