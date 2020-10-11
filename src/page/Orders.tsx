@@ -207,7 +207,6 @@ const Orders: React.FC<onProps> = ({ history }) => {
               </span>
             </div>
             <AdminTable
-              spin={spin}
               columns={columns}
               currentData={currentData}
               searchFilter={searchFilter}

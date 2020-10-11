@@ -111,8 +111,6 @@ const CriticalStocks: React.FC = () => {
   //** get current data;
   const currentData = arraySlice(filteredProduct, current, dataShowed);
 
-  const spin = currentData.length <= 0;
-
   return (
     <div>
       <div className="mb-3 flex items-center justify-between">
@@ -132,7 +130,6 @@ const CriticalStocks: React.FC = () => {
         />
       </div>
       <AdminTable
-        spin={spin}
         columns={columns}
         currentData={currentData}
         searchFilter={searchFilter}

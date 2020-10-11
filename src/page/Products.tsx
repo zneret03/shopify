@@ -220,7 +220,6 @@ const Products: React.FC<Props> = ({ history }) => {
               />
             </div>
             <AdminTable
-              spin={spin}
               columns={columns}
               currentData={currentData}
               searchFilter={searchFilter}

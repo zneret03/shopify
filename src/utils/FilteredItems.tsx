@@ -10,6 +10,13 @@ export const pendingItems = (cartItems: any) => {
   });
 };
 
+//**Return all paid items */
+export const paidItems = (cartItems: any) => {
+  return cartItems.filter((obj: any) => {
+    return obj.status.itemStatus === "paid";
+  });
+};
+
 //**return filtered items according to gender in shop */
 // export const filterGender = (items: any, gender: string) => {
 //   return items.filter((obj: any) => {
@@ -23,6 +30,13 @@ export const pendingItems = (cartItems: any) => {
 //     return obj.title.toLowerCase() === title.toLowerCase();
 //   });
 // };
+
+//**return total */
+export const filterTotal = (dataArray: Object[]) => {
+  const subTotal = dataArray.reduce((a: any, b: any) => a + b.Subtotal, 0);
+
+  return subTotal;
+};
 
 //**filtered items according to user authentication */
 export const filtered = (productItems: any, currentUseriId: any) => {

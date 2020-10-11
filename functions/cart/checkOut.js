@@ -133,6 +133,7 @@ module.exports = async (event) => {
         items: itemsIdArray,
         uid: ownerIdArray,
         date_created: MyDateString,
+        timestamp: Date.now(),
       })
       .then(async () => {
         /**

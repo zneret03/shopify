@@ -5,6 +5,7 @@ import Header from "../components/private/Header";
 import { inventoryNavigation } from "../utils/NavMockData";
 import CriticalStocks from "../components/private/CriticalStocks";
 import TopSales from "../components/private/TopSales";
+import Unfulfilled from "../components/private/Unfulfilled";
 
 const Inventory: React.FC = () => {
   const [current, setCurrent] = useState("criticalVaritans");
@@ -12,12 +13,17 @@ const Inventory: React.FC = () => {
   const showComponents = (event: any) => {
     const critical = event.key === "criticalVaritans";
     const top = event.key === "topSales";
+    const unfulfilled = event.key === "unfulfilleddItems";
 
     if (critical) {
       current && setCurrent(event.key);
     }
 
     if (top) {
+      current && setCurrent(event.key);
+    }
+
+    if (unfulfilled) {
       current && setCurrent(event.key);
     }
   };
@@ -40,6 +46,7 @@ const Inventory: React.FC = () => {
         </div>
         {current === "criticalVaritans" && <CriticalStocks />}
         {current === "topSales" && <TopSales />}
+        {current === "unfulfilleddItems" && <Unfulfilled />}
       </Header>
     </>
   );

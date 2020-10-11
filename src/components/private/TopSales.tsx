@@ -1,20 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Input, Tag } from "antd";
+import { Input } from "antd";
 import { Minus, BarChart2 } from "react-feather";
 import { withRouter } from "react-router-dom";
 //*Components
 import {
-  sortString,
-  sortTypes,
-  sortNumber,
   filtered,
   onSearch,
-  arraySlice,
+  filterTotal,
+  paidItems,
 } from "../../utils/FilteredItems";
-import AdminTable from "../private/AdminTable";
+import TopSalesTable from "./TopSalesTable";
 import { AuthContext } from "../../auth/AuthProvider";
-import { app } from "../../config/firebase";
-import Analytics from "../../page/Analytics";
+import { TopSalesContext } from "../../Context/TopSalesProvider";
+import Analytics from "./BarChart";
 
 const today = new Date().toISOString().substr(0, 10);
 
@@ -30,91 +28,17 @@ const dateObj: dateType = {
 
 const TopSales: React.FC = () => {
   const currentUser = useContext(AuthContext);
+  const { dispatch, soldProduct } = useContext(TopSalesContext);
 
   const [searchFilter, setSearchFilter] = useState(null);
-  const [topSales, setTopSales] = useState([]);
-  const [totalPurchase, setTotalPurchase] = useState<number>(0);
 
   //**return current user product posted */
-  const filteredProduct = filtered(topSales, currentUser);
+  const filteredProduct = filtered(soldProduct, currentUser);
+  //** Return paid items only */
+  const paidOrders = paidItems(filteredProduct);
 
   //*returning total purchase
-  const totalSales = () =>
-    Promise.resolve(
-      filteredProduct.reduce((a: any, b: any) => a + b.Subtotal, 0)
-    );
-
-  totalSales().then((response: any) => setTotalPurchase(response));
-
-  const columns = [
-    {
-      title: "Unique identification",
-      dataIndex: "id",
-      key: "id",
-      setDirections: sortTypes,
-      sorter: sortString,
-      render: (text: string) => <span className="text-blue-500">{text}</span>,
-    },
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
-      setDirections: sortTypes,
-      sorter: sortString,
-    },
-    {
-      title: "Product Name",
-      dataIndex: "product",
-      key: "product",
-      setDirections: sortTypes,
-      sorter: sortString,
-    },
-    {
-      title: "Purpose",
-      dataIndex: "purpose",
-      key: "purpose",
-      setDirections: sortTypes,
-      sorter: sortString,
-    },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-      setDirections: sortTypes,
-      sorter: sortNumber,
-      render: (quantity: number) => {
-        return (
-          <div
-            className={`bg-orange-500 max-w-xs w-6 text-center rounded-full`}
-          >
-            <span className="text-white">{quantity.toLocaleString()}</span>
-          </div>
-        );
-      },
-    },
-    {
-      title: "Date Created",
-      dataIndex: "date_created",
-      key: "date_created",
-      render: (date_created: string) => {
-        return (
-          <Tag color="geekblue" key={date_created}>
-            {date_created}
-          </Tag>
-        );
-      },
-    },
-    {
-      title: "Total",
-      dataIndex: "Subtotal",
-      key: "Subtotal",
-      setDirections: sortTypes,
-      sorter: sortNumber,
-      render: (price: number) => {
-        return <span>₱{price.toLocaleString()}</span>;
-      },
-    },
-  ];
+  const totalPurchase = filterTotal(paidOrders);
 
   const [{ start, end }, setState] = useState(dateObj);
 
@@ -125,26 +49,17 @@ const TopSales: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    filteredProduct.length > 0 && setToggleAnalytics(true);
+    paidOrders.length > 0 && setToggleAnalytics(true);
   };
 
   useEffect(() => {
-    const document = app.firestore();
-    document
-      .collection("transaction")
-      .where("date_created", ">=", start)
-      .where("date_created", "<=", end)
-      .limit(10)
-      .onSnapshot((onsnapshot) => {
-        const productData: Object[] = [];
-        onsnapshot.docs.forEach((item: any) => {
-          productData.push({ ...item.data(), id: item.id });
-        });
-        setTopSales(productData);
-      });
+    function reducerDispatch() {
+      dispatch({ type: "topSales", payload: { start, end } });
+    }
 
+    reducerDispatch();
     return () => setToggleAnalytics(false);
-  }, [start, end]);
+  }, [start, end, dispatch]);
 
   //*Date change event
   const dateOnChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -153,14 +68,6 @@ const TopSales: React.FC = () => {
 
     setState((prevState) => ({ ...prevState, [name]: value }));
   };
-
-  const dataShowed: number = 5;
-  const [current, setCurrent] = useState<number>(1);
-
-  //** get current data;
-  const currentData = arraySlice(filteredProduct, current, dataShowed);
-
-  const spin = currentData.length <= 0;
 
   return (
     <div>
@@ -197,26 +104,23 @@ const TopSales: React.FC = () => {
             className="sm:max-w-xs w-full"
             placeholder="Search by..."
             onSearch={(nameSearch) => {
-              const itemsSearch = onSearch(nameSearch, filteredProduct);
+              const itemsSearch = onSearch(nameSearch, paidOrders);
               setSearchFilter(itemsSearch);
             }}
           />
         </div>
       </div>
-      <AdminTable
-        spin={spin}
-        columns={columns}
-        currentData={currentData}
-        searchFilter={searchFilter}
-        DataArray={filteredProduct}
-        current={current}
-        setCurrent={setCurrent}
-        dataShowed={dataShowed}
-      />
+      <TopSalesTable searchFilter={searchFilter} paidOrders={paidOrders} />
+
       {toggleAnalytics ? (
         <Analytics
           totalPurchase={totalPurchase}
-          topSalesData={filteredProduct}
+          topSalesData={paidOrders}
+          width="40vw"
+          height="80vw"
+          axes={true}
+          legend={false}
+          chartType="bar"
         />
       ) : (
         <div className="text-center mt-5">

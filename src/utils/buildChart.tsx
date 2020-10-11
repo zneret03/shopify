@@ -71,7 +71,7 @@ const buildChart = (config: any) => {
       title: {
         display: true,
         text: textTitle,
-        fontSize: 35,
+        fontSize: 25,
       },
       tooltips: {
         titleFontFamily: fonts.inter,

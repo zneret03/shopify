@@ -7,12 +7,30 @@ interface Props {
 
 interface IContext {
   cartItems: Object[];
+  unfulfilled: Object[];
 }
 
 const CartContext = createContext({} as IContext);
 
 const CartProvider: React.FC<Props> = ({ children }) => {
   const [cartItems, setCartItems] = useState<Object[]>([]);
+  const [unfulfilled, setUnfulfilled] = useState<Object[]>([]);
+
+  const fetchUnFulFilled = () => {
+    const document = app.firestore();
+    return document
+      .collection("transaction")
+      .where("status.itemStatus", "==", "pending")
+      .onSnapshot((onsnapshot) => {
+        const productData: Object[] = [];
+        onsnapshot.docs.forEach((item: any) => {
+          productData.push({ ...item.data(), id: item.id });
+        });
+        setUnfulfilled(productData);
+      });
+  };
+
+  useEffect(fetchUnFulFilled, []);
 
   const fetchDataTransaction = () => {
     const document = app.firestore();
@@ -31,7 +49,7 @@ const CartProvider: React.FC<Props> = ({ children }) => {
   useEffect(fetchDataTransaction, []);
 
   return (
-    <CartContext.Provider value={{ cartItems }}>
+    <CartContext.Provider value={{ cartItems, unfulfilled }}>
       {children}
     </CartContext.Provider>
   );

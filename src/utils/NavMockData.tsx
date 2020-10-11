@@ -7,6 +7,10 @@ const inventoryNavigation = [
     name: "Top sales",
     key: "topSales",
   },
+  {
+    name: "Unfulfilled items",
+    key: "unfulfilleddItems",
+  },
 ];
 
 const publicNavigation = [
