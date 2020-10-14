@@ -1,13 +1,20 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useReducer } from "react";
 import { app } from "../config/firebase";
 interface Props {
   children: React.ReactNode;
 }
 
 interface IContext {
+  state: any;
+  dispatch: any;
   items: object[];
   criticalStocks: object[];
+  fetchProd: Object[];
 }
+
+const ACTIONS = {
+  product: "fetchProduct",
+};
 
 const ProductContext = createContext({} as IContext);
 
@@ -44,8 +51,34 @@ const ProductProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(fetchAllProducts, []);
 
+  const [fetchProd, setFetchProd] = useState([]);
+
+  const reducer = (state: any, action: any) => {
+    switch (action.type) {
+      case ACTIONS.product:
+        return [...state, fetchProduct(action.payload.id)];
+    }
+  };
+
+  const fetchProduct = (id: string) => {
+    if (id) {
+      const document = app.firestore().collection("product").doc(id);
+      return document.onSnapshot((snapshot) => {
+        const items_array: object[] = [];
+        if (snapshot) {
+          items_array.push({ ...snapshot.data() });
+          setFetchProd(items_array);
+        }
+      });
+    }
+  };
+
+  const [state, dispatch] = useReducer<any>(reducer, []);
+
   return (
-    <ProductContext.Provider value={{ items, criticalStocks }}>
+    <ProductContext.Provider
+      value={{ items, criticalStocks, fetchProd, state, dispatch }}
+    >
       {children}
     </ProductContext.Provider>
   );

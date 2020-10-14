@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Divider } from "antd";
 import Header from "./Header";
-import { app } from "../../config/firebase";
-import { ArrowLeft } from "react-feather";
-import { Link } from "react-router-dom";
+import { ProductContext } from "../../Context/ProductProvider";
 
 //*Components
 import httpRequest from "../../api/httpRequest";
 import Loading from "./Loading";
+import ProductCard from "./ProductCard";
+import Back from "../../utils/Back";
 
 interface productStateTypes {
   product: string;
@@ -31,6 +31,9 @@ const initialState: productStateTypes = {
 
 const EditProduct: React.FC = (props: any) => {
   //input onChange
+
+  const { dispatch, fetchProd } = useContext(ProductContext);
+
   const [
     { product, title, purpose, price, quantity, gender, description },
     setState,
@@ -90,34 +93,21 @@ const EditProduct: React.FC = (props: any) => {
       });
   };
 
-  const [item, setItem] = useState<object[]>([]);
-
   useEffect(() => {
-    if (id) {
-      const document = app.firestore().collection("product").doc(id);
-      return document.onSnapshot((snapshot) => {
-        const items_array: object[] = [];
-        if (snapshot) {
-          items_array.push({ ...snapshot.data() });
-          setItem(items_array);
-        }
-      });
-    }
-
-    return () => {
-      setItem([]);
+    const reducerDispatch = () => {
+      id && dispatch({ type: "fetchProduct", payload: { id } });
     };
-  }, [id]);
+
+    reducerDispatch();
+  }, [id, dispatch]);
 
   //**get all data and assign to each inputbox
-  item &&
-    item.map((productState: any) => {
+  fetchProd &&
+    fetchProd.map((productState: any) => {
       return Object.assign(initialState, productState);
     });
 
-  console.log(item);
-
-  if (item.length <= 0) {
+  if (fetchProd.length <= 0) {
     return (
       <div className="h-screen w-screen md:pl-64 flex items-center justify-center">
         Loading
@@ -131,16 +121,7 @@ const EditProduct: React.FC = (props: any) => {
       <Header pageName={"Edit Products"}>
         <div className="md:flex">
           <div className="md:w-1/2">
-            <div className="flex mb-4">
-              <i className="mr-2">
-                <ArrowLeft size="20" />
-              </i>
-              <Link to="/dashboard/products/viewProducts">
-                <span className="uppercase tracking-widest underline font-bold text-gray-700">
-                  Back
-                </span>
-              </Link>
-            </div>
+            <Back path="/dashboard/products/viewProducts" />
             <form onSubmit={(event) => onSubmit(event)}>
               <div className="grid sm:grid-cols-2 sm:gap-3">
                 <div className="mb-3">
@@ -233,34 +214,7 @@ const EditProduct: React.FC = (props: any) => {
             </form>
           </div>
           <div className="md:w-1/2 flex md:justify-center justify-center">
-            {item &&
-              item.map((product: any, index) => (
-                <div className="border mt-5 mr-2" key={index}>
-                  <div className="py-8 px-12 bg-gray-200">
-                    <img
-                      className="sm:w-64 sm:h-64 object-contain mx-auto"
-                      src={product.imageUrl}
-                      alt=""
-                    />
-                  </div>
-                  <div className="px-4 py-2 font-segoe-UI">
-                    <span className="block text-xs text-gray-600 mb-4">
-                      {product.purpose}
-                    </span>
-                    <span className="block text-xs uppercase tracking-wide">
-                      {product.product}
-                    </span>
-                    <div className="flex items-center justify-between">
-                      <span className="text-black text-xs text-gray-800">
-                        ₱{product.price.toLocaleString()}
-                      </span>
-                      <span className="block text-xs text-gray-600 uppercase">
-                        {product.gender}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <ProductCard dataObject={fetchProd} />
           </div>
         </div>
       </Header>

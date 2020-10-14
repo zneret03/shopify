@@ -83,6 +83,19 @@ const Sidebar: React.FC = () => {
     }
   };
 
+  //**Settings inventory */
+  const [settings, setSettings] = useState(false);
+
+  const openSettings = (
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    if (!settings) {
+      return setSettings(true);
+    } else {
+      return setSettings(false);
+    }
+  };
+
   const [name, setName] = useState(null);
 
   //**Get username */
@@ -175,6 +188,12 @@ const Sidebar: React.FC = () => {
                         className="flex items-center justify-between hover:bg-blue-500 px-2 rounded py-1"
                       >
                         <li className=" text-white">Manager Category</li>
+                      </Link>
+                      <Link
+                        to="/dashboard/stockManagement"
+                        className="flex items-center justify-between hover:bg-blue-500  px-2 rounded py-1"
+                      >
+                        <li className="text-white">Stock Management</li>
                       </Link>
                       <Link
                         to="/dashboard/inventory"
@@ -279,8 +298,11 @@ const Sidebar: React.FC = () => {
               </ul>
               <Divider />
               <ul>
-                <li className="mb-5 px-1 py-1 rounded cursor-pointer">
-                  <div className="flex justify-between">
+                <li
+                  className="px-1 py-1 rounded cursor-pointer"
+                  onClick={(event) => openSettings(event)}
+                >
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <span className="mr-2">
                         <Settings size="18" color="#FFF" />
@@ -288,9 +310,30 @@ const Sidebar: React.FC = () => {
                       <span className="text-white">Settings</span>
                     </div>
                     <span>
-                      <ChevronRight size="18" />
+                      {settings ? (
+                        <ChevronDown size="18" color="#FFF" />
+                      ) : (
+                        <ChevronRight size="18" color="#FFF" />
+                      )}
                     </span>
                   </div>
+                  <div
+                    className={`${
+                      settings ? "block" : "hidden"
+                    } ml-2 mt-2 font-normal`}
+                  >
+                    <ul>
+                      <Link
+                        to=""
+                        className="flex items-center justify-between hover:bg-blue-500 px-2 rounded py-1"
+                      >
+                        <li className=" text-white">Delete Account</li>
+                      </Link>
+                    </ul>
+                  </div>
+                  <span>
+                    <ChevronRight size="18" />
+                  </span>
                 </li>
                 <li
                   onClick={(event) => signOut(event)}

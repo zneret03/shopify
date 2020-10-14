@@ -16,6 +16,10 @@ const CustomerOrders = lazy(() => import("./page/CustomerOrders"));
 const CheckOut = lazy(() => import("./page/CheckOut"));
 const Dashboard = lazy(() => import("./page/Dashboard"));
 const Inventory = lazy(() => import("./page/Inventory"));
+const StockManagement = lazy(() => import("./page/StockManagement"));
+const StockAdjustment = lazy(
+  () => import("./components/private/StockAdjustment")
+);
 const ManageCategory = lazy(() => import("./page/ManageCategory"));
 const OrderInformation = lazy(() => import("./page/OrderInforation"));
 const Order = lazy(() => import("./page/Orders"));
@@ -84,6 +88,16 @@ const App: React.FC = () => {
                     exact={true}
                     path="/dashboard/inventory"
                     component={Inventory}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/stockManagement"
+                    component={StockManagement}
+                  />
+                  <PrivateRoute
+                    exact={true}
+                    path="/dashboard/stockManagement/stockAdjustment"
+                    component={StockAdjustment}
                   />
                   <PrivateRoute
                     exact={true}

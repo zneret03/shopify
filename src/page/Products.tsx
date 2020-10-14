@@ -20,7 +20,8 @@ import Loading from "../components/private/Loading";
 import { months } from "../utils/mockData";
 import { ProductContext } from "../Context/ProductProvider";
 import { AuthContext } from "../auth/AuthProvider";
-import AdminTable from "../components/private/AdminTable";
+import TableProduct from "../components/private/TableProduct";
+
 interface Props {
   history: any;
 }
@@ -32,8 +33,8 @@ const Products: React.FC<Props> = ({ history }) => {
   } ${today.getDate()}, ${today.getFullYear()}`;
 
   const { items } = useContext(ProductContext);
-
   const currentUser: any = useContext(AuthContext);
+
   const [searchFilter, setSearchFilter] = useState(null);
   const [spinner, setSpinner] = useState<boolean>(false);
 
@@ -186,7 +187,12 @@ const Products: React.FC<Props> = ({ history }) => {
   const [current, setCurrent] = useState<number>(1);
 
   //** get current data;
-  const currentData = arraySlice(filteredProduct, current, dataShowed);
+  const currentData =
+    searchFilter !== null
+      ? arraySlice(searchFilter, current, dataShowed)
+      : arraySlice(filteredProduct, current, dataShowed);
+
+  console.log(currentData);
 
   //** set spinner if data not arrives
   const spin = currentData.length <= 0;
@@ -219,7 +225,7 @@ const Products: React.FC<Props> = ({ history }) => {
                 }}
               />
             </div>
-            <AdminTable
+            <TableProduct
               columns={columns}
               currentData={currentData}
               searchFilter={searchFilter}
