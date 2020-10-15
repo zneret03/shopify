@@ -230,11 +230,6 @@ const AddProduct: React.FC = () => {
     httpRequest.post("/api/index?name=addProduct", data).then(() => {
       setMessage({
         status: true,
-        message: "Successfully added",
-        loading: false,
-      });
-      setMessage({
-        status: false,
         message: "Successfully Inserted",
         loading: false,
       });

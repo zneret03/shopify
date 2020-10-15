@@ -94,11 +94,7 @@ const EditProduct: React.FC = (props: any) => {
   };
 
   useEffect(() => {
-    const reducerDispatch = () => {
-      id && dispatch({ type: "fetchProduct", payload: { id } });
-    };
-
-    reducerDispatch();
+    id && dispatch({ type: "fetchProduct", payload: { id } });
   }, [id, dispatch]);
 
   //**get all data and assign to each inputbox
@@ -214,7 +210,7 @@ const EditProduct: React.FC = (props: any) => {
             </form>
           </div>
           <div className="md:w-1/2 flex md:justify-center justify-center">
-            <ProductCard dataObject={fetchProd} />
+            {fetchProd && <ProductCard dataObject={fetchProd} />}
           </div>
         </div>
       </Header>

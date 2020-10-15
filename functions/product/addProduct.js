@@ -47,20 +47,23 @@ module.exports = async (event) => {
      * @event Adding
      */
 
+    const newQuantity = Number(quantity);
+    const newPrice = Number(price);
+
     await firebaseDb.collection("product").add({
-      uid,
-      fileName,
-      product,
-      title,
-      purpose,
-      price,
-      category,
-      quantity,
-      imageUrl,
-      date,
-      gender,
-      description,
-      size,
+      uid: uid,
+      fileName: fileName,
+      product: product,
+      title: title,
+      purpose: purpose,
+      price: newPrice,
+      category: category,
+      quantity: newQuantity,
+      imageUrl: imageUrl,
+      date: date,
+      gender: gender,
+      description: description,
+      size: size,
     });
 
     /**Return "Successfully added to cart" if success */

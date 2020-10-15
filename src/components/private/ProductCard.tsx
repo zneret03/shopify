@@ -18,9 +18,14 @@ const ProductCard: React.FC<PropTypes> = ({ dataObject }) => {
               />
             </div>
             <div className="px-4 py-2 font-segoe-UI">
-              <span className="block text-xs text-gray-600 mb-4">
-                {product.purpose}
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="block text-xs text-gray-600 mb-4">
+                  {product.purpose}
+                </span>
+                <span className="block text-xs mb-4 bg-gray-400 font-bold text-white rounded-full px-2">
+                  {product.quantity}
+                </span>
+              </div>
               <span className="block text-xs uppercase tracking-wide">
                 {product.product}
               </span>
