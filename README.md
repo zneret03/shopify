@@ -18,12 +18,12 @@
 - [x] Fixing firebase issue
 - [x] Manage Category
 - [x] Top Sales
-- [ ] unfulfilled products
-- [ ] Critical Stocks
+- [x] unfulfilled products
+- [x] Critical Stocks
 - [ ] Email news paper
 - [x] Customer Orders
-- [ ] Inventory
+- [x] Inventory
 - [ ] Manage Sales
 - [x] Sort by product name
 - [x] Sort by price
-- [ ] Chart
+- [x] Chart
