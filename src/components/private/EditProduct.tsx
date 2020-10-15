@@ -123,7 +123,7 @@ const EditProduct: React.FC = (props: any) => {
                 <div className="mb-3">
                   <span>Product Name</span>
                   <input
-                    defaultValue={product}
+                    value={product}
                     required
                     name="product"
                     onChange={(event) => onChange(event)}
@@ -134,7 +134,7 @@ const EditProduct: React.FC = (props: any) => {
                 <div className="mb-3">
                   <span>Title</span>
                   <input
-                    defaultValue={title}
+                    value={title}
                     required
                     name="title"
                     onChange={(event) => onChange(event)}
@@ -146,7 +146,7 @@ const EditProduct: React.FC = (props: any) => {
               <div className="mb-3">
                 <span>Purpose</span>
                 <input
-                  defaultValue={purpose}
+                  value={purpose}
                   required
                   name="purpose"
                   onChange={(event) => onChange(event)}
@@ -158,7 +158,7 @@ const EditProduct: React.FC = (props: any) => {
                 <div className="mb-3">
                   <span>Price</span>
                   <input
-                    defaultValue={price}
+                    value={price}
                     required
                     pattern="[0-9]"
                     name="price"
@@ -176,7 +176,7 @@ const EditProduct: React.FC = (props: any) => {
                       value={gender}
                       onChange={(event) => onChange(event)}
                     >
-                      <option defaultValue={gender}></option>
+                      <option value={gender}></option>
                       <option value="Men">Men</option>
                       <option value="Women">Women</option>
                       <option value="Kids">Kids</option>
@@ -187,7 +187,7 @@ const EditProduct: React.FC = (props: any) => {
               <div className="mb-1">
                 <span>Description</span>
                 <textarea
-                  defaultValue={description}
+                  value={description}
                   onChange={(event) => onChange(event)}
                   required
                   name="description"

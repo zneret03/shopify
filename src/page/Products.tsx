@@ -192,8 +192,6 @@ const Products: React.FC<Props> = ({ history }) => {
       ? arraySlice(searchFilter, current, dataShowed)
       : arraySlice(filteredProduct, current, dataShowed);
 
-  console.log(currentData);
-
   //** set spinner if data not arrives
   const spin = currentData.length <= 0;
   return (
