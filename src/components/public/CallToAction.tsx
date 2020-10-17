@@ -1,5 +1,5 @@
 import React from "react";
-const CallToAction: React.SFC = () => {
+const CallToAction: React.FC = () => {
   return (
     <>
       <div className="mt-10">

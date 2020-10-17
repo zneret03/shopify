@@ -1,5 +1,6 @@
 import React from "react";
 import { ChevronDown, ChevronRight } from "react-feather";
+import { useSpring, animated } from "react-spring";
 
 interface PropType {
   toggleDropdown: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
@@ -24,6 +25,10 @@ const FilterDropDown: React.FC<PropType> = ({
   id,
   getSortData,
 }) => {
+  const animate = useSpring({
+    opacity: toggle ? 1 : 0,
+  });
+
   return (
     <div className="inline-block px-2 relative">
       <div className="flex cursor-pointer">
@@ -45,17 +50,21 @@ const FilterDropDown: React.FC<PropType> = ({
           toggle ? "block" : "hidden"
         } origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg z-50`}
       >
-        <div className="rounded-md bg-white shadow-xs">
-          {itemArray.map((element: any, index: number) => (
-            <span
-              key={index}
-              className="block cursor-pointer px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-              onClick={(event) => getSortData(event, element.category, element)}
-            >
-              {element.category || element}
-            </span>
-          ))}
-        </div>
+        <animated.div style={animate}>
+          <div className="rounded-md bg-white shadow-xs">
+            {itemArray.map((element: any, index: number) => (
+              <span
+                key={index}
+                className="block cursor-pointer px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                onClick={(event) =>
+                  getSortData(event, element.category, element)
+                }
+              >
+                {element.category || element}
+              </span>
+            ))}
+          </div>
+        </animated.div>
       </div>
     </div>
   );

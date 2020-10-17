@@ -21,6 +21,7 @@ import { months } from "../utils/mockData";
 import { ProductContext } from "../Context/ProductProvider";
 import { AuthContext } from "../auth/AuthProvider";
 import TableProduct from "../components/private/TableProduct";
+import ExportExcel from "../components/private/ExportExcel";
 
 interface Props {
   history: any;
@@ -207,21 +208,24 @@ const Products: React.FC<Props> = ({ history }) => {
           />
         ) : (
           <div>
-            <div className="mb-3 flex items-center justify-between">
+            <div className="mb-3 sm:flex sm:items-center sm:justify-between">
               <div>
                 <span className="text-sm text-gray-500 block py-4">
                   Date : {dateToday}
                 </span>
               </div>
-              <Input.Search
-                allowClear
-                className="max-w-xs"
-                placeholder="Search by product name"
-                onSearch={(nameSearch) => {
-                  const itemsSearch = onSearch(nameSearch, filteredProduct);
-                  setSearchFilter(itemsSearch);
-                }}
-              />
+              <div className="sm:flex sm:items-center">
+                <ExportExcel csvData={filteredProduct} fileName={"product"} />
+                <Input.Search
+                  allowClear
+                  className="max-w-xs"
+                  placeholder="Search by product name"
+                  onSearch={(nameSearch) => {
+                    const itemsSearch = onSearch(nameSearch, filteredProduct);
+                    setSearchFilter(itemsSearch);
+                  }}
+                />
+              </div>
             </div>
             <TableProduct
               columns={columns}

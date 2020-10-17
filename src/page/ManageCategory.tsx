@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import Header from "../components/private/Header";
 import { Tag, Space, Popconfirm, Input } from "antd";
-import { Edit3, Trash2 } from "react-feather";
+import { Edit3, Trash2, PlusCircle } from "react-feather";
 import { months, MyDateString } from "../utils/mockData";
 import { CategoryContext } from "../Context/CategoryProvider";
 import { AuthContext } from "../auth/AuthProvider";
@@ -18,6 +18,8 @@ import httpRequest from "../api/httpRequest";
 import Loading from "../components/private/Loading";
 import CategoryModal from "../components/private/CategoryModal";
 import AdminTable from "../components/private/AdminTable";
+import ExportExcel from "../components/private/ExportExcel";
+
 const ManageCategory: React.FC = () => {
   const today = new Date();
   const dateToday = `${
@@ -254,14 +256,20 @@ const ManageCategory: React.FC = () => {
         ) : (
           <div>
             <div className="sm:flex sm:items-center sm:justify-between">
-              <button
-                type="button"
-                id="add"
-                className="px-3 py-1 md:mb-0 mb-2 bg-green-500 hover:bg-green-400 rounded-sm text-white "
-                onClick={(event) => openModal(event)}
-              >
-                Add Category
-              </button>
+              <div className="flex items-center ">
+                <button
+                  type="button"
+                  id="add"
+                  className="flex items-center px-3 py-1 md:mb-0 mb-2 bg-orange-400 hover:bg-orange-300 rounded-sm text-white "
+                  onClick={(event) => openModal(event)}
+                >
+                  Add Category
+                  <PlusCircle size="20" className="ml-2" />
+                </button>
+                <div className="ml-3">
+                  <ExportExcel csvData={filteredCategory} fileName="category" />
+                </div>
+              </div>
               <Input.Search
                 allowClear
                 className="max-w-xs"

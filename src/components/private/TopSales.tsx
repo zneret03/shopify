@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Input } from "antd";
 import { Minus, BarChart2 } from "react-feather";
 import { withRouter } from "react-router-dom";
+
 //*Components
 import {
   filtered,
@@ -13,6 +14,7 @@ import TopSalesTable from "./TopSalesTable";
 import { AuthContext } from "../../auth/AuthProvider";
 import { TopSalesContext } from "../../Context/TopSalesProvider";
 import Analytics from "./BarChart";
+import ExportExcel from "./ExportExcel";
 
 const today = new Date().toISOString().substr(0, 10);
 
@@ -92,11 +94,14 @@ const TopSales: React.FC = () => {
           <button
             onClick={(event) => onClickAnalytics(event)}
             type="button"
-            className="px-6 py-1 sm:w-32 md:mr-0 mr-2 w-full bg-green-500 hover:bg-green-400 rounded-sm text-white flex items-center"
+            className="px-6 py-1 sm:w-32 md:mr-0 mr-2 w-full bg-orange-400 hover:bg-orange-300 rounded-sm text-white flex items-center"
           >
             <span className="mr-2">Analytics</span>
             <BarChart2 size="18" />
           </button>
+          <div className="ml-2">
+            <ExportExcel csvData={paidOrders} fileName="topSales" />
+          </div>
         </div>
         <div className="flex items-center">
           <Input.Search

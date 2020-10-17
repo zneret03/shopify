@@ -8,7 +8,7 @@ interface Props {
   pageName: string;
 }
 
-const Header: React.SFC<Props> = ({ children, pageName }) => {
+const Header: React.FC<Props> = ({ children, pageName }) => {
   const currentUser: any = useContext(AuthContext);
 
   const [name, setName] = useState(null);
@@ -23,7 +23,7 @@ const Header: React.SFC<Props> = ({ children, pageName }) => {
         <div className="text-xl font-segoe-UI">
           <span>Welcome to Shopify </span>
           <span className="py-1 px-2 bg-black text-white rounded-sm">
-            {name || currentUser.displayName ? (
+            {name === undefined || currentUser.displayName ? (
               <span>{name || currentUser.displayName}</span>
             ) : (
               "loading"

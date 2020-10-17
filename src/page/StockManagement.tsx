@@ -17,6 +17,7 @@ import Button from "../utils/Button";
 import TableProduct from "../components/private/TableProduct";
 import { ProductContext } from "../Context/ProductProvider";
 import { AuthContext } from "../auth/AuthProvider";
+import ExportExcel from "../components/private/ExportExcel";
 
 interface PropTypes {
   history: any;
@@ -153,21 +154,27 @@ const StockManagement: React.FC<PropTypes> = ({ history }) => {
         />
       ) : (
         <div>
-          <div className="mb-3 flex items-center justify-between">
+          <div className="mb-3 sm:flex items-center sm:justify-between">
             <div>
               <span className="text-sm text-gray-500 block py-4">
                 Date : {dateToday}
               </span>
             </div>
-            <Input.Search
-              allowClear
-              className="max-w-xs"
-              placeholder="Search by product name"
-              onSearch={(nameSearch) => {
-                const itemsSearch = onSearch(nameSearch, filteredProduct);
-                setSearchFilter(itemsSearch);
-              }}
-            />
+            <div className="sm:flex sm:items-center">
+              <ExportExcel
+                csvData={filteredProduct}
+                fileName="stockAdjustment"
+              />
+              <Input.Search
+                allowClear
+                className="max-w-xs"
+                placeholder="Search by product name"
+                onSearch={(nameSearch) => {
+                  const itemsSearch = onSearch(nameSearch, filteredProduct);
+                  setSearchFilter(itemsSearch);
+                }}
+              />
+            </div>
           </div>
           <TableProduct
             columns={columns}

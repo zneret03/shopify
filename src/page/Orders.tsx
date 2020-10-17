@@ -19,6 +19,7 @@ import { months } from "../utils/mockData";
 import { AuthContext } from "../auth/AuthProvider";
 import { OrderContext } from "../Context/OrderProvider";
 import AdminTable from "../components/private/AdminTable";
+import ExportExcel from "../components/private/ExportExcel";
 
 interface onProps {
   history: any;
@@ -185,21 +186,30 @@ const Orders: React.FC<onProps> = ({ history }) => {
         ) : (
           <div>
             <div className="mb-3 sm:flex sm:items-center sm:justify-between">
-              <div>
+              <div className="sm:mb-0 mb-2">
                 <span className="font-bold text-lg">Total : </span>
                 <span className="font-bold text-lg text-red-500">
                   ₱{purchaseTotal.toLocaleString()}
                 </span>
               </div>
-              <Input.Search
-                allowClear
-                className="max-w-xs"
-                placeholder="Search by firstname"
-                onSearch={(nameSearch) => {
-                  const sea = onSearch(nameSearch, filteredCustomerInfo);
-                  setSearchFilter(sea);
-                }}
-              />
+              <div className="sm:flex sm:items-center">
+                <ExportExcel
+                  csvData={filteredCustomerInfo}
+                  fileName="customerInformation"
+                />
+                <Input.Search
+                  allowClear
+                  className="max-w-xs"
+                  placeholder="Search by firstname"
+                  onSearch={(nameSearch) => {
+                    const searching = onSearch(
+                      nameSearch,
+                      filteredCustomerInfo
+                    );
+                    setSearchFilter(searching);
+                  }}
+                />
+              </div>
             </div>
             <div>
               <span className="text-sm text-gray-500 block">

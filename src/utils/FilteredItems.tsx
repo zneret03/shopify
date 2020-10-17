@@ -71,7 +71,7 @@ export const getuserUid = (currentUser: any, app: any) => {
     if (Object.keys(currentUser).length > 0) {
       const document = app.firestore().collection("user").doc(currentUser.uid);
       const userInformation = await document.get();
-      return resolve(
+      return userInformation.data() !== undefined && resolve(
         `${userInformation.data().firstname} ${userInformation.data().lastname}`
       );
     }
