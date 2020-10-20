@@ -14,7 +14,7 @@ const LandingPage: React.FC = () => {
   });
 
   return (
-    <div className="sm:px-20 px-5 sm:py-8 px-0 bg-gray-100 font-sans tracking-widest">
+    <div className="sm:px-20 px-5 sm:py-8 px-0 bg-gray-100 lg:h-screen h-full font-sans tracking-widest">
       <div>
         <div className="absolute left-0 mt-8 ml-5 lg:block hidden">
           <svg

@@ -68,8 +68,8 @@ const Navbar: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (toggle !== true) return setToggle(true);
-    if (toggle === true) return setToggle(false);
+    if (!toggle) return setToggle(true);
+    if (toggle) return setToggle(false);
   };
 
   //** event listener when resizing the window

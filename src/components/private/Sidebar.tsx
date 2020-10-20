@@ -112,7 +112,7 @@ const Sidebar: React.FC = () => {
           <div>
             <div className="pt-6 flex justify-center">
               <img
-                className="w-32 h-32 object-cover rounded-full"
+                className="w-32 h-32 object-cover rounded-full border-solid border-4 border-blue-500"
                 src={require("../../image/exampleProfile.jpg")}
                 alt=""
               />
@@ -324,10 +324,10 @@ const Sidebar: React.FC = () => {
                   >
                     <ul>
                       <Link
-                        to=""
+                        to="/dashboard/myAccount"
                         className="flex items-center justify-between hover:bg-blue-500 px-2 rounded py-1"
                       >
-                        <li className=" text-white">Delete Account</li>
+                        <li className=" text-white">My account</li>
                       </Link>
                     </ul>
                   </div>

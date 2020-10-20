@@ -1,12 +1,15 @@
 import React, { useState, useContext } from "react";
 import { Facebook, GitHub, Chrome } from "react-feather";
 import { Divider } from "antd";
+import { withRouter, Redirect } from "react-router-dom";
+import { useSpring } from "react-spring";
+
+//*Components
 import Modal from "./Modal";
 import SignUp from "./SingUp";
 import PasswordReset from "./PasswordRest";
 import { AuthContext } from "../../auth/AuthProvider";
 import { app, provider } from "../../config/firebase";
-import { withRouter, Redirect } from "react-router-dom";
 
 interface Props {
   close?: (event: React.MouseEvent<SVGAElement, MouseEvent>) => void;
@@ -54,6 +57,10 @@ const Login: React.FC<Props> = ({ close, history }) => {
 
   //* Open Password reset Event
   const [passwordReset, setPasswordReset] = useState(false);
+
+  const animateSignIn = useSpring({
+    opacity: signUp ? 1 : 0,
+  });
 
   const openPasswordReset = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -139,7 +146,10 @@ const Login: React.FC<Props> = ({ close, history }) => {
   if (signUp) {
     return (
       <Modal close={close}>
-        <SignUp back={(event) => backLogin(event)} />
+        <SignUp
+          animateSignIn={animateSignIn}
+          back={(event) => backLogin(event)}
+        />
       </Modal>
     );
   }
@@ -182,7 +192,7 @@ const Login: React.FC<Props> = ({ close, history }) => {
               <input
                 type="email"
                 required
-                className="border block py-2 w-full px-4 rounded hover:border-red-500 focus:border-red-500"
+                className="border block py-2 w-full px-4 rounded hover:border-gray-500 focus:border-gray-500"
                 id="email"
                 placeholder="example@yahoo.com"
                 value={email}
@@ -193,7 +203,7 @@ const Login: React.FC<Props> = ({ close, history }) => {
               <input
                 required
                 type="password"
-                className="border block py-2 w-full px-4 rounded hover:border-red-500 focus:border-red-500"
+                className="border block py-2 w-full px-4 rounded hover:border-gray-500 focus:border-gray-500"
                 placeholder="Password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
@@ -201,7 +211,7 @@ const Login: React.FC<Props> = ({ close, history }) => {
             </div>
             <div className="text-center mt-5">
               {message.status && (
-                <div className="text-left bg-red-100 border-l-4 border-red-500 text-red-700 p-2 mb-2 font-sans">
+                <div className="text-left bg-red-100 border-l-4 border-gray-500 text-gray-700 p-2 mb-2 font-sans">
                   <span className="font-bold">Warning!!!</span>
                   <span className="block text-sm">{message.message}</span>
                 </div>
