@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Divider } from "antd";
 import { Facebook, Twitter, Instagram } from "react-feather";
+import { ReducerContext } from "../../Context/ReducerProvider";
 
-interface PropTypeSocial {
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
+const MyAccountSocial: React.FC = () => {
+  const { dispatch, toggleSocial } = useContext(ReducerContext);
 
-const MyAccountSocial: React.FC<PropTypeSocial> = ({ onClick }) => {
   return (
     <form className="grid grid-rows gap-2">
       <div className="flex items-center">
@@ -42,7 +41,12 @@ const MyAccountSocial: React.FC<PropTypeSocial> = ({ onClick }) => {
       <div className="flex justify-end mt-3">
         <button
           className="px-4 mr-1 py-1 rounded border hover:bg-gray-100"
-          onClick={(event) => onClick(event)}
+          onClick={() =>
+            dispatch({
+              type: "toggleSocial",
+              payload: { toggleSocial: !toggleSocial },
+            })
+          }
         >
           cancel
         </button>

@@ -1,6 +1,5 @@
 import React, { useState, useContext, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-
 import { Trash } from "react-feather";
 
 //*Components

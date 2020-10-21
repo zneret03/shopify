@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Badge } from "antd";
 import { CartContext } from "../../Context/CartProvider";
 import { pendingItems } from "../../utils/FilteredItems";
-import { useSpring, animated } from "react-spring";
 
 // **Components
 import SearchItem from "../public/SearchItem";
@@ -58,11 +57,6 @@ const Navbar: React.FC = () => {
 
   // ** Toggle Menu in small size window
   const [toggle, setToggle] = useState(false);
-
-  const toggleNavbar = useSpring({
-    marginTop: toggle ? 0 : -205,
-    opacity: toggle ? 1 : 0,
-  });
 
   const openToggle = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -180,31 +174,28 @@ const Navbar: React.FC = () => {
               </div>
             </section>
           </div>
-          <animated.div
-            style={toggleNavbar}
+          <div
             className={`${
-              toggle ? "block" : "translate-y-0 hidden"
+              toggle ? "block" : "hidden"
             } font-mono text-lg sm:font-bold sm:hidden block cursor-pointer px-2 py-1 tracking-wider`}
           >
-            <nav>
-              {publicNavigation.map((nav: any, index: number) => (
-                <Link
-                  key={index}
-                  to={nav.path}
-                  className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 rounded-xs hover:text-black text-black uppercase"
-                >
-                  {nav.name}
-                </Link>
-              ))}
-
-              <span
-                onClick={(event) => openLogin(event)}
-                className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black"
+            {publicNavigation.map((nav: any, index: number) => (
+              <Link
+                key={index}
+                to={nav.path}
+                className="sm:mr-10 px-3 mr-5 block mt-1 hover:bg-gray-200 rounded-xs hover:text-black text-black uppercase"
               >
-                LOGIN
-              </span>
-            </nav>
-          </animated.div>
+                {nav.name}
+              </Link>
+            ))}
+
+            <span
+              onClick={(event) => openLogin(event)}
+              className="block px-3 mt-1 hover:bg-gray-200 hover:text-black text-black"
+            >
+              LOGIN
+            </span>
+          </div>
         </div>
       </nav>
     </>
