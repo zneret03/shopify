@@ -66,9 +66,7 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
   return (
     <animated.div
       style={style}
-      className={`${
-        toggleProfile ? "block" : "hidden"
-      } flex justify-center w-full h-screen bg-gray-200 absolute`}
+      className={`flex justify-center bg-gray-200 absolute`}
     >
       <div className="max-w-2xl w-full bg-white">
         <span className="flex justify-end px-6 py-4 cursor-pointer">
@@ -104,11 +102,15 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
                   }}
                 />
               ) : (
-                <img
-                  className="w-40 h-40 object-cover rounded-full"
-                  src={require("../../image/exampleProfile.jpg")}
-                  alt=""
-                />
+                <>
+                  {toggleProfile && (
+                    <img
+                      className="w-40 h-40 object-cover rounded-full"
+                      src={require("../../image/exampleProfile.jpg")}
+                      alt=""
+                    />
+                  )}
+                </>
               )}
             </div>
             <div className={`${justifyCenter} mt-8`}>
@@ -122,18 +124,22 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
                   </button>
                 ) : (
                   <>
-                    <input
-                      type="file"
-                      className="bg-blue-500 py-1 px-4"
-                      onChange={(event) => imageOnchange(event)}
-                    />
-                    Choose a new photo
+                    {toggleProfile && (
+                      <>
+                        <input
+                          type="file"
+                          className="bg-blue-500 py-1 px-4"
+                          onChange={(event) => imageOnchange(event)}
+                        />
+                        Choose a new photo
+                      </>
+                    )}
                   </>
                 )}
               </label>
             </div>
             <div className="mt-5">
-              {imagePreview ? (
+              {imagePreview && toggleProfile ? (
                 <span
                   className="font-bold text-blue-500 cursor-pointer"
                   onClick={(event) => onRemoveProfile(event)}
@@ -141,17 +147,21 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
                   Remove photo
                 </span>
               ) : (
-                <span
-                  onClick={() =>
-                    dispatch({
-                      type: "toggleProfile",
-                      payload: { toggleProfile: !toggleProfile },
-                    })
-                  }
-                  className="font-bold text-blue-500 cursor-pointer"
-                >
-                  Keep this photo
-                </span>
+                <>
+                  {toggleProfile && (
+                    <span
+                      onClick={() =>
+                        dispatch({
+                          type: "toggleProfile",
+                          payload: { toggleProfile: !toggleProfile },
+                        })
+                      }
+                      className="font-bold text-blue-500 cursor-pointer"
+                    >
+                      Keep this photo
+                    </span>
+                  )}
+                </>
               )}
             </div>
 

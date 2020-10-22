@@ -11,15 +11,18 @@ import ChangeProfile from "../components/private/ChangeProfile";
 import { ReducerContext } from "../Context/ReducerProvider";
 
 const MyAccount = () => {
+  //*Global state
   const { dispatch, toggleSocial, toggleProfile } = useContext(ReducerContext);
 
   console.log(toggleProfile);
 
+  //*Toggle Social media
   const isToggle = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     dispatch({ type: "toggleSocial", payload: { toggleSocial: true } });
   };
 
+  //*Toggle profile
   const isToggleChangeProfile = (
     event: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
@@ -27,9 +30,12 @@ const MyAccount = () => {
     dispatch({ type: "toggleProfile", payload: { toggleProfile: true } });
   };
 
+  //*Animation slider
   const slideAnimation = useSpring({
-    transform: toggleProfile ? `translateY(0)` : `translateY(100%)`,
+    transform: toggleProfile ? `translateY(0%)` : `translateY(100%)`,
     opacity: toggleProfile ? 1 : 0,
+    height: toggleProfile ? "100%" : "0%",
+    width: toggleProfile ? "100%" : "0%",
   });
 
   return (

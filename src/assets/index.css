@@ -15,3 +15,7 @@
 input[type="file"] {
   display: none;
 }
+
+.hide {
+  display: none;
+}
