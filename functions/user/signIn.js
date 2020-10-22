@@ -10,9 +10,20 @@ const callback = require("../callback");
 
 module.exports = async (event) => {
   try {
-    const { id, email, firstname, lastname } = JSON.parse(event.body);
+    const { id, email, firstname, lastname, city, state, zipcode } = JSON.parse(event.body);
     const document = firebaseDb.collection("user").doc(id);
-    document.set({ id, email, firstname, lastname });
+    document.set({ 
+      id, 
+      email, 
+      firstname, 
+      lastname, 
+      city, 
+      state, 
+      zipcode, 
+      facebook : "", 
+      twitter : "", 
+      instagram : ""  
+    });
     return callback(200, "User created successfully");
   } catch (error) {
     console.log(error.message);

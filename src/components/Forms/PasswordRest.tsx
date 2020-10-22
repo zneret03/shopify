@@ -44,7 +44,7 @@ const PasswordReset: React.FC<Props> = ({ back }) => {
           <input
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="border block py-2 w-full px-4 rounded hover:border-red-500 focus:border-red-500"
+            className="border block py-2 w-full px-4 rounded hover:border-gray-500 focus:border-gray-500"
             type="email"
             placeholder="example@yahoo.com"
           />

@@ -20,7 +20,9 @@ import Loading from "../components/private/Loading";
 import { months } from "../utils/mockData";
 import { ProductContext } from "../Context/ProductProvider";
 import { AuthContext } from "../auth/AuthProvider";
-import AdminTable from "../components/private/AdminTable";
+import TableProduct from "../components/private/TableProduct";
+import ExportExcel from "../components/private/ExportExcel";
+
 interface Props {
   history: any;
 }
@@ -32,8 +34,8 @@ const Products: React.FC<Props> = ({ history }) => {
   } ${today.getDate()}, ${today.getFullYear()}`;
 
   const { items } = useContext(ProductContext);
-
   const currentUser: any = useContext(AuthContext);
+
   const [searchFilter, setSearchFilter] = useState(null);
   const [spinner, setSpinner] = useState<boolean>(false);
 
@@ -186,7 +188,10 @@ const Products: React.FC<Props> = ({ history }) => {
   const [current, setCurrent] = useState<number>(1);
 
   //** get current data;
-  const currentData = arraySlice(filteredProduct, current, dataShowed);
+  const currentData =
+    searchFilter !== null
+      ? arraySlice(searchFilter, current, dataShowed)
+      : arraySlice(filteredProduct, current, dataShowed);
 
   //** set spinner if data not arrives
   const spin = currentData.length <= 0;
@@ -203,23 +208,26 @@ const Products: React.FC<Props> = ({ history }) => {
           />
         ) : (
           <div>
-            <div className="mb-3 flex items-center justify-between">
+            <div className="mb-3 sm:flex sm:items-center sm:justify-between">
               <div>
                 <span className="text-sm text-gray-500 block py-4">
                   Date : {dateToday}
                 </span>
               </div>
-              <Input.Search
-                allowClear
-                className="max-w-xs"
-                placeholder="Search by product name"
-                onSearch={(nameSearch) => {
-                  const itemsSearch = onSearch(nameSearch, filteredProduct);
-                  setSearchFilter(itemsSearch);
-                }}
-              />
+              <div className="sm:flex sm:items-center">
+                <ExportExcel csvData={filteredProduct} fileName={"product"} />
+                <Input.Search
+                  allowClear
+                  className="max-w-xs"
+                  placeholder="Search by product name"
+                  onSearch={(nameSearch) => {
+                    const itemsSearch = onSearch(nameSearch, filteredProduct);
+                    setSearchFilter(itemsSearch);
+                  }}
+                />
+              </div>
             </div>
-            <AdminTable
+            <TableProduct
               columns={columns}
               currentData={currentData}
               searchFilter={searchFilter}

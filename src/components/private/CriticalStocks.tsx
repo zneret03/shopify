@@ -14,6 +14,7 @@ import {
 } from "../../utils/FilteredItems";
 import { months } from "../../utils/mockData";
 import AdminTable from "../private/AdminTable";
+import ExportExcel from "./ExportExcel";
 
 const CriticalStocks: React.FC = () => {
   const today = new Date();
@@ -113,21 +114,24 @@ const CriticalStocks: React.FC = () => {
 
   return (
     <div>
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-3 sm:flex sm:items-center sm:justify-between">
         <div>
           <span className="text-sm text-gray-500 block py-4">
             Date : {dateToday}
           </span>
         </div>
-        <Input.Search
-          allowClear
-          className="max-w-xs"
-          placeholder="Search by product name"
-          onSearch={(nameSearch) => {
-            const itemsSearch = onSearch(nameSearch, filteredProduct);
-            setSearchFilter(itemsSearch);
-          }}
-        />
+        <div className="sm:flex sm:items-center">
+          <ExportExcel csvData={filteredProduct} fileName="criticalVariants" />
+          <Input.Search
+            allowClear
+            className="max-w-xs"
+            placeholder="Search by product name"
+            onSearch={(nameSearch) => {
+              const itemsSearch = onSearch(nameSearch, filteredProduct);
+              setSearchFilter(itemsSearch);
+            }}
+          />
+        </div>
       </div>
       <AdminTable
         columns={columns}

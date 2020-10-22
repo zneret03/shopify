@@ -22,7 +22,7 @@ const Obj = {
 
 const Dashboard: React.FC = () => {
   const { items, criticalStocks } = useContext(ProductContext);
-  const { dispatch, soldProduct } = useContext(TopSalesContext);
+  const { dispatch, soldProduct, monthlySales } = useContext(TopSalesContext);
   const currentUser = useContext(AuthContext);
 
   //**return current user product posted */
@@ -81,13 +81,7 @@ const Dashboard: React.FC = () => {
       cardColor: "bg-blue-400",
     },
   ];
-  /**
-   * Daily Sales
-   * Products
-   * Critical
-   * Stocks
-   * Yearly Analytics
-   */
+
   return (
     <>
       <Header pageName={"Dashboard"}>
@@ -121,9 +115,9 @@ const Dashboard: React.FC = () => {
             )}
           </div>
           <div className="w-3/6 shadow-lg rounded-sm">
-            {soldProduct.length ? (
+            {monthlySales.length ? (
               <DoughnutChart
-                soldProduct={soldProduct}
+                soldProduct={monthlySales}
                 width="35vw"
                 height="30vw"
                 axes={false}

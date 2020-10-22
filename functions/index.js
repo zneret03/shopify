@@ -2,6 +2,7 @@
  * Product files
  */
 const addProduct = require("./product/addProduct");
+const stocKAdjustment = require("./product/stockAdjustment");
 const updateCategory = require("./product/updateCategory");
 const deleteCategory = require("./product/deleteCategory");
 const addCategory = require("./product/addCategory");
@@ -48,6 +49,11 @@ exports.handler = async (event) => {
       if (event.httpMethod === httpRequest.POST) {
         return await addProduct(event);
       }
+    case "stockAdjustment":
+      if (event.httpMethod === httpRequest.POST) {
+        return await stocKAdjustment(event);
+      }
+
     case "addCategory":
       if (event.httpMethod === httpRequest.POST) {
         return await addCategory(event);

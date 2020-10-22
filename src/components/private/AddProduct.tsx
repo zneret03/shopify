@@ -1,6 +1,5 @@
 import React, { useState, useContext, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-
 import { Trash } from "react-feather";
 
 //*Components
@@ -230,11 +229,6 @@ const AddProduct: React.FC = () => {
     httpRequest.post("/api/index?name=addProduct", data).then(() => {
       setMessage({
         status: true,
-        message: "Successfully added",
-        loading: false,
-      });
-      setMessage({
-        status: false,
         message: "Successfully Inserted",
         loading: false,
       });

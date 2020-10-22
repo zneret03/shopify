@@ -54,7 +54,8 @@
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "dotenv": "^8.2.0",
-    "firebase": "^7.15.5",
+    "file-saver": "^2.0.2",
+    "firebase": "^7.24.0",
     "firebase-admin": "^6.3.0",
     "netlify-lambda": "^2.0.1",
     "react-dropzone": "^11.0.1",
@@ -63,6 +64,8 @@
     "react-medium-image-zoom": "^4.3.1",
     "react-router-dom": "^5.2.0",
     "react-slick": "^0.26.1",
-    "react-typing-effect": "^2.0.3"
+    "react-spring": "^9.0.0-rc.3",
+    "react-typing-effect": "^2.0.3",
+    "xlsx": "^0.16.8"
   }
 }

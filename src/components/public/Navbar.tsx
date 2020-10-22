@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Badge } from "antd";
 import { CartContext } from "../../Context/CartProvider";
 import { pendingItems } from "../../utils/FilteredItems";
+
 // **Components
 import SearchItem from "../public/SearchItem";
 import Login from "../Forms/Login";
@@ -61,8 +62,8 @@ const Navbar: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (toggle !== true) return setToggle(true);
-    if (toggle === true) return setToggle(false);
+    if (!toggle) return setToggle(true);
+    if (toggle) return setToggle(false);
   };
 
   //** event listener when resizing the window
@@ -173,9 +174,9 @@ const Navbar: React.FC = () => {
               </div>
             </section>
           </div>
-          <section
+          <div
             className={`${
-              toggle ? "translate-x-0" : "hidden"
+              toggle ? "block" : "hidden"
             } font-mono text-lg sm:font-bold sm:hidden block cursor-pointer px-2 py-1 tracking-wider`}
           >
             {publicNavigation.map((nav: any, index: number) => (
@@ -194,7 +195,7 @@ const Navbar: React.FC = () => {
             >
               LOGIN
             </span>
-          </section>
+          </div>
         </div>
       </nav>
     </>

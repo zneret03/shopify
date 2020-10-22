@@ -39,19 +39,17 @@ const Filters: React.FC<PropTypes> = ({ getSortData }) => {
       <div className="py-4 px-4 w-full">
         <div className="flex items-center justify-between">
           <div className="flex">
-            <div>
-              <FilterDropDown
-                getSortData={(event, type, element) =>
-                  getSortData(event, type, element)
-                }
-                toggleDropdown={(event) => toggleDropdown(event)}
-                toggle={toggleCategory}
-                itemArray={fetchCategory}
-                textName="Product Category"
-                className="sm:text-sm text-xs"
-                id="productCategory"
-              />
-            </div>
+            <FilterDropDown
+              getSortData={(event, type, element) =>
+                getSortData(event, type, element)
+              }
+              toggleDropdown={(event) => toggleDropdown(event)}
+              toggle={toggleCategory}
+              itemArray={fetchCategory}
+              textName="Product Category"
+              className="sm:text-sm text-xs"
+              id="productCategory"
+            />
           </div>
           <div>
             <FilterDropDown

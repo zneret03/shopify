@@ -18,7 +18,11 @@
 - [x] Fixing firebase issue
 - [x] Manage Category
 - [x] Top Sales
+<<<<<<< HEAD
 - [ ] unfulfilled products
+=======
+- [x] unfulfilled products
+>>>>>>> development
 - [x] Critical Stocks
 - [ ] Email news paper
 - [x] Customer Orders
@@ -26,4 +30,4 @@
 - [ ] Manage Sales
 - [x] Sort by product name
 - [x] Sort by price
-- [ ] Chart
+- [x] Chart

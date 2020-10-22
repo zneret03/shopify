@@ -1,5 +1,5 @@
 import React from "react";
-const CallToAction: React.SFC = () => {
+const CallToAction: React.FC = () => {
   return (
     <>
       <div className="mt-10">
@@ -22,7 +22,7 @@ const CallToAction: React.SFC = () => {
                 type="text"
                 placeholder="Email Address"
               />
-              <button className="sm:py-3 py-3 sm:px-4 w-full sm:mt-0 mt-2 bg-black text-white hover:bg-gray-500 uppercase font-bold tracking-widest">
+              <button className="sm:py-3 py-3 sm:px-4 w-30 sm:mt-0 mt-2 bg-black text-white hover:bg-gray-500 uppercase font-bold tracking-widest">
                 Subscribe
               </button>
             </div>

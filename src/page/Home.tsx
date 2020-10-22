@@ -6,14 +6,12 @@ import Category from "../components/public/Category";
 
 const Home: React.FC = () => {
   return (
-    <div>
-      <div className="font-mono">
-        <LandingPage />
-        <div className="container mx-auto sm:px-10 px-5">
-          <NewArival />
-          <Items />
-          <Category />
-        </div>
+    <div className="font-mono">
+      <LandingPage />
+      <div className="container mx-auto sm:px-10 px-5">
+        <NewArival />
+        <Items />
+        <Category />
       </div>
     </div>
   );
