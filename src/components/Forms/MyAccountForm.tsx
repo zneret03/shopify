@@ -3,8 +3,14 @@ import { Divider } from "antd";
 import { Facebook, Twitter, Instagram } from "react-feather";
 import { ReducerContext } from "../../Context/ReducerProvider";
 
-const MyAccountSocial: React.FC = () => {
+interface PropType {
+  userInfo: any;
+}
+
+const MyAccountSocial: React.FC<PropType> = ({ userInfo }) => {
   const { dispatch, toggleSocial } = useContext(ReducerContext);
+
+  const { facebook, instagram, twitter } = userInfo;
 
   return (
     <form className="grid grid-rows gap-2">
@@ -14,6 +20,7 @@ const MyAccountSocial: React.FC = () => {
         </i>
         <input
           type="text"
+          defaultValue={facebook}
           className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
           placeholder="facebook"
         />
@@ -24,6 +31,7 @@ const MyAccountSocial: React.FC = () => {
         </i>
         <input
           type="text"
+          defaultValue={twitter}
           className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
           placeholder="twitter"
         />
@@ -34,6 +42,7 @@ const MyAccountSocial: React.FC = () => {
         </i>
         <input
           type="text"
+          defaultValue={instagram}
           className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
           placeholder="instagram"
         />
@@ -58,7 +67,9 @@ const MyAccountSocial: React.FC = () => {
   );
 };
 
-const MyAccountForm: React.FC = () => {
+const MyAccountForm: React.FC<PropType> = ({ userInfo }) => {
+  const { firstname, lastname, email, city, state, zipcode } = userInfo;
+
   return (
     <form>
       <span className="font-bold text-xl text-gray-500">General Info</span>
@@ -70,6 +81,7 @@ const MyAccountForm: React.FC = () => {
             </span>
             <input
               type="text"
+              defaultValue={firstname}
               className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
               placeholder="First Name"
             />
@@ -78,6 +90,7 @@ const MyAccountForm: React.FC = () => {
             <span className="block font-bold text-gray-400 mb-2">Lastname</span>
             <input
               type="text"
+              defaultValue={lastname}
               className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
               placeholder="Last Name"
             />
@@ -88,6 +101,7 @@ const MyAccountForm: React.FC = () => {
           <div className="grid md:grid-cols-3 grid-rows gap-3 flex items-center">
             <input
               type="email"
+              defaultValue={email}
               className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
               placeholder="Email"
             />
@@ -104,6 +118,7 @@ const MyAccountForm: React.FC = () => {
               <span className="block font-bold text-gray-400 mb-2">City</span>
               <input
                 type="text"
+                defaultValue={city}
                 className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
                 placeholder="City"
               />
@@ -112,6 +127,7 @@ const MyAccountForm: React.FC = () => {
               <span className="block font-bold text-gray-400 mb-2">State</span>
               <input
                 type="text"
+                defaultValue={state}
                 className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
                 placeholder="State"
               />
@@ -122,6 +138,7 @@ const MyAccountForm: React.FC = () => {
               </span>
               <input
                 type="text"
+                defaultValue={zipcode}
                 className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
                 placeholder="Zipcode"
               />

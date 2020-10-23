@@ -13,7 +13,7 @@ const deleteUnfulfilled = require("./product/deleteUnfulfilled");
  * Userfiles
  */
 const signIn = require("./user/signIn");
-
+const customerProfile = require("./user/customerProfile");
 /**
  * Cart files
  */
@@ -38,26 +38,92 @@ const httpRequest = {
 };
 
 /**
- * This event will handle all the necessary
- * function that will be exported to specific files
- * @event queryStringParameters
+ * this function will hold all rest api from productComponent
+ * @event queryStringParameters 
  */
 
-exports.handler = async (event) => {
-  switch (event.queryStringParameters["name"]) {
+const productComponent = async(event) => {
+  switch(event.queryStringParameters['name']){
     case "addProduct":
       if (event.httpMethod === httpRequest.POST) {
         return await addProduct(event);
       }
+    case "updateProfilePicture":
+      if(event.httpMethod === httpRequest.PUT){
+        return await customerProfile(event)
+      }
+    case "updateProduct":
+      if (event.httpMethod === httpRequest.PUT) {
+         return await updateProduct(event);
+      }
+    case "deleteProduct":
+      if (event.httpMethod === httpRequest.DELETE) {
+        return await deleteProduct(event);
+      }
+  } 
+} 
+
+/**
+ * this function will hold all rest api from customerComponents
+ * @event queryStringParameters 
+ */
+
+const customerComponents = async(event) => {
+  switch(event.queryStringParameters['name']){
+    case "deleteCustomer":
+      if (event.httpMethod === httpRequest.DELETE) {
+        return await deleteCustomerInformation(event);
+      }
+    case "updateCustomerInformation":
+      if (event.httpMethod === httpRequest.PUT) {
+        return await updateCustomerInformation(event);
+      }
+  }
+}
+
+/**
+ * this function will hold all rest api from stockAdjustmentComponent
+ * @event queryStringParameters 
+ */
+
+const stockAdjustmentComponent = async(event) => {
+  switch(event.queryStringParameters['name']){
     case "stockAdjustment":
       if (event.httpMethod === httpRequest.POST) {
         return await stocKAdjustment(event);
       }
+  }
+}
 
+/**
+ * this function will hold all rest api from categoryComponent
+ * @event queryStringParameters 
+ */
+
+const categoryComponent = async(event) => {
+  switch(event.queryStringParameters['name']){
     case "addCategory":
       if (event.httpMethod === httpRequest.POST) {
         return await addCategory(event);
       }
+    case "updateCategory":
+      if (event.httpMethod === httpRequest.PUT) {
+        return await updateCategory(event);
+      }
+    case "deleteCategory":
+      if (event.httpMethod === httpRequest.DELETE) {
+        return await deleteCategory(event);
+      }
+  }
+}
+
+/**
+ * this function will hold all rest api from transaction
+ * @event queryStringParameters 
+ */
+
+const transaction = async(event) => {
+  switch(event.queryStringParameters['name']){
     case "addCart":
       if (event.httpMethod === httpRequest.POST) {
         return await addCart(event);
@@ -66,38 +132,59 @@ exports.handler = async (event) => {
       if (event.httpMethod === httpRequest.POST) {
         return await checkOut(event);
       }
-    case "signIn":
+  }
+}
+
+/**
+ * this function will hold all rest api from userInformationComponent
+ * @event queryStringParameters 
+ */
+
+const userInformationComponent = async(event) => {
+  switch(event.queryStringParameters['name']){
+       case "signIn":
       if (event.httpMethod === httpRequest.POST) {
         return await signIn(event);
       }
-    case "updateProduct":
-      if (event.httpMethod === httpRequest.PUT) {
-        return await updateProduct(event);
-      }
-    case "updateCustomerInformation":
-      if (event.httpMethod === httpRequest.PUT) {
-        return await updateCustomerInformation(event);
-      }
-    case "updateCategory":
-      if (event.httpMethod === httpRequest.PUT) {
-        return await updateCategory(event);
-      }
-    case "deleteProduct":
-      if (event.httpMethod === httpRequest.DELETE) {
-        return await deleteProduct(event);
-      }
-    case "deleteCategory":
-      if (event.httpMethod === httpRequest.DELETE) {
-        return await deleteCategory(event);
-      }
-    case "deleteCustomer":
-      if (event.httpMethod === httpRequest.DELETE) {
-        return await deleteCustomerInformation(event);
-      }
+  }
+}
+
+/**
+ * this function will hold all rest api from unfulfilledComponent
+ * @event queryStringParameters 
+ */
+
+const unfulfilledComponent = async(event) => {
+  switch(event.queryStringParameters['name']){
     case "deleteUnfulfilled":
       if (event.httpMethod === httpRequest.DELETE) {
         return await deleteUnfulfilled(event);
       }
+  }
+}
+
+/**
+ * This event will handle all the necessary
+ * function that will be exported to specific files
+ * @event queryStringParameters
+ */
+
+exports.handler = async (event) => {
+  switch (event.queryStringParameters["component"]) {
+    case "productComponent": 
+      return await productComponent(event)
+    case "customerComponents": 
+      return await customerComponents(event)
+    case "stockAdjustmentComponent": 
+      return await stockAdjustmentComponent(event)
+    case "categoryComponent":   
+      return await categoryComponent(event);
+    case "transaction":   
+      return await transaction(event);
+    case "userInformationComponent" : 
+      return await userInformationComponent(event);
+    case "unfulfilledComponent":
+      return await unfulfilledComponent(event);
     default:
       /**return 405 if the queryStringParameters fails*/
       return callback(405, {});

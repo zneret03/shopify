@@ -30,7 +30,10 @@ const Unfulfilled = () => {
     id: string
   ) => {
     event.preventDefault();
-    await httpRequest.delete("/api/index?name=deleteUnfulfilled", { id });
+    await httpRequest.delete(
+      "/api/index?name=deleteUnfulfilled&&component=unfulfilledComponent",
+      { id }
+    );
     onNotification(
       "Notice",
       "Successfully Deleted",

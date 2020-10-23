@@ -52,15 +52,18 @@ const SignUp: React.FC<Props> = ({ back, animateSignIn }) => {
       .then((cred) => {
         if (cred.user) {
           axios
-            .post("/api/index?name=signIn", {
-              id: cred.user.uid,
-              email: email,
-              firstname: firstname,
-              lastname: lastname,
-              city: city,
-              state: state,
-              zipcode: zipcode,
-            })
+            .post(
+              "/api/index?name=signIn&&component=userInformationComponent",
+              {
+                id: cred.user.uid,
+                email: email,
+                firstname: firstname,
+                lastname: lastname,
+                city: city,
+                state: state,
+                zipcode: zipcode,
+              }
+            )
             .then(() => {
               console.log("successful");
               clearState();

@@ -67,7 +67,10 @@ const Products: React.FC<Props> = ({ history }) => {
 
     if (file) {
       httpRequest
-        .delete(`/api/index?name=deleteProduct&&productId=${id}`, { id })
+        .delete(
+          `/api/index?name=deleteProduct&&component=productComponent&&productId=${id}`,
+          { id }
+        )
         .then(() => {
           const storageRef = app.storage().refFromURL(imageUrl);
           storageRef

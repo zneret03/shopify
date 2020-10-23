@@ -70,10 +70,10 @@ export const getuserUid = (currentUser: any, app: any) => {
   return new Promise(async (resolve) => {
     if (Object.keys(currentUser).length > 0) {
       const document = app.firestore().collection("user").doc(currentUser.uid);
-      const userInformation = await document.get();
-      return userInformation.data() !== undefined && resolve(
-        `${userInformation.data().firstname} ${userInformation.data().lastname}`
-      );
+      await document.onSnapshot((snapshot: any) => {
+        snapshot.data() !== undefined &&
+          resolve(`${snapshot.data().firstname} ${snapshot.data().lastname}`);
+      });
     }
   });
 };

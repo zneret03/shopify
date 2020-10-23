@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { app } from "../../config/firebase";
 import { AuthContext } from "../../auth/AuthProvider";
+import { UserContext } from "../../Context/UserProvider";
 import {
   Settings,
   LogOut,
@@ -25,13 +26,23 @@ export const signOut = (
   app.auth().signOut();
 };
 
+interface userImageType {
+  imageUrl: string;
+}
+
+const userImage: userImageType = {
+  imageUrl: "",
+};
+
 const Sidebar: React.FC = () => {
   const currentUser: any = useContext(AuthContext);
-  // const data : object[] = []
-  // data.push(currentUser)
-
-  //Main toggle
+  const { userInformation } = useContext(UserContext);
   const [menu, setMenu] = useState<boolean>(false);
+
+  userInformation &&
+    userInformation.map((info: any) => {
+      return Object.assign(userImage, info);
+    });
 
   const Menu = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     event.preventDefault();
@@ -113,7 +124,11 @@ const Sidebar: React.FC = () => {
             <div className="pt-6 flex justify-center">
               <img
                 className="w-32 h-32 object-cover rounded-full border-solid border-4 border-blue-500"
-                src={require("../../image/exampleProfile.jpg")}
+                src={
+                  userImage.imageUrl
+                    ? userImage.imageUrl
+                    : require("../../image/Avatar/AvatarMale.png")
+                }
                 alt=""
               />
             </div>
