@@ -1,74 +1,185 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Divider } from "antd";
 import { Facebook, Twitter, Instagram } from "react-feather";
-import { ReducerContext } from "../../Context/ReducerProvider";
+import { Spin } from "antd";
 
-interface PropType {
-  userInfo: any;
+//*Components
+import httpRequest from "../../api/httpRequest";
+import { ReducerContext } from "../../Context/ReducerProvider";
+import { AuthContext } from "../../auth/AuthProvider";
+
+interface socialTypes {
+  facebook: string;
+  twitter: string;
+  instagram: string;
 }
 
-const MyAccountSocial: React.FC<PropType> = ({ userInfo }) => {
-  const { dispatch, toggleSocial } = useContext(ReducerContext);
+interface PropTypes {
+  userInfoArray: Object[];
+}
 
-  const { facebook, instagram, twitter } = userInfo;
-
-  return (
-    <form className="grid grid-rows gap-2">
-      <div className="flex items-center">
-        <i className="mr-2">
-          <Facebook size="20" />
-        </i>
-        <input
-          type="text"
-          defaultValue={facebook}
-          className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
-          placeholder="facebook"
-        />
-      </div>
-      <div className="flex items-center">
-        <i className="mr-2">
-          <Twitter size="20" />
-        </i>
-        <input
-          type="text"
-          defaultValue={twitter}
-          className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
-          placeholder="twitter"
-        />
-      </div>
-      <div className="flex items-center">
-        <i className="mr-2">
-          <Instagram size="20" />
-        </i>
-        <input
-          type="text"
-          defaultValue={instagram}
-          className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
-          placeholder="instagram"
-        />
-      </div>
-      <div className="flex justify-end mt-3">
-        <button
-          className="px-4 mr-1 py-1 rounded border hover:bg-gray-100"
-          onClick={() =>
-            dispatch({
-              type: "toggleSocial",
-              payload: { toggleSocial: !toggleSocial },
-            })
-          }
-        >
-          cancel
-        </button>
-        <button className="px-4 py-1 rounded bg-green-400 hover:bg-green-300 text-white">
-          save
-        </button>
-      </div>
-    </form>
+//*Reusable function of rest api
+const request = async (config: any, name: string) => {
+  await httpRequest.put(
+    `/api/index?name=${name}&&component=userInformationComponent`,
+    config
   );
 };
 
-const MyAccountForm: React.FC<PropType> = ({ userInfo }) => {
-  const { firstname, lastname, email, city, state, zipcode } = userInfo;
+//*Returning input value on listen
+const inputListener = (prevState: any, name: string, value: string) => {
+  return { ...prevState, [name]: value };
+};
+
+//*Convert Array Object into Object
+const objectAssign = (ObjectArray: Object[], obj: any) => {
+  return ObjectArray.map((info: any) => {
+    return Object.assign(obj, info);
+  });
+};
+
+const MyAccountSocial: React.FC<PropTypes> = ({ userInfoArray }) => {
+  const { dispatch, toggleSocial } = useContext(ReducerContext);
+  const currentUser: any = useContext(AuthContext);
+  const [Spinner, setSpinner] = useState(false);
+  const social: socialTypes = {
+    facebook: "",
+    twitter: "",
+    instagram: "",
+  };
+
+  userInfoArray && objectAssign(userInfoArray, social);
+  const [{ facebook, twitter, instagram }, setState] = useState(social);
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+
+    setState((prevState) => inputListener(prevState, name, value));
+  };
+
+  const Loading = () => setSpinner(true);
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    Loading();
+
+    const config = {
+      id: currentUser.uid,
+      facebook,
+      twitter,
+      instagram,
+    };
+
+    request(config, "updateSocial").then(() => {
+      setTimeout(() => {
+        setSpinner(false);
+      }, 4000);
+    });
+  };
+
+  return (
+    <Spin spinning={Spinner}>
+      <form
+        className="grid grid-rows gap-2"
+        onSubmit={(event) => onSubmit(event)}
+      >
+        <div className="flex items-center">
+          <i className="mr-2">
+            <Facebook size="20" />
+          </i>
+          <input
+            type="text"
+            defaultValue={facebook}
+            name="facebook"
+            className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
+            onChange={(event) => onChange(event)}
+            placeholder="facebook"
+          />
+        </div>
+        <div className="flex items-center">
+          <i className="mr-2">
+            <Twitter size="20" />
+          </i>
+          <input
+            type="text"
+            defaultValue={twitter}
+            name="twitter"
+            className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
+            onChange={(event) => onChange(event)}
+            placeholder="twitter"
+          />
+        </div>
+        <div className="flex items-center">
+          <i className="mr-2">
+            <Instagram size="20" />
+          </i>
+          <input
+            type="text"
+            defaultValue={instagram}
+            name="instagram"
+            className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
+            onChange={(event) => onChange(event)}
+            placeholder="instagram"
+          />
+        </div>
+        <div className="flex justify-end mt-3">
+          <button
+            className="px-4 mr-1 py-1 rounded border hover:bg-gray-100"
+            onClick={() =>
+              dispatch({
+                type: "toggleSocial",
+                payload: { toggleSocial: !toggleSocial },
+              })
+            }
+          >
+            cancel
+          </button>
+          <button className="px-4 py-1 rounded bg-green-400 hover:bg-green-300 text-white">
+            save
+          </button>
+        </div>
+      </form>
+    </Spin>
+  );
+};
+
+interface userInfoTypes {
+  firstname: string;
+  lastname: string;
+  email: string;
+  city: string;
+  state: string;
+  zipcode: string;
+}
+
+//!Issue userInformation dont render properly
+
+const MyAccountForm: React.FC<PropTypes> = ({ userInfoArray }) => {
+  //const currentUser: any = useContext(AuthContext);
+  const userInfo: userInfoTypes = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    city: "",
+    state: "",
+    zipcode: "",
+  };
+
+  userInfoArray && objectAssign(userInfoArray, userInfo);
+
+  const [
+    { firstname, lastname, email, city, state, zipcode },
+    setState,
+  ] = useState(userInfo);
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+
+    setState((prevState) => inputListener(prevState, name, value));
+  };
 
   return (
     <form>
@@ -82,7 +193,9 @@ const MyAccountForm: React.FC<PropType> = ({ userInfo }) => {
             <input
               type="text"
               defaultValue={firstname}
+              name="firstname"
               className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
+              onChange={(event) => onChange(event)}
               placeholder="First Name"
             />
           </div>
@@ -91,7 +204,9 @@ const MyAccountForm: React.FC<PropType> = ({ userInfo }) => {
             <input
               type="text"
               defaultValue={lastname}
+              name="lastname"
               className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
+              onChange={(event) => onChange(event)}
               placeholder="Last Name"
             />
           </div>
@@ -101,8 +216,10 @@ const MyAccountForm: React.FC<PropType> = ({ userInfo }) => {
           <div className="grid md:grid-cols-3 grid-rows gap-3 flex items-center">
             <input
               type="email"
+              name="email"
               defaultValue={email}
               className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
+              onChange={(event) => onChange(event)}
               placeholder="Email"
             />
             <span className="font-bold text-red-500">Change email</span>
@@ -118,8 +235,10 @@ const MyAccountForm: React.FC<PropType> = ({ userInfo }) => {
               <span className="block font-bold text-gray-400 mb-2">City</span>
               <input
                 type="text"
+                name="city"
                 defaultValue={city}
                 className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
+                onChange={(event) => onChange(event)}
                 placeholder="City"
               />
             </div>
@@ -127,8 +246,10 @@ const MyAccountForm: React.FC<PropType> = ({ userInfo }) => {
               <span className="block font-bold text-gray-400 mb-2">State</span>
               <input
                 type="text"
+                name="state"
                 defaultValue={state}
                 className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
+                onChange={(event) => onChange(event)}
                 placeholder="State"
               />
             </div>
@@ -138,8 +259,10 @@ const MyAccountForm: React.FC<PropType> = ({ userInfo }) => {
               </span>
               <input
                 type="text"
+                name="zipcode"
                 defaultValue={zipcode}
                 className="rounded-sm border py-1 px-3 w-full focus:outline-none focus:shadow-outline"
+                onChange={(event) => onChange(event)}
                 placeholder="Zipcode"
               />
             </div>

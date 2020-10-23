@@ -12,31 +12,11 @@ import { ReducerContext } from "../Context/ReducerProvider";
 import { UserContext } from "../Context/UserProvider";
 
 interface userType {
-  city: string;
-  email: string;
-  facebook: string;
-  firstname: string;
-  id: string;
   imageUrl: string;
-  instagram: string;
-  lastname: string;
-  state: string;
-  twitter: string;
-  zipcode: string;
 }
 
 const userInfo: userType = {
-  city: "",
-  email: "",
-  facebook: "",
-  firstname: "",
-  id: "",
   imageUrl: "",
-  instagram: "",
-  lastname: "",
-  state: "",
-  twitter: "",
-  zipcode: "",
 };
 
 const MyAccount: React.FC = () => {
@@ -98,7 +78,7 @@ const MyAccount: React.FC = () => {
             </div>
             <div className="mt-3">
               {toggleSocial ? (
-                <MyAccountSocial userInfo={userInfo} />
+                <MyAccountSocial userInfoArray={userInformation} />
               ) : (
                 <>
                   <button
@@ -113,7 +93,7 @@ const MyAccount: React.FC = () => {
             </div>
           </div>
           <div className="md:w-full pt-6">
-            <MyAccountForm userInfo={userInfo} />
+            <MyAccountForm userInfoArray={userInformation} />
           </div>
         </div>
       </Header>

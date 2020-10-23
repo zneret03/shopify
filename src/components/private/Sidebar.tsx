@@ -26,12 +26,18 @@ export const signOut = (
   app.auth().signOut();
 };
 
-interface userImageType {
+interface userInfoTypes {
   imageUrl: string;
+  facebook: string;
+  twitter: string;
+  instagram: string;
 }
 
-const userImage: userImageType = {
+const userInfo: userInfoTypes = {
   imageUrl: "",
+  facebook: "",
+  twitter: "",
+  instagram: "",
 };
 
 const Sidebar: React.FC = () => {
@@ -41,7 +47,7 @@ const Sidebar: React.FC = () => {
 
   userInformation &&
     userInformation.map((info: any) => {
-      return Object.assign(userImage, info);
+      return Object.assign(userInfo, info);
     });
 
   const Menu = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
@@ -125,8 +131,8 @@ const Sidebar: React.FC = () => {
               <img
                 className="w-32 h-32 object-cover rounded-full border-solid border-4 border-blue-500"
                 src={
-                  userImage.imageUrl
-                    ? userImage.imageUrl
+                  userInfo.imageUrl
+                    ? userInfo.imageUrl
                     : require("../../image/Avatar/AvatarMale.png")
                 }
                 alt=""
@@ -292,23 +298,38 @@ const Sidebar: React.FC = () => {
             </div>
             <div className="mt-4 font-bold">
               <ul className={`${sale ? "block" : "hidden"}`}>
-                <li className="mb-5 hover:bg-blue-500 px-2 py-1 rounded flex items-center cursor-pointer">
-                  <span className="mr-2">
-                    <Facebook size="18" color="#FFF" />
-                  </span>
-                  <span className="text-white">Facebook</span>
+                <li className="mb-5 hover:bg-blue-500 px-2 py-1 rounded cursor-pointer">
+                  <a
+                    href={userInfo.facebook}
+                    className="text-white hover:text-white flex items-center"
+                  >
+                    <span className="mr-2">
+                      <Facebook size="18" color="#FFF" />
+                    </span>
+                    Facebook
+                  </a>
                 </li>
-                <li className="mb-5 hover:bg-blue-500 px-2 py-1 rounded flex items-center cursor-pointer">
-                  <span className="mr-2">
-                    <Twitter size="18" color="#FFF" />
-                  </span>
-                  <span className="text-white">Twitter</span>
+                <li className="mb-5 hover:bg-blue-500 px-2 py-1 rounded cursor-pointer">
+                  <a
+                    href={userInfo.twitter}
+                    className="text-white hover:text-white flex items-center"
+                  >
+                    <span className="mr-2">
+                      <Twitter size="18" color="#FFF" />
+                    </span>
+                    Twitter
+                  </a>
                 </li>
-                <li className="mb-5 hover:bg-blue-500 px-2 py-1 rounded flex items-center cursor-pointer">
-                  <span className="mr-2">
-                    <Instagram size="18" color="#FFF" />
-                  </span>
-                  <span className="text-white">Instagram</span>
+                <li className="mb-5 hover:bg-blue-500 px-2 py-1 rounded cursor-pointer">
+                  <a
+                    href={userInfo.instagram}
+                    className="text-white hover:text-white flex items-center"
+                  >
+                    <span className="mr-2">
+                      <Instagram size="18" color="#FFF" />
+                    </span>
+                    Instagram
+                  </a>
                 </li>
               </ul>
               <Divider />

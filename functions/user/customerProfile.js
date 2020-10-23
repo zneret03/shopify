@@ -1,6 +1,10 @@
 const callback = require('../callback');
 const {firebaseDb} = require('../firebaseAdmin');
 
+/**
+ * this function will handle all the image updated by the user
+ * @event Body
+ */
 module.exports = async(event) => {
     try {
         const {id, imageUrl} = JSON.parse(event.body);
