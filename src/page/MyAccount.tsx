@@ -45,8 +45,6 @@ const MyAccount: React.FC = () => {
 
   const { userInformation } = useContext(UserContext);
 
-  const { imageUrl } = userInfo;
-
   userInformation &&
     userInformation.map((data: any) => {
       return Object.assign(userInfo, data);
@@ -76,7 +74,7 @@ const MyAccount: React.FC = () => {
 
   return (
     <>
-      <ChangeProfile style={slideAnimation} imageUrl={imageUrl} />
+      <ChangeProfile style={slideAnimation} imageUrl={userInfo.imageUrl} />
       <Header pageName="My Account">
         <div className="container mx-auto px-6 md:flex">
           <div className="md:mr-8 md:w-2/6">
@@ -85,8 +83,8 @@ const MyAccount: React.FC = () => {
                 <img
                   className="w-40 h-40 object-cover rounded-full cursor-pointer border-solid border-4"
                   src={
-                    imageUrl
-                      ? imageUrl
+                    userInfo.imageUrl
+                      ? userInfo.imageUrl
                       : require("../image/Avatar/AvatarMale.png")
                   }
                   onClick={(event) => isToggleChangeProfile(event)}
