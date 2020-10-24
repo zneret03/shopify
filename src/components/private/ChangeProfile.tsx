@@ -131,13 +131,20 @@ const ChangeProfile: React.FC<PropTypes> = ({ style, imageUrl }) => {
                 </Spin>
               ) : (
                 <>
-                  {toggleProfile && (
-                    <img
-                      className="w-40 h-40 object-cover rounded-full"
-                      src={imageUrl}
-                      alt=""
-                    />
-                  )}
+                  {toggleProfile &&
+                    (imageUrl ? (
+                      <img
+                        className="w-40 h-40 object-cover rounded-full"
+                        src={imageUrl}
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        className="w-40 h-40 object-cover rounded-full"
+                        src={require("../../image/Avatar/AvatarMale.png")}
+                        alt=""
+                      />
+                    ))}
                 </>
               )}
             </div>
