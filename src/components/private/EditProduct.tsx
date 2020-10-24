@@ -79,7 +79,10 @@ const EditProduct: React.FC = (props: any) => {
     loadSpinner();
 
     httpRequest
-      .put(`/api/index?name=updateProduct&&productId=${id}`, items)
+      .put(
+        `/api/index?name=updateProduct&&component=productComponent&&productId=${id}`,
+        items
+      )
       .then(() => {
         setMessage({
           status: true,
@@ -173,7 +176,7 @@ const EditProduct: React.FC = (props: any) => {
                     <select
                       name="gender"
                       className="border w-full py-2 px-3 bg-white rounded"
-                      value={gender}
+                      defaultValue={gender}
                       onChange={(event) => onChange(event)}
                     >
                       <option value={gender}></option>

@@ -70,9 +70,12 @@ const Orders: React.FC<onProps> = ({ history }) => {
     loadSpinner();
     customer &&
       httpRequest
-        .delete(`/api/index?name=deleteCustomer&&customerId=${customer.id}`, {
-          items: customer.items,
-        })
+        .delete(
+          `/api/index?name=deleteCustomer&&component=customerComponents&&customerId=${customer.id}`,
+          {
+            items: customer.items,
+          }
+        )
         .then(() => setSpinner(false));
   };
 

@@ -1,18 +1,33 @@
 import React, { useState, useContext } from "react";
 import { X } from "react-feather";
+import { Spin } from "antd";
 import { app } from "../../config/firebase";
 import { animated } from "react-spring";
 import { ReducerContext } from "../../Context/ReducerProvider";
+import { AuthContext } from "../../auth/AuthProvider";
+import httpRequest from "../../api/httpRequest";
 
 interface PropTypes {
   style: Object;
+  imageUrl: string;
 }
 
-const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
+const ChangeProfile: React.FC<PropTypes> = ({ style, imageUrl }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [profile, setProfilePicture] = useState({ status: false, image: null });
   const [error, setError] = useState(false);
+  const [Spinner, setSpinner] = useState(false);
+
   const { dispatch, toggleProfile } = useContext(ReducerContext);
+  const currentUser: any = useContext(AuthContext);
+
+  //*Untoggle modal
+  const unToggleModal = () => {
+    dispatch({
+      type: "toggleProfile",
+      payload: { toggleProfile: !toggleProfile },
+    });
+  };
 
   //**Change and preview profile picture
   const imageOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +59,27 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
     }
   };
 
+  const httpApi = (imageUrl: string) => {
+    try {
+      setSpinner(true);
+
+      httpRequest
+        .put(
+          "/api/index?name=updateProfilePicture&&component=userInformationComponent",
+          { id: currentUser.uid, imageUrl }
+        )
+        .then(() => {
+          setTimeout(() => {
+            setSpinner(false);
+            unToggleModal();
+            setProfilePicture({ status: false, image: null });
+          }, 4000);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   //*save image to firebase storage
   const updateProfile = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -55,9 +91,7 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
       await fileRef.put(profile.image);
 
       fileRef.getDownloadURL().then((imageUrl) => {
-        console.log(imageUrl);
-        setImagePreview(null);
-        setProfilePicture({ status: false, image: null });
+        httpApi(imageUrl);
       });
     }
   };
@@ -66,19 +100,11 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
   return (
     <animated.div
       style={style}
-      className={`flex justify-center bg-gray-200 absolute`}
+      className={`flex justify-center bg-gray-200 absolute z-10`}
     >
       <div className="max-w-2xl w-full bg-white">
         <span className="flex justify-end px-6 py-4 cursor-pointer">
-          <X
-            size="25"
-            onClick={() =>
-              dispatch({
-                type: "toggleProfile",
-                payload: { toggleProfile: !toggleProfile },
-              })
-            }
-          />
+          <X size="25" onClick={() => unToggleModal()} />
         </span>
         <section className="">
           <div className={justifyCenter}>
@@ -95,18 +121,20 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
           <div className={`text-center mt-6`}>
             <div className={justifyCenter}>
               {imagePreview !== null ? (
-                <div
-                  className="w-40 h-40 object-cover rounded-full image-opacity cursor-pointer "
-                  style={{
-                    background: `url("${imagePreview}") no-repeat center/cover`,
-                  }}
-                />
+                <Spin spinning={Spinner}>
+                  <div
+                    className="w-40 h-40 object-cover rounded-full image-opacity cursor-pointer "
+                    style={{
+                      background: `url("${imagePreview}") no-repeat center/cover`,
+                    }}
+                  />
+                </Spin>
               ) : (
                 <>
                   {toggleProfile && (
                     <img
                       className="w-40 h-40 object-cover rounded-full"
-                      src={require("../../image/exampleProfile.jpg")}
+                      src={imageUrl}
                       alt=""
                     />
                   )}
@@ -118,7 +146,7 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
                 {profile.status ? (
                   <button
                     onClick={(event) => updateProfile(event)}
-                    className="w-full max-w-xs text-center text-white rounded-full bg-blue-500 hover:bg-blue-400"
+                    className="w-full max-w-xs text-center focus:outline-none text-white rounded-full bg-blue-500 hover:bg-blue-400"
                   >
                     Use this photo
                   </button>
@@ -150,12 +178,7 @@ const ChangeProfile: React.FC<PropTypes> = ({ style }) => {
                 <>
                   {toggleProfile && (
                     <span
-                      onClick={() =>
-                        dispatch({
-                          type: "toggleProfile",
-                          payload: { toggleProfile: !toggleProfile },
-                        })
-                      }
+                      onClick={() => unToggleModal()}
                       className="font-bold text-blue-500 cursor-pointer"
                     >
                       Keep this photo

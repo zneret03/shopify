@@ -226,18 +226,20 @@ const AddProduct: React.FC = () => {
       size,
     };
 
-    httpRequest.post("/api/index?name=addProduct", data).then(() => {
-      setMessage({
-        status: true,
-        message: "Successfully Inserted",
-        loading: false,
+    httpRequest
+      .post("/api/index?name=addProduct&&component=productComponent", data)
+      .then(() => {
+        setMessage({
+          status: true,
+          message: "Successfully Inserted",
+          loading: false,
+        });
+        setTimeout(() => {
+          clearState();
+          removeFile();
+          setMessage({ status: false, message: "", loading: false });
+        }, 2000);
       });
-      setTimeout(() => {
-        clearState();
-        removeFile();
-        setMessage({ status: false, message: "", loading: false });
-      }, 2000);
-    });
   };
 
   return (
@@ -246,7 +248,7 @@ const AddProduct: React.FC = () => {
       <Header pageName={"Add Products"}>
         <p
           className={`${
-            message.status ? "bg-red-500" : "bg-green-500"
+            message.status ? "bg-green-500" : "bg-red-500"
           } text-center py-1 rounded text-white`}
         >
           {message.message}

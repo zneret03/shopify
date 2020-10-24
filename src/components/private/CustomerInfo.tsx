@@ -103,7 +103,7 @@ const CustomerInfo: React.FC<PropTypes> = ({ getCustomerInfo }) => {
       const config = { id, email };
       httpRequest
         .put(
-          "/api/index?name=updateCustomerInformation&&parameters=email",
+          "/api/index?name=updateCustomerInformation&&component=customerComponents&&parameters=email",
           config
         )
         .then(() => setSpinner({ email: false, address: false }));

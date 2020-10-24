@@ -162,7 +162,9 @@ const ManageCategory: React.FC = () => {
     loadingSpinner();
     categoryId &&
       httpRequest
-        .delete("/api/index?name=deleteCategory", { id: categoryId })
+        .delete("/api/index?name=deleteCategory&&component=categoryComponent", {
+          id: categoryId,
+        })
         .then(() => setMessage({ status: false, message: "", loading: false }));
   };
 
@@ -186,7 +188,7 @@ const ManageCategory: React.FC = () => {
 
     if (add) {
       httpRequest
-        .post("/api/index?name=addCategory", {
+        .post("/api/index?name=addCategory&&component=categoryComponent", {
           id: categoryId,
           uid: currentUser.uid,
           category: addCategory,
@@ -209,7 +211,7 @@ const ManageCategory: React.FC = () => {
 
     if (update) {
       httpRequest
-        .put("/api/index?name=updateCategory", {
+        .put("/api/index?name=updateCategory&&component=categoryComponent", {
           id: categoryId,
           category: addCategory,
           dateToday: MyDateString,
