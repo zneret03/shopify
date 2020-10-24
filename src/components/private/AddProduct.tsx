@@ -227,7 +227,10 @@ const AddProduct: React.FC = () => {
     };
 
     httpRequest
-      .post("/api/index?name=addProduct&&component=productComponent", data)
+      .post(
+        "/.netlify/functions/index?name=addProduct&&component=productComponent",
+        data
+      )
       .then(() => {
         setMessage({
           status: true,

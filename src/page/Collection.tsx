@@ -115,7 +115,7 @@ const Collection: React.FC = (props: any) => {
 
     await axios({
       method: "POST",
-      url: "/api/index?name=addCart&&component=transaction",
+      url: "/.netlify/functions/index?name=addCart&&component=transaction",
       headers: { "Access-Control-Allow-Origin": "*" },
       data: {
         uid,

@@ -81,7 +81,7 @@ const StockAdjustment: React.FC = (props: any) => {
     const config = { uid, id, remarks, action, qty, date_created, description };
     httpRequest
       .post(
-        "/api/index?name=stockAdjustment&&component=stockAdjustmentComponent",
+        "/.netlify/functions/index?name=stockAdjustment&&component=stockAdjustmentComponent",
         config
       )
       .then(() => {

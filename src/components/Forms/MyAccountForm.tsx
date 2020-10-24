@@ -21,7 +21,7 @@ interface PropTypes {
 //*Reusable function of rest api
 const request = async (config: any, name: string) => {
   await httpRequest.put(
-    `/api/index?name=${name}&&component=userInformationComponent`,
+    `/.netlify/functions/index?name=${name}&&component=userInformationComponent`,
     config
   );
 };

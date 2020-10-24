@@ -80,7 +80,7 @@ const EditProduct: React.FC = (props: any) => {
 
     httpRequest
       .put(
-        `/api/index?name=updateProduct&&component=productComponent&&productId=${id}`,
+        `/.netlify/functions/index?name=updateProduct&&component=productComponent&&productId=${id}`,
         items
       )
       .then(() => {

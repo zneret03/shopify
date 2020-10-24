@@ -31,7 +31,7 @@ const Unfulfilled = () => {
   ) => {
     event.preventDefault();
     await httpRequest.delete(
-      "/api/index?name=deleteUnfulfilled&&component=unfulfilledComponent",
+      "/.netlify/functions/index?name=deleteUnfulfilled&&component=unfulfilledComponent",
       { id }
     );
     onNotification(

@@ -65,7 +65,7 @@ const ChangeProfile: React.FC<PropTypes> = ({ style, imageUrl }) => {
 
       httpRequest
         .put(
-          "/api/index?name=updateProfilePicture&&component=userInformationComponent",
+          "/.netlify/functions/index?name=updateProfilePicture&&component=userInformationComponent",
           { id: currentUser.uid, imageUrl }
         )
         .then(() => {

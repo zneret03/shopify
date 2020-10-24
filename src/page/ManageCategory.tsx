@@ -162,9 +162,12 @@ const ManageCategory: React.FC = () => {
     loadingSpinner();
     categoryId &&
       httpRequest
-        .delete("/api/index?name=deleteCategory&&component=categoryComponent", {
-          id: categoryId,
-        })
+        .delete(
+          "/.netlify/functions/index?name=deleteCategory&&component=categoryComponent",
+          {
+            id: categoryId,
+          }
+        )
         .then(() => setMessage({ status: false, message: "", loading: false }));
   };
 
@@ -188,12 +191,15 @@ const ManageCategory: React.FC = () => {
 
     if (add) {
       httpRequest
-        .post("/api/index?name=addCategory&&component=categoryComponent", {
-          id: categoryId,
-          uid: currentUser.uid,
-          category: addCategory,
-          dateToday: MyDateString,
-        })
+        .post(
+          "/.netlify/functions/index?name=addCategory&&component=categoryComponent",
+          {
+            id: categoryId,
+            uid: currentUser.uid,
+            category: addCategory,
+            dateToday: MyDateString,
+          }
+        )
         .then(() => {
           setMessage({
             status: true,
@@ -211,11 +217,14 @@ const ManageCategory: React.FC = () => {
 
     if (update) {
       httpRequest
-        .put("/api/index?name=updateCategory&&component=categoryComponent", {
-          id: categoryId,
-          category: addCategory,
-          dateToday: MyDateString,
-        })
+        .put(
+          "/.netlify/functions/index?name=updateCategory&&component=categoryComponent",
+          {
+            id: categoryId,
+            category: addCategory,
+            dateToday: MyDateString,
+          }
+        )
         .then(() => {
           setMessage({
             status: true,

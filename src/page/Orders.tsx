@@ -71,7 +71,7 @@ const Orders: React.FC<onProps> = ({ history }) => {
     customer &&
       httpRequest
         .delete(
-          `/api/index?name=deleteCustomer&&component=customerComponents&&customerId=${customer.id}`,
+          `/.netlify/functions/index?name=deleteCustomer&&component=customerComponents&&customerId=${customer.id}`,
           {
             items: customer.items,
           }

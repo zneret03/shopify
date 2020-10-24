@@ -103,7 +103,7 @@ const CustomerInfo: React.FC<PropTypes> = ({ getCustomerInfo }) => {
       const config = { id, email };
       httpRequest
         .put(
-          "/api/index?name=updateCustomerInformation&&component=customerComponents&&parameters=email",
+          "/.netlify/functions/index?name=updateCustomerInformation&&component=customerComponents&&parameters=email",
           config
         )
         .then(() => setSpinner({ email: false, address: false }));
@@ -120,7 +120,7 @@ const CustomerInfo: React.FC<PropTypes> = ({ getCustomerInfo }) => {
       };
       httpRequest
         .put(
-          "/api/index?name=updateCustomerInformation&&parameters=address",
+          "/.netlify/functions/index?name=updateCustomerInformation&&parameters=address",
           config
         )
         .then(() => setSpinner({ email: false, address: false }));
