@@ -5,6 +5,7 @@ import { app } from "../config/firebase";
 
 //*Components
 import { pendingItems } from "../utils/FilteredItems";
+import Card from "../utils/Card";
 import { CartContext } from "../Context/CartProvider";
 import Back from "../utils/Back";
 import Button from "../utils/Button";
@@ -85,7 +86,7 @@ const Cart: React.FC<PropsType> = ({ history }) => {
               <div className="grid grid-rows gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {pending.map(
                   (items: any, index: number) =>
-                    items && (
+                    items.quantity > 0 && (
                       <div
                         className={`${
                           items.status.color === "#ff4444" ? "block" : "hidden"
