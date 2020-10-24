@@ -64,7 +64,7 @@ const DoughnutChart: React.FC<PropTypes> = ({
   useEffect(initMonthlySales, [soldProduct]);
 
   return (
-    <div className="container mx-auto px-8 py-4 mt-4 sm:block hidden">
+    <div className="container mx-auto px-8 py-4 mt-4">
       <div className="">
         <canvas ref={MonthlySales} height={width} width={height} />
       </div>

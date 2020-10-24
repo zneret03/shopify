@@ -5,8 +5,10 @@ interface PropsTypes {
   setToggle: any;
   path1: string;
   path2: string;
+  path3?: string;
   text1: string;
   text2: string;
+  text3?: string;
 }
 
 const NavbarDropdown: React.FC<PropsTypes> = ({
@@ -14,8 +16,10 @@ const NavbarDropdown: React.FC<PropsTypes> = ({
   setToggle,
   path1,
   path2,
+  path3,
   text1,
   text2,
+  text3,
 }) => {
   return (
     <ul
@@ -29,8 +33,13 @@ const NavbarDropdown: React.FC<PropsTypes> = ({
         </li>
       </Link>
       <Link to={path2} className="text-gray-700">
-        <li onClick={setToggle} className="cursor-pointer text-white">
+        <li onClick={setToggle} className="mb-2 cursor-pointer text-white">
           {text2}
+        </li>
+      </Link>
+      <Link to={path3} className="text-gray-700">
+        <li onClick={setToggle} className="cursor-pointer text-white">
+          {text3}
         </li>
       </Link>
     </ul>

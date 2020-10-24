@@ -98,7 +98,7 @@ const Dashboard: React.FC = () => {
           ))}
         </div>
         <div className="lg:flex lg:justify-between">
-          <div className="w-11/12  mr-4 shadow-lg rounded-sm">
+          <div className="lg:w-11/12 lg:mr-4 w-full shadow-lg rounded-sm">
             {paidOrders.length > 0 ? (
               <BarChart
                 topSalesData={paidOrders}
@@ -114,7 +114,7 @@ const Dashboard: React.FC = () => {
               </div>
             )}
           </div>
-          <div className="w-3/6 shadow-lg rounded-sm">
+          <div className="lg:w-3/6 w-full shadow-lg rounded-sm">
             {monthlySales.length ? (
               <DoughnutChart
                 soldProduct={monthlySales}

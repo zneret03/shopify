@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "react-feather";
 import { signOut } from "./Sidebar";
 import NavbarDropdown from "../private/NavbarDropdown";
+import { UserContext } from "../../Context/UserProvider";
+
 const Navbar: React.FC = () => {
   const [responsive, setResponsive] = useState<boolean>(false);
+  const { userInformation } = useContext(UserContext);
 
   useEffect(() => {
     const navbarResize = () => {
@@ -68,7 +71,7 @@ const Navbar: React.FC = () => {
           <div className="container mx-auto px-3 py-4">
             {responsive ? (
               <div className="flex items-center justify-between">
-                <div className="flex items-center justify-center font-bold">
+                <div className="flex items-center justify-center">
                   <Link to="/dashboard" className={`${linkColor} mr-2`}>
                     <span className="text-white">Home</span>
                   </Link>
@@ -84,9 +87,11 @@ const Navbar: React.FC = () => {
                       toggle={toggleInventory}
                       setToggle={() => setToggleInventory(!toggleInventory)}
                       path1="/dashboard/manage-category"
-                      path2="/dashboard/inventory"
+                      path2="/dashboard/stockManagement"
+                      path3="/dashboard/inventory"
                       text1="Manage Category"
-                      text2="Reports"
+                      text2="Stock Management"
+                      text3="Reports"
                     />
                   </div>
                   <Link to="/dashboard/order" className={`${linkColor} mr-2`}>
@@ -109,7 +114,10 @@ const Navbar: React.FC = () => {
                       text2="View Product"
                     />
                   </div>
-                  <Link to="" className={`${linkColor} mr-2 `}>
+                  <Link
+                    to="/dashboard/myAccount"
+                    className={`${linkColor} mr-2 `}
+                  >
                     <span className="text-white">Settings</span>
                   </Link>
                   <Link to="" className={`${linkColor}`}>
@@ -119,11 +127,21 @@ const Navbar: React.FC = () => {
                   </Link>
                 </div>
                 <div>
-                  <img
-                    className="w-8 h-8 object-cover rounded-full"
-                    src={require("../../image/exampleProfile.jpg")}
-                    alt=""
-                  />
+                  {userInformation.map((info: any) =>
+                    info.imageUrl ? (
+                      <img
+                        className="w-8 h-8 object-cover border-solid border-2 border-blue-500 border-full rounded-full"
+                        src={info.imageUrl}
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        className="w-8 h-8 object-cover border-solid border-2 border-blue-500 border-full rounded-full"
+                        src={require("../../image/Avatar/AvatarMale.png")}
+                        alt=""
+                      />
+                    )
+                  )}
                 </div>
               </div>
             ) : (
@@ -149,9 +167,11 @@ const Navbar: React.FC = () => {
                     toggle={toggleInventory}
                     setToggle={() => setToggleInventory(!toggleInventory)}
                     path1="/dashboard/manage-category"
-                    path2="/dashboard/inventory"
+                    path2="/dashboard/stockManagement"
+                    path3="/dashboard/inventory"
                     text1="Manage Category"
-                    text2="Reports"
+                    text2="Stock Management"
+                    text3="Reports"
                   />
                   <Link to="/order" className={linkColor}>
                     <span className="text-white">Orders</span>
@@ -173,7 +193,7 @@ const Navbar: React.FC = () => {
                       text2="View Product"
                     />
                   </div>
-                  <Link to="" className={linkColor}>
+                  <Link to="/dashboard/myAccount" className={linkColor}>
                     <span className="text-white">Settings</span>
                   </Link>
                   <Link to="" className={linkColor}>
