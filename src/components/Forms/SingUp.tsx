@@ -4,9 +4,9 @@ import { Divider } from "antd";
 import { Link } from "react-router-dom";
 import { app } from "../../config/firebase";
 import { Info } from "react-feather";
-import axios from "axios";
 import { animated } from "react-spring";
 import { withRouter } from "react-router-dom";
+import httpRequest from "../../api/httpRequest";
 
 interface Props {
   history: any;
@@ -51,30 +51,32 @@ const SignUp: React.FC<Props> = ({ back, animateSignIn, history }) => {
     app
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((cred) => {
-        if (cred.user) {
-          axios
-            .post(
-              "/.netlify/functions/index?name=signIn&&component=userInformationComponent",
-              {
-                id: cred.user.uid,
-                email: email,
-                firstname: firstname,
-                lastname: lastname,
-                city: city,
-                state: state,
-                zipcode: zipcode,
-              }
-            )
-            .then(() => {
-              history.push("/dashboard");
-              console.log("successful");
-              clearState();
-            })
-            .catch((error) => {
-              console.log(error.message);
-            });
-        }
+      .then(async (cred) => {
+        (async () => {
+          if (cred.user) {
+            await httpRequest
+              .post(
+                "/.netlify/functions/index?name=signIn&&component=userInformationComponent",
+                {
+                  id: cred.user.uid,
+                  email: email,
+                  firstname: firstname,
+                  lastname: lastname,
+                  city: city,
+                  state: state,
+                  zipcode: zipcode,
+                }
+              )
+              .then(() => {
+                history.push("/dashboard");
+                console.log("successful");
+                clearState();
+              })
+              .catch((error) => {
+                console.log(error.message);
+              });
+          }
+        })();
       })
       .catch((error) => {
         setMessage(error.message);

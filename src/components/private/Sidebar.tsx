@@ -381,7 +381,7 @@ const Sidebar: React.FC = () => {
                 </li>
                 <li
                   onClick={(event) => signOut(event)}
-                  className="mb-5 hover:bg-gray-900 px-1 py-1 rounded flex items-center cursor-pointer"
+                  className="mb-5 hover:bg-blue-500  px-1 py-1 rounded flex items-center cursor-pointer"
                 >
                   <span className="mr-2">
                     <LogOut size="18" color="#FFF" />
