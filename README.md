@@ -1,4 +1,4 @@
-# Welcome to Shopify
+<!-- # Welcome to Shopify
 
 ## Tasks
 
@@ -34,4 +34,4 @@
 - [ ] Manage Sales
 - [x] Sort by product name
 - [x] Sort by price
-- [x] Chart
+- [x] Chart -->

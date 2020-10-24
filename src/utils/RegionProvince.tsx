@@ -49,7 +49,7 @@ export const GetRegion: React.FC<regionPropTypes> = ({ onChange, value }) => {
       >
         {region &&
           region.map((region: any) => (
-            <option value={region.name} key={region.key}>
+            <option value={region.key} key={region.key}>
               {region.long}
             </option>
           ))}
@@ -107,7 +107,7 @@ export const GetProvince: React.FC<provincePropsTypes> = ({
       >
         {province &&
           province.map((province: any) => (
-            <option value={province.name} key={province.key}>
+            <option value={province.key} key={province.key}>
               {province.name}
             </option>
           ))}
