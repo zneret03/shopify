@@ -5,7 +5,6 @@ import { app } from "../config/firebase";
 
 //*Components
 import { pendingItems } from "../utils/FilteredItems";
-import Card from "../utils/Card";
 import { CartContext } from "../Context/CartProvider";
 import Back from "../utils/Back";
 import Button from "../utils/Button";
