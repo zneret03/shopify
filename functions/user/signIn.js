@@ -12,7 +12,7 @@ module.exports = async (event) => {
   try {
     const { id, email, firstname, lastname, city, state, zipcode } = JSON.parse(event.body);
     const document = firebaseDb.collection("user").doc(id);
-    document.set({ 
+    await document.set({ 
       id, 
       email, 
       firstname, 
