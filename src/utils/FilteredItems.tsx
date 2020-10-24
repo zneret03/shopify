@@ -5,8 +5,8 @@ export const sortNumber = (a: any, b: any) => b.price - a.price;
 
 //**return all pending items
 export const pendingItems = (cartItems: any) => {
-  return cartItems.filter((obj: any) => {
-    return obj.status.itemStatus === "pending";
+  return cartItems.filter(async (obj: any) => {
+    return (await obj.status.itemStatus) === "pending";
   });
 };
 
