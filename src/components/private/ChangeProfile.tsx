@@ -100,7 +100,7 @@ const ChangeProfile: React.FC<PropTypes> = ({ style, imageUrl }) => {
   return (
     <animated.div
       style={style}
-      className={`flex justify-center bg-gray-200 absolute`}
+      className={`flex justify-center bg-gray-200 absolute z-10`}
     >
       <div className="max-w-2xl w-full bg-white">
         <span className="flex justify-end px-6 py-4 cursor-pointer">
