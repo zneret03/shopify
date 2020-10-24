@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { Menu } from "react-feather";
 import { signOut } from "./Sidebar";
 import NavbarDropdown from "../private/NavbarDropdown";
-import { UserContext } from "../../Context/UserProvider";
+import { ReducerContext } from "../../Context/ReducerProvider";
+import { AuthContext } from "../../auth/AuthProvider";
 
 const Navbar: React.FC = () => {
   const [responsive, setResponsive] = useState<boolean>(false);
-  const { userInformation } = useContext(UserContext);
+  const { dispatch, userInformation } = useContext(ReducerContext);
+  const currentUser: any = useContext(AuthContext);
 
   useEffect(() => {
     const navbarResize = () => {
@@ -47,6 +49,12 @@ const Navbar: React.FC = () => {
       }
     }
   };
+
+  const dispatchUser = () => {
+    dispatch({ type: "fetchUser", payload: { id: currentUser.uid } });
+  };
+
+  useEffect(dispatchUser, [currentUser.uid]);
 
   const [menu, setMenu] = useState<boolean>(false);
 

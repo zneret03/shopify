@@ -56,7 +56,6 @@ const MyAccountSocial: React.FC<PropTypes> = ({ userInfoArray }) => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const { name, value } = event.target;
-
     setState((prevState) => inputListener(prevState, name, value));
   };
 
@@ -93,7 +92,7 @@ const MyAccountSocial: React.FC<PropTypes> = ({ userInfoArray }) => {
             <Facebook size="20" />
           </i>
           <input
-            type="text"
+            type="url"
             defaultValue={facebook}
             name="facebook"
             className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
@@ -106,7 +105,7 @@ const MyAccountSocial: React.FC<PropTypes> = ({ userInfoArray }) => {
             <Twitter size="20" />
           </i>
           <input
-            type="text"
+            type="url"
             defaultValue={twitter}
             name="twitter"
             className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"
@@ -119,7 +118,7 @@ const MyAccountSocial: React.FC<PropTypes> = ({ userInfoArray }) => {
             <Instagram size="20" />
           </i>
           <input
-            type="text"
+            type="url"
             defaultValue={instagram}
             name="instagram"
             className="border py-1 px-3 w-full rounded-sm focus:outline-none focus:shadow-outline"

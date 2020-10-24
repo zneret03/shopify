@@ -6,13 +6,15 @@ import { app } from "../../config/firebase";
 import { Info } from "react-feather";
 import axios from "axios";
 import { animated } from "react-spring";
+import { withRouter } from "react-router-dom";
 
 interface Props {
+  history: any;
   animateSignIn: any;
   back: (event: React.MouseEvent<SVGAElement, MouseEvent>) => void;
 }
 
-const SignUp: React.FC<Props> = ({ back, animateSignIn }) => {
+const SignUp: React.FC<Props> = ({ back, animateSignIn, history }) => {
   //initial state
   const initialState = {
     firstname: "",
@@ -65,6 +67,7 @@ const SignUp: React.FC<Props> = ({ back, animateSignIn }) => {
               }
             )
             .then(() => {
+              history.push("/dashboard");
               console.log("successful");
               clearState();
             })
@@ -198,4 +201,4 @@ const SignUp: React.FC<Props> = ({ back, animateSignIn }) => {
   );
 };
 
-export default SignUp;
+export default withRouter(SignUp);

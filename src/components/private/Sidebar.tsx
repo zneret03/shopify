@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { app } from "../../config/firebase";
 import { AuthContext } from "../../auth/AuthProvider";
-import { UserContext } from "../../Context/UserProvider";
+import { ReducerContext } from "../../Context/ReducerProvider";
 import {
   Settings,
   LogOut,
@@ -41,9 +41,10 @@ const userInfo: userInfoTypes = {
 };
 
 const Sidebar: React.FC = () => {
-  const currentUser: any = useContext(AuthContext);
-  const { userInformation } = useContext(UserContext);
   const [menu, setMenu] = useState<boolean>(false);
+
+  const currentUser: any = useContext(AuthContext);
+  const { dispatch, userInformation } = useContext(ReducerContext);
 
   userInformation &&
     userInformation.map((info: any) => {
@@ -58,6 +59,12 @@ const Sidebar: React.FC = () => {
       return setMenu(false);
     }
   };
+
+  const dispatchUser = () => {
+    dispatch({ type: "fetchUser", payload: { id: currentUser.uid } });
+  };
+
+  useEffect(dispatchUser, [currentUser.uid]);
 
   //Sale Channel toggle
   const [sale, setSale] = useState<boolean>(false);
@@ -93,6 +100,7 @@ const Sidebar: React.FC = () => {
   const openInventory = (
     event: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
+    event.preventDefault();
     if (!inventory) {
       return setInventory(true);
     } else {

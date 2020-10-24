@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { ChevronRight, ChevronDown } from "react-feather";
 //*Components
@@ -9,7 +9,7 @@ import {
 } from "../components/Forms/MyAccountForm";
 import ChangeProfile from "../components/private/ChangeProfile";
 import { ReducerContext } from "../Context/ReducerProvider";
-import { UserContext } from "../Context/UserProvider";
+import { AuthContext } from "../auth/AuthProvider";
 
 interface userType {
   imageUrl: string;
@@ -21,9 +21,11 @@ const userInfo: userType = {
 
 const MyAccount: React.FC = () => {
   //*Global state
-  const { dispatch, toggleSocial, toggleProfile } = useContext(ReducerContext);
+  const { dispatch, toggleSocial, toggleProfile, userInformation } = useContext(
+    ReducerContext
+  );
 
-  const { userInformation } = useContext(UserContext);
+  const currentUser: any = useContext(AuthContext);
 
   userInformation &&
     userInformation.map((data: any) => {
@@ -58,6 +60,12 @@ const MyAccount: React.FC = () => {
     }
   };
 
+  const dispatchUser = () => {
+    dispatch({ type: "fetchUser", payload: { id: currentUser.uid } });
+  };
+
+  useEffect(dispatchUser, [currentUser.uid]);
+
   //*Animation slider
   const slideAnimation = useSpring({
     transform: toggleProfile ? `translateY(0%)` : `translateY(100%)`,
@@ -86,7 +94,7 @@ const MyAccount: React.FC = () => {
           {toggle && (
             <animated.div
               style={toggleMyAccount}
-              className="container mx-auto px-6 py-8 md:flex"
+              className="container mx-auto px-6 py-8 overflow-hidden md:flex"
             >
               <div className="md:mr-8 md:w-2/6">
                 <div className="text-center">
