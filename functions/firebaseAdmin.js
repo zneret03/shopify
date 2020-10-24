@@ -28,7 +28,8 @@ admin.initializeApp({
  * reusable purposes
  */
 const firebaseDb = admin.firestore();
+const firebaseAuth = admin.auth();
 firebaseDb.settings({ timestampsInSnapshots: true });
 
 /**export firebaseDb variable */
-module.exports = { firebaseDb };
+module.exports = { firebaseDb, firebaseAuth };

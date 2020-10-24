@@ -15,6 +15,7 @@ const deleteUnfulfilled = require("./product/deleteUnfulfilled");
 const signIn = require("./user/signIn");
 const customerProfile = require("./user/customerProfile");
 const updateSocial = require("./user/updateSocial");
+const updateInformation = require("./user/updateInformation");
 /**
  * Cart files
  */
@@ -146,6 +147,10 @@ const userInformationComponent = async(event) => {
     case "updateSocial":
       if(event.httpMethod === httpRequest.PUT){
         return await updateSocial(event)
+      }
+    case "updateInformation":
+      if(event.httpMethod === httpRequest.PUT){
+        return await updateInformation(event)
       }
     case "signIn":
       if (event.httpMethod === httpRequest.POST) {
