@@ -27,10 +27,14 @@ const Dashboard: React.FC = () => {
 
   //**return current user product posted */
   const filteredProduct = filtered(soldProduct, currentUser);
+  //*return all users product
+  const productAll = filtered(items, currentUser);
   //** Return paid items only */
   const paidOrders = paidItems(filteredProduct);
   //*returning total purchase
   const totalPurchase = filterTotal(paidOrders);
+  //*Critical items
+  const criticalItems = filtered(criticalStocks, currentUser);
 
   //**Assign start and end date into global state
   const despatchItem = () => {
@@ -61,21 +65,21 @@ const Dashboard: React.FC = () => {
     },
     {
       title: "Products",
-      numberData: items.length,
+      numberData: productAll.length,
       icon: <Package color="#FFF" size="25" />,
       iconColor: "bg-green-300",
       cardColor: "bg-green-400",
     },
     {
       title: "Total Stocks",
-      numberData: items.reduce((a: any, b: any) => a + b.quantity, 0),
+      numberData: productAll.reduce((a: any, b: any) => a + b.quantity, 0),
       icon: <Activity color="#FFF" size="25" />,
       iconColor: "bg-orange-300",
       cardColor: "bg-orange-400",
     },
     {
       title: "Critical Items",
-      numberData: criticalStocks.length,
+      numberData: criticalItems.length,
       icon: <Box color="#FFF" size="25" />,
       iconColor: "bg-blue-300",
       cardColor: "bg-blue-400",

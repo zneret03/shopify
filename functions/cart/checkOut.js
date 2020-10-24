@@ -75,7 +75,7 @@ module.exports = async (event) => {
      * @type {string} email
      * @type {string} address
      * @type {number} total
-     * @type {string} activeRegion
+     * @type {string} region
      * @type {string} province
      * @type {string} zipcode
      * @type {Array} pending
@@ -86,7 +86,7 @@ module.exports = async (event) => {
       email,
       address,
       total,
-      activeRegion,
+      region,
       province,
       zipcode,
       pending,
@@ -127,7 +127,7 @@ module.exports = async (event) => {
         email: email,
         address: address,
         subTotal: totalSales,
-        region: activeRegion,
+        region: region,
         province: province,
         zipcode: zipcode,
         items: itemsIdArray,

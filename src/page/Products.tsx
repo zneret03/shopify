@@ -68,7 +68,7 @@ const Products: React.FC<Props> = ({ history }) => {
     if (file) {
       httpRequest
         .delete(
-          `/.netlify/functions/index?name=deleteProduct&&component=productComponent&&productId=${id}`,
+          `/api/index?name=deleteProduct&&component=productComponent&&productId=${id}`,
           { id }
         )
         .then(() => {

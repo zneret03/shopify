@@ -33,7 +33,7 @@ const StockAdjustment: React.FC = (props: any) => {
   const params = new URLSearchParams(props.location.search);
   const id = params.get("id");
 
-  const { dispatch, fetchProd } = useContext(ProductContext);
+  const { dispatchProd, fetchProd } = useContext(ProductContext);
 
   //*TODO : add or remove quantity */
 
@@ -54,8 +54,8 @@ const StockAdjustment: React.FC = (props: any) => {
   };
 
   useEffect(() => {
-    id && dispatch({ type: "fetchProduct", payload: { id } });
-  }, [id, dispatch]);
+    id && dispatchProd({ type: "fetchProduct", payload: { id } });
+  }, [id, dispatchProd]);
 
   //**get all data and assign to each inputbox
   fetchProd &&

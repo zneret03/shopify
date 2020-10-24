@@ -12,6 +12,8 @@ interface itemTypes {
   lastName: string;
   email: string;
   address: string;
+  province: string;
+  region: string;
   zipcode: string;
 }
 
@@ -20,6 +22,8 @@ const itemsObject: itemTypes = {
   lastName: "",
   email: "",
   address: "",
+  province: "Metro Manila",
+  region: "NCR",
   zipcode: "",
 };
 
@@ -39,11 +43,10 @@ const CheckOut: React.FC = () => {
   const subTotal = pending.reduce((a: any, b: any) => a + b.Subtotal, 0);
   const total = subTotal - tax_total;
 
-  const [{ firstName, lastName, email, address, zipcode }, setState] = useState(
-    itemsObject
-  );
-  const [activeRegion, setActiveRegion] = useState("NCR");
-  const [province, setProvince] = useState("Metro Manila");
+  const [
+    { firstName, lastName, email, address, province, region, zipcode },
+    setState,
+  ] = useState(itemsObject);
 
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -78,7 +81,7 @@ const CheckOut: React.FC = () => {
         email,
         address,
         total,
-        activeRegion,
+        region,
         province,
         zipcode,
         pending,
@@ -194,15 +197,15 @@ const CheckOut: React.FC = () => {
                   <div className="mr-2">
                     <span className="text-sm block">Regions</span>
                     <GetRegion
-                      onChange={(event) => setActiveRegion(event.target.value)}
-                      value={activeRegion}
+                      onChange={(event) => onChange(event)}
+                      value={region}
                     />
                   </div>
                   <div className="mr-2">
                     <span className="text-sm block">Province</span>
                     <GetProvince
-                      region={activeRegion}
-                      onChange={(event) => setProvince(event.target.value)}
+                      region={region}
+                      onChange={(event) => onChange(event)}
                       value={province}
                     />
                   </div>

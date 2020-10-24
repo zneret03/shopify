@@ -6,7 +6,7 @@ interface Props {
 
 interface IContext {
   state: any;
-  dispatch: any;
+  dispatchProd: any;
   items: object[];
   criticalStocks: object[];
   fetchProd: Object[];
@@ -39,6 +39,7 @@ const ProductProvider: React.FC<Props> = ({ children }) => {
 
   const [items, setItems] = useState<object[]>([]);
 
+  //*Fetch all product
   const fetchAllProducts = () => {
     return document.collection("product").onSnapshot((onsnapshot) => {
       const productData: object[] = [];
@@ -51,7 +52,7 @@ const ProductProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(fetchAllProducts, []);
 
-  const [fetchProd, setFetchProd] = useState([]);
+  const [fetchProd, setFetchProd] = useState<Object[]>([]);
 
   const reducer = (state: any, action: any) => {
     switch (action.type) {
@@ -60,6 +61,7 @@ const ProductProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
+  //*Fetch product by Id
   const fetchProduct = (id: string) => {
     if (id) {
       const document = app.firestore().collection("product").doc(id);
@@ -73,11 +75,11 @@ const ProductProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
-  const [state, dispatch] = useReducer<any>(reducer, []);
+  const [state, dispatchProd] = useReducer<any>(reducer, []);
 
   return (
     <ProductContext.Provider
-      value={{ items, criticalStocks, fetchProd, state, dispatch }}
+      value={{ items, criticalStocks, fetchProd, state, dispatchProd }}
     >
       {children}
     </ProductContext.Provider>

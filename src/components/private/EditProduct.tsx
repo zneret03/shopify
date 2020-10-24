@@ -32,7 +32,7 @@ const initialState: productStateTypes = {
 const EditProduct: React.FC = (props: any) => {
   //input onChange
 
-  const { dispatch, fetchProd } = useContext(ProductContext);
+  const { dispatchProd, fetchProd } = useContext(ProductContext);
 
   const [
     { product, title, purpose, price, quantity, gender, description },
@@ -97,8 +97,8 @@ const EditProduct: React.FC = (props: any) => {
   };
 
   useEffect(() => {
-    id && dispatch({ type: "fetchProduct", payload: { id } });
-  }, [id, dispatch]);
+    id && dispatchProd({ type: "fetchProduct", payload: { id } });
+  }, [id, dispatchProd]);
 
   //**get all data and assign to each inputbox
   fetchProd &&
