@@ -170,7 +170,7 @@ const Collection: React.FC = (props: any) => {
     }
   };
 
-  const centerElement = "h-screen w-screen flex justify-center items-center";
+  const centerElement = "h-screen w-full flex justify-center items-center";
 
   if (item.length <= 0) {
     return <div className={centerElement}>Loading...</div>;
