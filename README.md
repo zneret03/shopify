@@ -2,7 +2,7 @@
 
 A custom shopify that is built in firebase and netlify lambda along with tailwindCss
 
-![demo](https://github.com/zneret03/gitprofile/blob/master/src/static/frontpage.png)
+![demo](https://github.com/zneret03/Shopify/blob/master/src/static/frontpage.png)
 
 Built with :
 
