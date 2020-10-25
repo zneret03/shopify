@@ -10,7 +10,6 @@ import Back from "../utils/Back";
 import Button from "../utils/Button";
 import { months } from "../utils/mockData";
 import { Smile } from "react-feather";
-import CartCard from "../utils/CartCard";
 
 interface PropsType {
   history: any;
@@ -19,6 +18,8 @@ interface PropsType {
 const Cart: React.FC<PropsType> = ({ history }) => {
   const { cartItems } = useContext(CartContext);
   const pending = pendingItems(cartItems);
+
+  console.log(cartItems);
 
   const tax_total = pending.reduce(
     (a: any, b: any) => a + b.Subtotal * b.valueAddedTax,
@@ -49,7 +50,7 @@ const Cart: React.FC<PropsType> = ({ history }) => {
 
   //*Delete items
   const deleteCartItems = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLButtonElement>,
     id: string
   ) => {
     event.preventDefault();
@@ -83,21 +84,14 @@ const Cart: React.FC<PropsType> = ({ history }) => {
               </span>
             </div>
             <div className="mt-6">
-              <CartCard
-                pending={pending}
-                deleteCartItems={(
-                  event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-                  id: string
-                ) => deleteCartItems(event, id)}
-              />
-              {/* <div className="grid grid-rows gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid grid-rows gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {pending.map(
                   (items: any, index: number) =>
                     items.quantity > 0 && (
                       <div
-                        className={`${
-                          items.status.color === "#ff4444" ? "block" : "hidden"
-                        } border`}
+                        // className={`${
+                        //   items.status.color === "#ff4444" ? "block" : "hidden"
+                        // } border`}
                         key={index}
                       >
                         <div className="bg-gray-200 py-6 px-6 relative">
@@ -141,7 +135,7 @@ const Cart: React.FC<PropsType> = ({ history }) => {
                       </div>
                     )
                 )}
-              </div> */}
+              </div>
             </div>
             {pending.length <= 0 && (
               <Button
