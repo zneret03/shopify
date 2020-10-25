@@ -46,7 +46,7 @@ const CartProvider: React.FC<Props> = ({ children }) => {
       });
   };
 
-  useEffect(fetchDataTransaction, []);
+  useEffect(fetchDataTransaction, [cartItems]);
 
   return (
     <CartContext.Provider value={{ cartItems, unfulfilled }}>

@@ -89,9 +89,9 @@ const Cart: React.FC<PropsType> = ({ history }) => {
                   (items: any, index: number) =>
                     items.quantity > 0 && (
                       <div
-                        // className={`${
-                        //   items.status.color === "#ff4444" ? "block" : "hidden"
-                        // } border`}
+                        className={`${
+                          items.status.color === "#ff4444" ? "block" : "hidden"
+                        } border`}
                         key={index}
                       >
                         <div className="bg-gray-200 py-6 px-6 relative">
