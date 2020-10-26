@@ -25,7 +25,7 @@ const Footer:React.SFC = () => {
             id :'gh',
             name : 'Github',
             icon : <GitHub className="mx-2 text-black hover:text-black" size="20"/>,
-            link : 'https://github.com/zneret03/Shopify'
+            link : ''
         }
     ]
 
