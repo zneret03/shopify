@@ -13,6 +13,10 @@ This shopify web application is being developed using [reactJs](https://reactjs.
 
 ![demo](https://github.com/zneret03/Shopify/blob/development/src/static/architecture.png)
 
+### Information
+
+This Shopify web application doesnt have billing gateway, but im planning to add in the checkout form
+
 ### Technology
 
 - [reactjs](https://reactjs.org/)
