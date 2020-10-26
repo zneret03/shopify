@@ -19,8 +19,6 @@ const Cart: React.FC<PropsType> = ({ history }) => {
   const { cartItems } = useContext(CartContext);
   const pending = pendingItems(cartItems);
 
-  console.log(cartItems);
-
   const tax_total = pending.reduce(
     (a: any, b: any) => a + b.Subtotal * b.valueAddedTax,
     0
