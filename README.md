@@ -10,9 +10,8 @@ being introduce to the tech world.
 ### Arcitecture
 
 This shopify web application is being developed using [reactJs](https://reactjs.org/)
-<br>
-![demo](https://github.com/zneret03/Shopify/blob/master/src/static/architecture.png)
-<br/>
+
+![demo](https://github.com/zneret03/Shopify/blob/master/src/static/architecture.svg)
 
 ### Technology
 
