@@ -11,7 +11,7 @@ being introduce to the tech world.
 
 This shopify web application is being developed using [reactJs](https://reactjs.org/)
 
-![demo](https://github.com/zneret03/Shopify/blob/master/src/static/architecture.png)
+![demo](https://github.com/zneret03/Shopify/blob/development/src/static/architecture.png)
 
 ### Technology
 
