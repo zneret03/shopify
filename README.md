@@ -1,10 +1,20 @@
 # Shopify
 
-A custom shopify that is built in firebase and netlify lambda along with tailwindCss
+I built this shopify to showcase my fullstack developing skills in different area of new technology that are
+being introduce to the tech world.
 
-![demo](https://github.com/zneret03/Shopify/blob/master/src/static/frontpage.png)
+![demo](https://github.com/zneret03/Shopify/blob/master/src/static/dashboard.png)
 
-Built with :
+---
+
+### Arcitecture
+
+This shopify web application is being developed using [reactJs](https://reactjs.org/)
+<br>
+![demo](https://github.com/zneret03/Shopify/blob/master/src/static/architecture.png)
+<br/>
+
+### Technology
 
 - [reactjs](https://reactjs.org/)
 - [tailwindcss](https://tailwindcss.com/)
