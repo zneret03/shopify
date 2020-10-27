@@ -14,9 +14,9 @@ const LandingPage: React.FC = () => {
   });
 
   return (
-    <div className="sm:px-20 px-5 sm:py-8 px-0 bg-gray-100 lg:h-screen h-full font-sans tracking-widest">
-      <div>
-        <div className="absolute left-0 mt-8 ml-5 lg:block hidden">
+    <div className="bg-gray-100">
+      <div className="relative container mx-auto px-3 pt-12 ">
+        <div className="absolute left-0 mt-12 sm:py-8 lg:block hidden">
           <svg
             width="74"
             className="w-48 h-48"
@@ -39,6 +39,8 @@ const LandingPage: React.FC = () => {
             />
           </svg>
         </div>
+      </div>
+      <div className="container mx-auto sm:px-10 px-5 sm:py-8 px-0 bg-gray-100 font-sans tracking-widest">
         <div className="text-black lg:flex lg:justify-between">
           <animated.div style={animateText} className="pt-32 z-10">
             <span className="font-bold sm:text-5xl text-3xl block">

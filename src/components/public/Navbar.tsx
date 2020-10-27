@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
         {search && <SearchItem close={(event: any) => closeSearch(event)} />}
         {login && <Login close={(event: any) => closeLogin(event)} />}
         <div className="text-black">
-          <div className="container mx-auto px-5">
+          <div className="container mx-auto sm:px-10 px-5">
             <section className="flex items-center justify-between">
               {Hamburger ? (
                 <>
