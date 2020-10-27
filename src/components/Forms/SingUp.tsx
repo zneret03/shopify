@@ -190,12 +190,14 @@ const SignUp: React.FC<Props> = ({ back, animateSignIn, history }) => {
 
           <div className="text-center mt-4 text-sm">
             By signing up, you agree to the
-            <Link className="underline mr-2 text-gray-700">
-              {" "}
-              Terms of Service{" "}
+            <span className=" mr-2 text-gray-700"> Terms of Service </span>
+            and
+            <Link
+              to="/policies/refund-policy"
+              className="underline ml-2 text-gray-700"
+            >
+              Privacy Policy
             </Link>
-            ands
-            <Link className="underline ml-2 text-gray-700">Privacy Policy</Link>
           </div>
         </div>
       </form>
