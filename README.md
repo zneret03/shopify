@@ -1,9 +1,9 @@
-# Shopify
+# E-Commerce
 
-I built this shopify to showcase my fullstack developing skills in different area of new technology that are
+I built this e-commerce to showcase my fullstack developing skills in different area of new technology that are
 being introduce to the tech world.
 
-![demo](https://github.com/zneret03/Shopify/blob/development/src/static/dashboard.png)
+![demo](https://github.com/zneret03/ecommerce/blob/master/src/static/dashboard.png)
 
 ---
 
@@ -11,11 +11,11 @@ being introduce to the tech world.
 
 This shopify web application is being developed using [reactJs](https://reactjs.org/)
 
-![demo](https://github.com/zneret03/Shopify/blob/development/src/static/architecture.png)
+![demo](https://github.com/zneret03/ecommerce/blob/master/src/static/architecture.png)
 
 ### Information
 
-This Shopify web application doesnt have billing gateway, but im planning to add in the checkout form
+This e-commerce web application doesnt have billing gateway, but im planning to add in the checkout form
 
 ### Technology
 
