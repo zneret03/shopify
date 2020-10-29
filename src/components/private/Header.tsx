@@ -21,7 +21,7 @@ const Header: React.FC<Props> = ({ children, pageName }) => {
       <div className="flex sm:items-center sm:justify-between sm:flex-row flex-col">
         <span className="font-bold text-2xl">{pageName}</span>
         <div className="text-xl font-segoe-UI">
-          <span>Welcome to Shopify </span>
+          <span>Welcome to E-Commerce </span>
           <span className="py-1 px-2 bg-black text-white rounded-sm">
             {name !== undefined || currentUser.displayName ? (
               <span>{name || currentUser.displayName}</span>
