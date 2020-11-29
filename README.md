@@ -7,7 +7,7 @@ being introduce to the tech world.
 
 ---
 
-### Arcitecture
+### Architecture
 
 This e-commerce web application is being developed using [reactJs](https://reactjs.org/)
 
