@@ -32,11 +32,11 @@ This shopify web application doesnt have billing gateway, but im planning to add
 
 1. Install dependencies
 
-   `npm install`
+   ```
+   npm install
+   ```
 
 2. Development
-
-   `netlify dev`
 
    if you have faced any errors you can add `Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force` for `windows` and simply run
 
