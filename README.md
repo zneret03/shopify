@@ -36,4 +36,18 @@ This shopify web application doesnt have billing gateway, but im planning to add
 
 2. Development
 
-   `npm run start`
+   `netlify dev`
+
+   if you have faced any errors you can add `Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force` for `windows` and simply run
+
+   ```
+      netlify dev
+   ```
+
+   and for linux you can install
+
+   ```
+      npm install -g netlify-cli
+   ```
+
+   and simply run `netlify dev`

@@ -15,14 +15,14 @@ const {
 } = process.env;
 
 var firebaseConfig = {
-  apiKey: REACT_APP_FIREBASE_KEY,
-  authDomain: REACT_APP_FIREBASE_DOMAIN,
-  databaseURL: REACT_APP_FIREBASE_DATABASE,
-  projectId: REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: REACT_APP_FIREBASE_SENDER_ID,
-  appId: REACT_APP_FIREBASE_APP_ID,
-  measurementId: REACT_APP_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyBSxv2sBzyFw0swQsbq6G2p93qj0VnYXiI",
+  authDomain: "shopify-c74df.firebaseapp.com",
+  databaseURL: "https://shopify-c74df.firebaseio.com",
+  projectId: "shopify-c74df",
+  storageBucket: "shopify-c74df.appspot.com",
+  messagingSenderId: "847872477184",
+  appId: "1:847872477184:web:946b01350e1eacfe53f0e5",
+  measurementId: "G-VM6QH1ETTV"
 };
 
 // Initialize Firebase
