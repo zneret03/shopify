@@ -51,3 +51,9 @@ This shopify web application doesnt have billing gateway, but im planning to add
    ```
 
    and simply run `netlify dev`
+   
+### Sample user account
+   ```
+      username : Demo@example.com
+      password: 123456
+   ```
